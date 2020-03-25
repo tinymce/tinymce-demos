@@ -1,4 +1,4 @@
-<svg width="112" height="96" xmlns="http://www.w3.org/2000/svg"><g><path d="M45 31L67 31 67 36 45 36z"/><path d="M45 61L67 61 67 66 45 66z"/><path d="M37 51L74 51 74 56 37 56z"/><path d="M37 41L74 41 74 46 37 46z"/><path d="M55.747 0l44.9 43.24 6.506-6.069 4.677 4.234-55.915 54.412L10.42 51.651l-6.022 5.813L0 53.2 55.747 0zM14.912 47.315L55.93 87.131 96.918 47.31 55.93 7.469 14.912 47.315z"/></g></svg>
+![TinyMCE Logotype](logo.svg?sanitize=true "TinyMCE Logotype")
 
 # TinyMCE Demos
 TinyMCE is a versatile tool that can be used for a wide variety of text editing tasks. This repository aims to inspire you and demonstrate different approaches to common use cases.
@@ -14,3 +14,7 @@ You can download and run these demos locally. Some demos uses premium plugins so
 1. Check out this repository to your local computer.
 2. Install dependencies using the command `yarn`
 3. Start the web server to view the demos using the command `yarn run serve`
+
+## License
+The files in this repository are licensed under an MIT license.
+TinyMCE is licensed under a LGPL or commercial license.

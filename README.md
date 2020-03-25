@@ -11,6 +11,6 @@ Every demo has a thorougly documented HTML file explaining the TinyMCE config as
 
 You can download and run these demos locally. Some demos uses premium plugins so we have included an API key that works for `localhost`.
 
-- Check out this repository to your local computer.
-- Install dependencies using the command `yarn`
-- Start the web server to view the demos using the command `yarn run serve`
+1. Check out this repository to your local computer.
+2. Install dependencies using the command `yarn`
+3. Start the web server to view the demos using the command `yarn run serve`

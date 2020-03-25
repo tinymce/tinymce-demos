@@ -5,7 +5,7 @@ TinyMCE is a versatile tool that can be used for a wide variety of text editing 
 
 Every demo has a thorougly documented HTML file explaining the TinyMCE config as well as links to relevant documentation to make it easy to use these demos as basis for your own projects.
 
-[Take me to the TinyMCE Demos](https://tinymce.github.io/tinymce-demos/)
+[Take me to the TinyMCE Demos](https://tinymce.github.io/tinymce-demos/index.html)
 
 ## Build and serve the demos locally
 

@@ -1,0 +1,15 @@
+{
+    "name": "oxide-usecase-demos",
+    "version": "1.0.1",
+    "description": "Use Case Demos for TinyMCE 5 Oxide Skin",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "serve": "browser-sync start --server --files '*.html'"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "browser-sync": "^2.26.5"
+    }
+  }

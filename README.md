@@ -13,5 +13,4 @@ You can download and run these demos locally. Some demos uses premium plugins so
 
 - Check out this repository to your local computer.
 - Install dependencies using the command `yarn`
-- Start the web server to view the demos using the command `yarn run start`
-- To just build the project, use `yarn run build`
+- Start the web server to view the demos using the command `yarn run serve`

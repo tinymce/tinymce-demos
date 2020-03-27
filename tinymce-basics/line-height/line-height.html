@@ -1,0 +1,197 @@
+<!--
+    This demo illustrates how to define custom formats to enable users to set line-height.
+    This demo can easily be extended with many other options, such as font-weight,
+    letter-spacing, word spacing and other type related CSS properties.
+-->
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>TinyMCE Demos – Line-height using formats</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5-dev/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script>
+        // An iconpack holds our line-heigh SVG icon.
+        // Tip! A custom icon pack does not have to be a separate file
+        // https://www.tiny.cloud/docs/advanced/creating-an-icon-pack/
+        tinymce.IconManager.add('customIcons', {
+            icons: {
+                'line-height': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><g><path d="M7 7L10 7 6 3.5 2.003 7 5 7 5 17 2 17 6 20.5 10 17 7 17z"/><path d="M11.5 7a1 1 0 0 0 1 1h7a1 1 0 0 0 0-2h-7a1 1 0 0 0-1 1zm1 11h7a1 1 0 0 0 0-2h-7a1 1 0 0 0 0 2zm0-5h7a1 1 0 0 0 0-2h-7a1 1 0 0 0 0 2z"/></g></svg>',
+            }
+        });
+
+        tinymce.init({
+            selector: "#editor",
+
+            plugins: [
+                "advlist autolink lists link image charmap print preview anchor",
+                "searchreplace visualblocks code fullscreen insertdatetime",
+                "media table paste"
+            ],
+
+            // Our custom line-height button is called lineheightselect
+            toolbar: "insertfile undo redo | styleselect | lineheightselect | bold italic | bullist numlist outdent indent | link image | removeformat",
+
+            // Tip! The height option accepts any valid CSS for height
+            height: '400px',
+
+            // Make the custom icon pack available in TinyMCE. A custom icon pack
+            // extends the default icon pack.
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#icons
+            icons: 'customIcons',
+
+            // Here we define what format options is available in TinyMCE. Each line below
+            // is a unique format. The selector property defines which HTML elements that can
+            // recieve the format. The styles property defines what CSS is applied to the element.
+            // There is many more options available so please refer to the documentation link
+            // below for mor information.
+            // It is worth noting that this option does not show any UI controls, we have to
+            // configure those separately.
+            //https://www.tiny.cloud/docs/configure/content-formatting/
+            formats: {
+                lineheight_1_0: { selector: "p,h1,h2,h3,h4,h5,h6", styles: {lineHeight: "1"}},
+                lineheight_1_1: { selector: "p,h1,h2,h3,h4,h5,h6", styles: {lineHeight: "1.1"}},
+                lineheight_1_2: { selector: "p,h1,h2,h3,h4,h5,h6", styles: {lineHeight: "1.2"}},
+                lineheight_1_3: { selector: "p,h1,h2,h3,h4,h5,h6", styles: {lineHeight: "1.3"}},
+                lineheight_1_4: { selector: "p,h1,h2,h3,h4,h5,h6", styles: {lineHeight: "1.4"}},
+                lineheight_1_5: { selector: "p,h1,h2,h3,h4,h5,h6", styles: {lineHeight: "1.5"}},
+                lineheight_2_0: { selector: "p,h1,h2,h3,h4,h5,h6", styles: {lineHeight: "2"}},
+            },
+
+            // The style formats is where you customize the styleselect toolbar button.
+            // It is designed to be a convenient place to hold a lot formatting options
+            // without making a cluttered toolbar.
+            // It's worth noting that setting this option overrides the default options
+            // which means we need to re-add all the menu options we want to show.
+            // Below is the default menu options with the line-height menu items
+            // appended at the end.
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#style_formats
+            style_formats: [
+                { title: 'Headings', items: [
+                    { title: 'Heading 1', format: 'h1' },
+                    { title: 'Heading 2', format: 'h2' },
+                    { title: 'Heading 3', format: 'h3' },
+                    { title: 'Heading 4', format: 'h4' },
+                    { title: 'Heading 5', format: 'h5' },
+                    { title: 'Heading 6', format: 'h6' }
+                ]},
+                { title: 'Inline', items: [
+                    { title: 'Bold', format: 'bold' },
+                    { title: 'Italic', format: 'italic' },
+                    { title: 'Underline', format: 'underline' },
+                    { title: 'Strikethrough', format: 'strikethrough' },
+                    { title: 'Superscript', format: 'superscript' },
+                    { title: 'Subscript', format: 'subscript' },
+                    { title: 'Code', format: 'code' }
+                ]},
+                { title: 'Blocks', items: [
+                    { title: 'Paragraph', format: 'p' },
+                    { title: 'Blockquote', format: 'blockquote' },
+                    { title: 'Div', format: 'div' },
+                    { title: 'Pre', format: 'pre' }
+                ]},
+                { title: 'Align', items: [
+                    { title: 'Left', format: 'alignleft' },
+                    { title: 'Center', format: 'aligncenter' },
+                    { title: 'Right', format: 'alignright' },
+                    { title: 'Justify', format: 'alignjustify' }
+                ]},
+                { title: 'Line-height', items: [
+                    { title: '1', format: 'lineheight_1_0' },
+                    { title: '1.1', format: 'lineheight_1_1' },
+                    { title: '1.2', format: 'lineheight_1_2' },
+                    { title: '1.3', format: 'lineheight_1_3' },
+                    { title: '1.4', format: 'lineheight_1_4' },
+                    { title: '1.5', format: 'lineheight_1_5' },
+                    { title: '2', format: 'lineheight_2_0' },
+                ]},
+            ],
+
+            setup: (editor) => {
+                // To make a discreet line-height toolbar button we reguster
+                // a custom toolbar menu button. In this case we call it lineheightselect.
+                // https://www.tiny.cloud/docs/ui-components/toolbarbuttons/
+                editor.ui.registry.addMenuButton('lineheightselect', {
+                    icon: "line-height",
+                    tooltip: 'Line height',
+                    fetch: (callback) => {
+                        var items = [
+                            {
+                                type: 'menuitem',
+                                text: '1.0',
+                                onAction: () => {
+                                    editor.execCommand('mceToggleFormat', false, 'lineheight_1_0');
+                                }
+                            },
+                            {
+                                type: 'menuitem',
+                                text: '1.1',
+                                onAction: () => {
+                                    editor.execCommand('mceToggleFormat', false, 'lineheight_1_1');
+                                }
+                            },
+                            {
+                                type: 'menuitem',
+                                text: '1.2',
+                                onAction: () => {
+                                    editor.execCommand('mceToggleFormat', false, 'lineheight_1_2');
+                                }
+                            },
+                            {
+                                type: 'menuitem',
+                                text: '1.3',
+                                onAction: () => {
+                                    editor.execCommand('mceToggleFormat', false, 'lineheight_1_3');
+                                }
+                            }
+                            ,{
+                                type: 'menuitem',
+                                text: '1.4',
+                                onAction: () => {
+                                    editor.execCommand('mceToggleFormat', false, 'lineheight_1_4');
+                                }
+                            }
+                            ,{
+                                type: 'menuitem',
+                                text: '1.5',
+                                onAction: () => {
+                                    editor.execCommand('mceToggleFormat', false, 'lineheight_1_5');
+                                }
+                            }
+                            ,{
+                                type: 'menuitem',
+                                text: '2.0',
+                                onAction: () => {
+                                    editor.execCommand('mceToggleFormat', false, 'lineheight_2_0');
+                                }
+                            }
+                        ];
+                        callback(items);
+                    }
+                });
+            }
+        });
+    </script>
+    <style>
+        body {
+            margin: 4rem .5rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        main {
+            max-width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<main>
+    <textarea id="editor">
+        <h1>Line Height</h1>
+        <p>This demo illustrates how to define custom formats to enable users to set line-height. This demo can easily be extended with many other options, such as font-weight, letter-spacing, word spacing and other type related CSS properties.</p>
+    </textarea>
+</main>
+</body>
+</html>

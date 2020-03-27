@@ -8,13 +8,44 @@
             margin: 2rem .5rem;
             color: rgb(40, 60, 111);
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            line-height: 1.4;
+            line-height: 1.375;
             font-size: 18px;
         }
 
         main {
-            max-width: 840px;
+            max-width: 1024px;
             margin: auto;
+        }
+        h1,
+        h2 {
+            margin-top: 4rem;
+            color: rgb(65, 84, 132);
+        }
+
+        .article-list {
+            display: grid;
+            grid-gap: 2rem;
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        article {
+            font-size: smaller;
+            margin-top: 2rem;
+        }
+
+        article > * {
+            margin: .75em 0 0;
+        }
+
+        .thumbnail {
+            margin-bottom: 1.25rem;
+            width: 100%;
+            padding-bottom: 60%;
+            background-color: #fff;
+            /* border: 0.25rem solid #f5f8ff; */
+            box-shadow: 0.5rem 0.5rem 0 #f5f8ff;
+            background-size: 100%;
+
         }
     </style>
 </head>
@@ -26,30 +57,66 @@
     <p>TinyMCE is a versatile tool that can be used for a wide variety of text editing tasks. This repository aims to inspire you and demonstrate different approaches to common use cases.</p>
     <p>Every demo has a thorougly documented html file explaining the TinyMCE config as well as links to relevant documentation to make it easy to use these demos as basis for your own projects.</p>
 
-    <h2>TinyMCE Basics</h2>
-    <p>The following demos showcase common how-tos like creating toolbar buttons, menu items, formattingS etc.</p>
+    <section>
+        <header>
+            <h2>TinyMCE Basics</h2>
+            <p>The following demos showcase common how-tos like creating toolbar buttons, menu items, formattingS etc.</p>
+        </header>
+        <div class="article-list">
+            <article>
+                <div class="thumbnail" style="background-image: url(tinymce-basics/custom-toolbar-button-menu-and-context-toolbar/thumbnail.png);"></div>
+                <h3>Creating custom toolbar buttons, menus and context toolbars.</h3>
+                <p>This demo uses a custom callout block to demonstrate how to create toolbar buttons, customizing the menu and showing a context toolbar when selecting the callout. It also shows how to add a custom icon pack for our custom toolbar button.</p>
+                <p><a href='tinymce-basics/custom-toolbar-button-menu-and-context-toolbar/custom-toolbar-button-menu-and-context-toolbar.html'>Custom Toolbar Button, menu and Context Toolbar</a></p>
+            </article>
 
-    <h3>Creating custom toolbar buttons, menus and context toolbars.</h3>
-    <p>This demo uses a custom callout block to demonstrate how to create toolbar buttons, customizing the menu and showing a context toolbar when selecting the callout. It also shows how to add a custom icon pack for our custom toolbar button.</p>
-    <p><a href='tinymce-basics/custom-toolbar-button-menu-and-context-toolbar/custom-toolbar-button-menu-and-context-toolbar.html'>Custom Toolbar Button, menu and Context Toolbar</a></p>
+            <article>
+                <div class="thumbnail" style="background-image: url(tinymce-basics/line-height/thumbnail.png);"></div>
+                <h3>Line-height toolbar button using formats</h3>
+                <p>This demo illustrates how to define custom formats to enable users to set line-height. This demo can easily be extended with many other options, such as font-weight, letter-spacing, word spacing and other type related CSS properties.</p>
+                <p><a href='tinymce-basics/line-height/line-height.html'>Line-height toolbar button using formats</a></p>
+            </article>
+        </div>
+    </section>
 
-    <h2>Tokens (or mail-merge variables)</h2>
-    <p>Tokens – or mail merge variables such as {{name.first}} – are often found in document automation applications. Here are three ways you can implement them in TinyMCE</p>
 
-    <h3>Text-based tokens</h3>
-    <p>Transform any text based tokens such as {{name.first}} into spans that we can style and make noneditable – and transform back to pure text when storing the content. Perfect for existing systems as this approach is non-destructive to your content.</p>
+    <section>
+        <header>
+            <h2>Tokens</h2>
+            <p>Tokens – or mail merge variables such as {{name.first}} – are often found in document automation applications. Here are three ways you can implement them in TinyMCE</p>
+        </header>
+        <div class="article-list">
+            <article>
+                <div class="thumbnail" style="background-image: url(tokens/text-based-token/thumbnail.png);"></div>
+                <h3>Text-based tokens</h3>
+                <p>Transform any text based tokens such as {{name.first}} into spans that we can style and make noneditable – and transform back to pure text when storing the content. Perfect for existing systems as this approach is non-destructive to your content.</p>
+            </article>
+            <article>
+                <div class="thumbnail" style="background-image: url(tokens/web-component-token/thumbnail.png);"></div>
+                <h3>Web component tokens</h3>
+                <p>With the january 2020 release of Microsoft Edge, all major browsers now supports web components. Here we  create a custom element called <code>&lt;inline-token&gt;</code> that becomes our token.</p>
+            </article>
+            <article>
+                <div class="thumbnail" style="background-image: url(tokens/span-based-token/thumbnail.png);"></div>
+                <h3>Span-based tokens</h3>
+                <p>Here we use a span with a class to wrap our token. A simple but powerful approach.</p>
+            </article>
+        </div>
+    </section>
 
-    <h3>Web component tokens</h3>
-    <p>With the january 2020 release of Microsoft Edge, all major browsers now supports web components. Here we  create a custom element called <code>&lt;inline-token&gt;</code> that becomes our token.</p>
-
-    <h3>Span-based tokens</h3>
-    <p>Here we use a span with a class to wrap our token. A simple but powerful approach.</p>
-
-    <h2>Cool demos</h2>
-    <p>Sometimes you just want to show off right? Here are a couple of demos showcasing just how versatile TinyMCE is</p>
-
-    <h3>Expand and show toolbar</h3>
-    <p>A truly minimal and elegant example of an editor that starts out like a unintrusive textarea and grows into a rich text editor upon focus. Demonstrates an interesting use of the inline mode and features like inline placeholder, toolbar groups as well as our new premium thin icon pack.</p>
+    <section>
+        <header>
+            <h2>Cool demos</h2>
+            <p>Sometimes you just want to show off right? Here are a couple of demos showcasing just how versatile TinyMCE is</p>
+        </header>
+        <div class="article-list">
+            <article>
+                <div class="thumbnail" style="background-image: url(cool-demos/expand-and-show-toolbar/thumbnail.png);"></div>
+                <h3>Expand and show toolbar</h3>
+                <p>A truly minimal and elegant example of an editor that starts out like a unintrusive textarea and grows into a rich text editor upon focus. Demonstrates an interesting use of the inline mode and features like inline placeholder, toolbar groups as well as our new premium thin icon pack.</p>
+            </article>
+        </div>
+    </section>
 </main>
 </body>
 </html>

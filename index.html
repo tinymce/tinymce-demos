@@ -5,32 +5,89 @@
     <title>TinyMCE Demos</title>
     <style>
         body {
-            margin: 2rem .5rem;
+            margin: 0;
             color: rgb(40, 60, 111);
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            line-height: 1.375;
-            font-size: 18px;
+            line-height: 1.35;
+            font-size: 16px;
         }
 
-        main {
-            max-width: 1024px;
-            margin: auto;
+        body > header {
+            /* background-color: #F5F8FF; */
+            /* background-color: rgb(250, 252, 255); */
+            /* background-color: rgb(6, 20, 55); */
+            /* background-color: rgb(18, 124, 231); */
+            background-image: url("https://www.tiny.cloud/static/base-aside-7291acdcd5e7ed20ba8fabebfff74e9f.png"), linear-gradient(0deg, rgb(15, 34, 81) 0%, rgb(6, 20, 55) 100%);
+            padding: 4rem;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 30rem;
+            box-sizing: border-box;
+            font-size: 1.125rem;
+            color: #fff;
+            background-size: cover;
         }
-        h1,
+
+        body > main {
+            margin-left: 30rem;
+            padding: 4rem 0 0 4rem;
+        }
+
+        section {
+            margin-bottom: 6rem;
+        }
+
+        section > header {
+            margin-right: 4rem;
+            max-width: 32rem; /* 2 columns: 14+14+4 */
+            font-size: 1.125rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -.0125em;
+
+        }
+
         h2 {
-            margin-top: 4rem;
-            color: rgb(65, 84, 132);
+            margin: 0;
+            font-weight: 500;
+            font-size: 2rem;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+        }
+
+        a,
+        a:link,
+        a:visited {
+            text-decoration: none;
+            color: rgb(12, 116, 219);
+        }
+
+        a:hover {
+            color: rgb(65, 158, 251);
+            text-decoration: underline;
+        }
+
+        a:active {
+            color: rgb(7, 105, 202);
         }
 
         .article-list {
-            display: grid;
-            grid-gap: 2rem;
-            grid-template-columns: repeat(3, 1fr);
+            display: flex;
+            flex-wrap: wrap;
         }
 
         article {
-            font-size: smaller;
+            width: 14rem;
+            margin-right: 4rem;
             margin-top: 2rem;
+            box-sizing: border-box;
+            font-size: .875rem;
         }
 
         article > * {
@@ -50,13 +107,16 @@
     </style>
 </head>
 <body>
+    <header>
+        <svg width="112" height="96" xmlns="http://www.w3.org/2000/svg"><g fill="#fff"><path d="M45 31L67 31 67 36 45 36z"/><path d="M45 61L67 61 67 66 45 66z"/><path d="M37 51L74 51 74 56 37 56z"/><path d="M37 41L74 41 74 46 37 46z"/><path d="M55.747 0l44.9 43.24 6.506-6.069 4.677 4.234-55.915 54.412L10.42 51.651l-6.022 5.813L0 53.2 55.747 0zM14.912 47.315L55.93 87.131 96.918 47.31 55.93 7.469 14.912 47.315z"/></g></svg>
+        <h1>TinyMCE Demos</h1>
+        <p>TinyMCE is a versatile tool that can be used for a wide variety of text editing tasks. This repository aims to inspire you and demonstrate different approaches to common use cases.</p>
+        <p>Every demo has a thorougly documented html file explaining the TinyMCE config as well as links to relevant documentation to make it easy to use these demos as basis for your own projects.</p>
+        <p>These demos are released under a MIT license. TinyMCE is licensed under a LGPL or commercial license</p>
+    </header>
+
+
 <main>
-    <svg width="112" height="96" xmlns="http://www.w3.org/2000/svg"><g fill="rgb(40, 60, 111)"><path d="M45 31L67 31 67 36 45 36z"/><path d="M45 61L67 61 67 66 45 66z"/><path d="M37 51L74 51 74 56 37 56z"/><path d="M37 41L74 41 74 46 37 46z"/><path d="M55.747 0l44.9 43.24 6.506-6.069 4.677 4.234-55.915 54.412L10.42 51.651l-6.022 5.813L0 53.2 55.747 0zM14.912 47.315L55.93 87.131 96.918 47.31 55.93 7.469 14.912 47.315z"/></g></svg>
-
-    <h1>TinyMCE Demos</h1>
-    <p>TinyMCE is a versatile tool that can be used for a wide variety of text editing tasks. This repository aims to inspire you and demonstrate different approaches to common use cases.</p>
-    <p>Every demo has a thorougly documented html file explaining the TinyMCE config as well as links to relevant documentation to make it easy to use these demos as basis for your own projects.</p>
-
     <section>
         <header>
             <h2>TinyMCE Basics</h2>
@@ -78,7 +138,6 @@
             </article>
         </div>
     </section>
-
 
     <section>
         <header>

@@ -44,7 +44,8 @@
             noneditable_noneditable_class: 'callout',
             noneditable_editable_class: 'content',
 
-            // Hide the right click context menus
+            // Hide the right click context menus to avoid conflict with
+            // the context toolbars
             // https://www.tiny.cloud/docs/configure/editor-appearance/#contextmenu
             contextmenu: false,
 
@@ -67,7 +68,7 @@
             },
 
             setup: (editor) => {
-                // Register a custom toolbar button which inserts a callout
+                // Register a custom toolbar button that inserts the callout
                 // https://www.tiny.cloud/docs/ui-components/toolbarbuttons/
                 editor.ui.registry.addButton('callout', {
                     icon: 'callout',
@@ -82,11 +83,12 @@
                             <div class="callout">
                                 <div class="content"><p>Callout</p></div>
                             </div>
+                            <p>&nbsp;</p>
                         `);
                     }
                 });
 
-                // Below we register our three callout colors that we will
+                // Below we register our three callout color buttons that we will
                 // put into the context toolbar. To better illustrate how
                 // the code works, we repeaded every button. In a real world
                 // scenario you would make a loop to create all the variants.

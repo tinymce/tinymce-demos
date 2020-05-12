@@ -1,0 +1,114 @@
+<!--
+    A simple demo showing how to enable CSS columns in TinyMCE
+-->
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Columns demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5-dev/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script>
+        // An iconpack holds our custom button's SVG icons.
+        // Tip! A custom icon pack does not have to be a separate file
+        tinymce.IconManager.add('customIcons', {
+            icons: {
+                'columns': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><g fill-rule="evenodd"><rect width="8" height="2" x="3" y="5" rx="1"/><rect width="8" height="2" x="13" y="5" rx="1"/><rect width="8" height="2" x="3" y="9" rx="1"/><rect width="8" height="2" x="13" y="9" rx="1"/><rect width="8" height="2" x="3" y="13" rx="1"/><rect width="8" height="2" x="13" y="13" rx="1"/><rect width="8" height="2" x="3" y="17" rx="1"/><rect width="6" height="2" x="13" y="17" rx="1"/></g></svg>',
+            }
+        });
+
+        tinymce.init({
+            selector: '#editor',
+
+            // Tip! To make TinyMCE leaner, only include the plugins you actually need
+            plugins: 'link lists code visualblocks',
+
+            // We have put our custom callout button last.
+            toolbar: 'undo redo | styleselect | bold italic strikethrough backcolor | columns | bullist link callout',
+
+            // Tip! The height option accepts any valid CSS for height
+            height: 'calc(100vh)',
+
+            // Use the skin option to change the appearance of TinyMCE.
+            // Here we're using the premium skin called Borderless
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#skin
+            skin: 'borderless',
+
+            // Make the custom icon pack available in TinyMCE. A custom icon pack
+            // extends the default icon pack.
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#icons
+            icons: 'customIcons',
+
+            // The formats option is where custom formatting options are defined.
+            // Here we add a format called "col" that wraps a div around the selected
+            // elements.
+            // https://www.tiny.cloud/docs/configure/content-formatting/#formats
+            formats: {
+                col: {block: "div", wrapper: true}
+            },
+
+            setup: (editor) => {
+                // Here we register a custom toggle toolbar button to toggle the "Col"
+                // format on and off.
+                // https://www.tiny.cloud/docs/ui-components/typesoftoolbarbuttons/#togglebutton
+                editor.ui.registry.addToggleButton('columns', {
+                    icon: 'columns',
+                    tooltip: 'Make columns',
+                    onAction: (api) => {
+                        // Toggle the col format when pressed
+                        // https://www.tiny.cloud/docs/api/tinymce/tinymce.editor/#execcommand
+                        editor.execCommand('mceToggleFormat', false, 'col');
+                    },
+                    onSetup: function (api) {
+                        editor.formatter.formatChanged('col', function (state) {
+                            api.setActive(state);
+                        });
+                    }
+                });
+            },
+
+            // The content CSS option loads the CSS file that controls the content
+            // within TinyMCE. In this case we load a premium content_css from
+            // the Tiny cloud CDN.
+            // https://www.tiny.cloud/docs/configure/content-appearance/#content_css
+            content_css: 'document',
+
+            // The following css will be injected into the editor, extending
+            // the default styles.
+            // In a real world scenario, with much more custom styles for headings
+            // links, tables, images etc, it's recommended to use the content_css
+            // option to load a separate CSS file. Makes editing easier too.
+            // https://www.tiny.cloud/docs/configure/content-appearance/#content_style
+            // https://www.tiny.cloud/docs/configure/content-appearance/#content_css
+            content_style: `
+                div {
+                    columns: 2;
+                }
+
+                div > * {
+                    margin-top: 0;
+                }
+	        `
+        });
+    </script>
+    <style>
+        body {
+            margin: 0rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+<main>
+    <textarea id="editor">
+        <h1>Legal fineprint</h1>
+        <div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum a molestie nisl, at sodales diam. Vivamus ullamcorper convallis odio, ut lacinia sem. Proin in dui sit amet justo hendrerit imperdiet. Nullam ante felis, tincidunt et bibendum ut, pellentesque sit amet est. Proin cursus varius lorem ut porttitor. Duis ac velit eget purus vestibulum finibus. Nulla facilisi. Donec sit amet erat metus. Phasellus id ullamcorper sapien, eget vehicula lectus. Integer at mi id sapien dignissim gravida id ac metus.</p>
+            <p>Duis vel varius quam. Donec rhoncus nunc id arcu molestie, a auctor ipsum viverra. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas id interdum lorem</p>
+        </div>
+    </textarea>
+</main>
+</body>
+</html>

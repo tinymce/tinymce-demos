@@ -1,0 +1,237 @@
+<!--
+    This demo showcases a minimalist editor that expands on focus
+    It uses the TinyMCE inline mode to allow for greater control
+        over the toolbar position and behavior.
+-->
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Expand and show toolbar demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5-dev/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script>
+        tinymce.init({
+            selector: "#editor-content",
+            plugins: "emoticons hr image link lists charmap table",
+            toolbar: "formatgroup paragraphgroup insertgroup",
+            placeholder: "Ask a question or post an update...",
+            menubar: false,
+            skin: 'naked',
+            icons: 'thin',
+
+            // Enable inline mode
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#inline
+            inline: true,
+
+            // Render the toolbar in this container.
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#fixed_toolbar_container
+            fixed_toolbar_container: '#editor-toolbar',
+
+            // Makes menus move upwards
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar_location
+            toolbar_location: 'bottom',
+
+            // Remove the manual image resizing as we're using percentage widths
+            // https://www.tiny.cloud/docs/configure/advanced-editing-behavior/#object_resizing
+            object_resizing: false,
+
+            // Hide the right click context menus
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#contextmenu
+            contextmenu: false,
+
+            // Create three custom toolbar groups
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar_groups
+            toolbar_groups: {
+                formatgroup: {
+                    icon: 'format',
+                    tooltip: 'Formatting',
+                    items: 'bold italic underline strikethrough | forecolor backcolor | superscript subscript | removeformat'
+                },
+                paragraphgroup: {
+                    icon: 'paragraph',
+                    tooltip: 'Paragraph format',
+                    items: 'h1 h2 h3 | bullist numlist | alignleft aligncenter alignright | indent outdent'
+                },
+                insertgroup: {
+                    icon: 'plus',
+                    tooltip: 'Insert',
+                    items: 'link image emoticons charmap hr'
+                }
+            },
+
+            // On mobile, toolbar_mode is sliding by default which is not compatible
+            // with toolbar_groups. Therefore we explicitly set toolbar_mode to floating
+            // on mobile and touch devices.
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar_mode
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#mobile
+            mobile: {
+                toolbar_mode: 'floating'
+            },
+
+            setup: (editor) => {
+                // Apply a custom class to the wrapper element when the editor gets focus
+                // https://www.tiny.cloud/docs/advanced/events/
+                editor.on('focus', () => {
+                    document.getElementById('editor-wrap').classList.add('focused');
+                });
+
+                // Remove the custom class when the editor loses focus
+                // https://www.tiny.cloud/docs/advanced/events/
+                editor.on('blur', () => {
+                    document.getElementById('editor-wrap').classList.remove('focused');
+                });
+
+                // Register a custom context toolbar for images
+                // https://www.tiny.cloud/docs/ui-components/contexttoolbar/#registeringacontexttoolbar
+                editor.ui.registry.addContextToolbar('editimage', {
+                    predicate: (node) => {
+                        return node.nodeName.toLowerCase() === 'img'
+                    },
+                    items: 'editimage removeimage',
+                    position: 'node',
+                    scope: 'node'
+                });
+
+                // Register a custom edit image button
+                // https://www.tiny.cloud/docs/ui-components/toolbarbuttons/
+                editor.ui.registry.addButton('editimage', {
+                    icon: 'edit-block',
+                    onAction: () => {
+                        // Display the image dialog
+                        // https://www.tiny.cloud/docs/plugins/image/#commands
+                        editor.execCommand('mceImage');
+                    }
+                });
+
+                // Register a custom remove image button
+                // https://www.tiny.cloud/docs/ui-components/toolbarbuttons/
+                editor.ui.registry.addButton('removeimage', {
+                    icon: 'remove',
+                    onAction: () => {
+                        // Get the currently selected content (called "node") and delete it.
+                        // https://www.tiny.cloud/docs/api/tinymce.dom/tinymce.dom.selection/
+                        // https://www.tiny.cloud/docs/api/tinymce.html/tinymce.html.node/
+                        const node = tinymce.activeEditor.selection.getNode();
+                        node.remove();
+                    }
+                });
+            }
+        });
+    </script>
+    <style>
+        body {
+            margin: 2rem .5rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        main {
+            max-width: 720px;
+            margin: auto;
+        }
+
+        /* The editor wrap element that we use to encapsulate the editor */
+        .editor-wrap {
+            border: 1px solid #ccc;
+            padding: 0 .5rem;
+            position: relative;
+            border-radius: 4px;
+            transition: box-shadow .15s;
+            padding-bottom: 0;
+        }
+
+        .editor-wrap.focused {
+            box-shadow: 0 0 0 3px rgba(28, 108, 161, .08) inset;
+        }
+
+        /* The element that turns into a TinyMCE editor */
+        .editor-content {
+            transition: min-height .25s, padding-bottom .25s;
+            min-height: 0;
+            outline: none;
+        }
+
+        /* Set the minimum height and make space for the toolbar */
+        .editor-wrap.focused .editor-content {
+            min-height: 140px;
+            padding-bottom: 40px;
+        }
+
+        /* The toolbar is absolute positioned to better support a smooth slide in/out. */
+        /* Without it the toolbar causes the height to jump when the toolbar toggles */
+        .editor-toolbar {
+            position: absolute;
+            bottom: 3px;
+            left: 3px;
+            right: 3px;
+            opacity: 0;
+            transition: opacity .1s;
+            transition-delay: .15s;
+        }
+
+        .editor-wrap.focused .editor-toolbar {
+            opacity: 1;
+        }
+
+        /* Below is the content styles, in this case they are global */
+        /* and not namespaced to `.editor-content` */
+        a,
+        a:link {
+          color: blue;
+        }
+        a:visited {
+          color: purple;
+        }
+        a:hover {
+          color: green;
+        }
+        a:active {
+          color: red;
+        }
+
+        h1 {
+            font-size: 1.75rem;
+            font-weight: strong;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: strong;
+        }
+
+        h3 {
+            font-size: 1rem;
+            font-weight: strong;
+        }
+
+        hr {
+            margin: 1.5rem 0;
+            padding: .5rem 0;
+            border: 0;
+        }
+
+        hr::after {
+            content: '';
+            display: block;
+            border-width: 0 0 1px 0;
+            border-color: #ccc;
+            border-style: solid;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+<main>
+    <div class="editor-wrap" id="editor-wrap">
+        <div class="editor-content" id="editor-content"></div>
+        <div class="editor-toolbar" id="editor-toolbar"></div>
+    </div>
+</main>
+</body>
+</html>

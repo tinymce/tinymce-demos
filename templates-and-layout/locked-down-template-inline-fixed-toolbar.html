@@ -1,0 +1,196 @@
+<!--
+    This demo shows how to do "locked-down" and plain text
+    content by using the TinyMCE inline mode and moving the
+    locked down fields outside of TinyMCE.
+-->
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Inline mode with fixed toolbar container</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5-dev/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: '#tinymce',
+
+            // Enables inline mode which edits the page's DOM directly.
+            // You have to wire up the persistent storage yourself, for example
+            // getting the editable area's DOM tree, serlialize it and send it
+            // to the backend using a hidden inputfield.
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#inline
+            inline: true,
+
+            // Tip! To make TinyMCE leaner, only include the plugins you actually need.
+            plugins: 'anchor autolink link lists image media code',
+
+            // This option allows you to specify the buttons and the order that
+            // they will appear on TinyMCE’s toolbar.
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar
+            toolbar: 'undo redo | formatselect | bold italic strikethrough backcolor | align bullist numlist | link image media blockquote | indent outdent | code removeformat',
+
+            // Toggle the menubar off to get a leaner visual experience
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#menubar
+            menubar: false,
+
+            // Text to show when the editor is empty
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#placeholder
+            placeholder: 'Page body',
+
+            // Render the inline toolbar in this element
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#fixed_toolbar_container
+            fixed_toolbar_container: '#toolbar',
+
+            // A nice borderless web-appy skin is our premium skin called Snow, here
+            // used together with the Thin premium icon pack
+            // You can also easily create your own borderless skin too.
+            // https://www.tiny.cloud/docs/enterprise/premium-skins-and-icon-packs/snow-demo/
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#skin
+            // https://www.tiny.cloud/docs/advanced/creating-a-skin/
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#icons
+            // https://www.tiny.cloud/docs/advanced/creating-an-icon-pack/
+            skin: 'snow',
+            icons: 'thin'
+        });
+    </script>
+    <style>
+        body {
+            margin: 2rem;
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+
+        /* Style the textarea to look like a plain text field */
+        .title {
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            background: none;
+            border: 0;
+            box-sizing: border-box;
+            color: #000;
+            display: block;
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 48px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            line-height: 1.1;
+            margin: calc(3rem + 40px + 2rem) 0 1rem;
+            outline: 0;
+            padding: 0;
+            resize: none;
+            width: 100%;
+        }
+
+        .title::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+            color: #000;
+        }
+        .title::-moz-placeholder { /* Firefox 19+ */
+            color: #000;
+        }
+        .title:-ms-input-placeholder { /* IE 10+ */
+            color: #000;
+        }
+        .title:-moz-placeholder { /* Firefox 18- */
+            color: #000;
+        }
+
+        /* Style the textarea to look like a plain text field */
+        .description {
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            background: none;
+            border: 0;
+            box-sizing: border-box;
+            color: rgba(34,47,62,.5);
+            display: block;
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 19px;
+            line-height: 1.3;
+            margin: 1rem 0;
+            outline: 0;
+            padding: 0;
+            resize: none;
+            width: 100%;
+        }
+
+        .description::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+            color: rgba(34,47,62,.5);
+        }
+        .description::-moz-placeholder { /* Firefox 19+ */
+            color: rgba(34,47,62,.5);
+        }
+        .description:-ms-input-placeholder { /* IE 10+ */
+            color: rgba(34,47,62,.5);
+        }
+        .description:-moz-placeholder { /* Firefox 18- */
+            color: rgba(34,47,62,.5);
+        }
+
+        .content {
+            color: #000;
+            font-size: 19px;
+            margin-top: 3rem;
+            outline: 0;
+        }
+
+        main {
+            max-width: 740px;
+            margin: auto;
+        }
+
+        /* Positioning the toolbar container element */
+        header {
+            background-color: #fff;
+            left: 0;
+            padding: 2rem 1rem 1rem;
+            position: fixed;
+            right: 0;
+            top: 0;
+            z-index: 1;
+        }
+
+        /* Styling the toolbar */
+        #toolbar {
+            max-width: 1024px;
+            margin: auto;
+            min-height: 40px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <!--
+        The toolbar is rendered in this element
+    -->
+    <header>
+        <div id="toolbar"></div>
+    </header>
+
+    <main>
+        <!--
+        A Textarea is used for title and description to allow multiple lines.
+        We're not using contenteditable on a <h1> as it automatically allows basic
+        formatting on the OS level such as MacOS and iOS.
+        -->
+        <textarea id="title" class="title" placeholder="Post Title" rows="1">Using TinyMCE Inline mode to lock down your content</textarea>
+        <textarea id="description" class="description" placeholder="Post Title" rows="1">This example demonstrate one approach for implementing a plain text title and description together with TinyMCE.</textarea>
+
+        <div id="tinymce" class="content">
+            <p>A popular question we get is how to lock down the editor to <span style="background-color: #fbeeb8;">always require a title which cannot be styled</span>. The way to do this is by using the inline mode which will give you more flexibility over the TinyMCE UI.</p>
+            <p><strong>The proper way to lock down content</strong>, is to <span style="background-color: #eccafa;">move it outside of TinyMCE</span>. Here we have created separate textareas for the title and description fields <em>giving you as a developer full control</em> to make sure that the title will always come first, cannot be empty and be plain-text.</p>
+            <p>This particular demo uses the <em>fixed toolbar container feature</em>. Make sure you try out the other examples showcasing other visual appearances such as context toolbars.</p>
+        </div>
+    </main>
+
+<!--
+    A small script is used to make the textarea automatically grow to fit the text.
+-->
+<script src="https://cdn.jsdelivr.net/npm/autosize@4.0.2/dist/autosize.min.js" integrity="sha256-dW8u4dvEKDThJpWRwLgGugbARnA3O2wqBcVerlg9LMc=" crossorigin="anonymous"></script>
+<script>
+    autosize(document.getElementById('title'));
+    autosize(document.getElementById('description'));
+</script>
+</body>
+</html>

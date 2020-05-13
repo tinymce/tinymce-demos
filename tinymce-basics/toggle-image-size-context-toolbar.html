@@ -1,0 +1,296 @@
+<!--
+
+-->
+
+<!doctype html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>Toggle between image sizes and layouts</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src='https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5-dev/tinymce.min.js' referrerpolicy='origin'></script>
+    <script>
+        // An iconpack holds our custom button's SVG icons.
+        // Tip! A custom icon pack does not have to be a separate file
+        tinymce.IconManager.add('image-context-toolbar', {
+          icons: {
+            'image-wide': '<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M0 0H24V24H0z"/><path fill="#000" opacity=".4" d="M5 3H19V5H5z"/><path fill="#000" opacity=".4" d="M5 19H19V21H5z"/><path fill="#000" d="M3 7H21V17H3z"/></g></svg>',
+            'image-full-width': '<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M0 0H24V24H0z"/><path fill="#000" d="M0 7H24V17H0z"/><path fill="#000" opacity=".4" d="M5 3H19V5H5z"/><path fill="#000" opacity=".4" d="M5 19H19V21H5z"/></g></svg>',
+            'image-float': '<svg height="24" viewBox="0 0 25 24" width="25" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="m.5 0h24v24h-24z"/><g fill="#000"><path d="m5 7h4v2h-4z"/><path d="m5 11h4v2h-4z"/><path d="m5 15h4v2h-4z"/><path d="m5 3h16v2h-16z"/><path d="m5 19h16v2h-16z"/><path d="m11 7h10v10h-10z"/></g></g></svg>',
+          }
+        });
+
+        tinymce.init({
+            selector:'#editor',
+
+            // We use the quickbars to get easy access to context toolbars
+            // Tip! To make TinyMCE leaner, only include the plugins you actually need
+            plugins: 'quickbars image link lists table code',
+
+            // Since we are primarily using quickbars, we hide the menubar,
+            // toolbar and statusbar
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#menubar
+            //https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#statusbar
+            menubar: false,
+            toolbar: false,
+            statusbar: false,
+
+            // To remove the outside borders from editor we can the borderless
+            // premium skin. You can also  create your own borderless skin.
+            // https://www.tiny.cloud/docs/enterprise/premium-skins-and-icon-packs/borderless-demo/
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#skin
+            // https://www.tiny.cloud/docs/advanced/creating-a-skin/
+            skin: 'borderless',
+
+            // Tip! The height option accepts any valid CSS for height
+            height: '100vh',
+
+            // Make the custom icon pack available in TinyMCE. A custom icon pack
+            // extends the default icon pack.
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#icons
+            icons: 'image-context-toolbar',
+
+            // Define the toolbar that shows up when selecting text based content
+            // https://www.tiny.cloud/docs/plugins/quickbars/#quickbars_selection_toolbar
+            quickbars_selection_toolbar: 'formatselect | bold italic underline backcolor | align bullist | quicklink code',
+
+            // Define the toolbar that shows up when selecting images. Notice the
+            // custom botton we have put last. See further down how it's set up.
+            // https://www.tiny.cloud/docs/plugins/quickbars/#quickbars_image_toolbar
+            quickbars_image_toolbar: 'wideimage fullwidthimage  asideimage | imageproperties',
+
+            // We don't want users to be able to resize images manually. This option
+            // will remove the resize handles on images (and tables)
+            // https://www.tiny.cloud/docs/configure/advanced-editing-behavior/#object_resizing
+            object_resizing : false,
+
+            // Hide the image dimension input field from the image properties dialog
+            // https://www.tiny.cloud/docs/plugins/image/#image_dimensions
+            image_dimensions: false,
+
+            // Enable the user to display image captions via the image properties dialog
+            // https://www.tiny.cloud/docs/plugins/image/#image_caption
+            image_caption: true,
+
+            // The formats option is where custom formatting options are defined.
+            // In this case we define the different image size formats we want users
+            // to be able to select through the image context toolbar.
+            // https://www.tiny.cloud/docs/configure/content-formatting/#formats
+            formats: {
+                wide_image: {
+                    // Which html element that can accept the format
+                    selector: 'img,figure',
+                    // The class to apply to the matched html element
+                    classes: ['wide'],
+                    // Undocumented option to enable formatting on element that has
+                    // contenteditable false which is the case with the figure element
+                    // used when showing image captions
+                    ceFalseOverride: true
+                },
+                full_width_image: {
+                    selector: 'img,figure',
+                    classes: ['full-width'],
+                    ceFalseOverride: true
+                },
+                aside_image: {
+                    selector: 'img,figure',
+                    classes: ['aside'],
+                    ceFalseOverride: true
+                }
+            },
+
+            setup: (editor) => {
+                // Register a toolbar button for which is used to toggle the image
+                // https://www.tiny.cloud/docs/ui-components/toolbarbuttons/
+                editor.ui.registry.addToggleButton('wideimage', {
+                    // References the icon identifier in the icon pack at the top of this
+                    // document and loaded into TinyMCE using the icons option.
+                    icon: 'image-wide',
+                    onAction: (api) => {
+                        // Issue a command to apply a format
+                        // https://www.tiny.cloud/docs/api/tinymce/tinymce.editor/#execcommand
+                        editor.execCommand('mceToggleFormat', false, 'wide_image');
+                        // We also need to remove the formats we don't longer want to use
+                        // https://www.tiny.cloud/docs/api/tinymce/tinymce.formatter/
+                        editor.formatter.remove('full_width_image');
+                        editor.formatter.remove('aside_image');
+                    },
+					onSetup: (buttonApi) => {
+                        // This block of code make sure the toggle toolbar becomes enabled
+                        // if the specified format is matched when selecting an image
+                        // https://www.tiny.cloud/docs/api/tinymce/tinymce.formatter/
+						buttonApi.setActive(editor.formatter.match('wide_image'));
+                    	let change = editor.formatter.formatChanged('wide_image', (state) => buttonApi.setActive(state));
+                    	return () => {
+                            change.unbind();
+                        };
+                    },
+                });
+
+                editor.ui.registry.addToggleButton('fullwidthimage', {
+                    icon: 'image-full-width',
+                    onAction: (api) => {
+                        editor.execCommand('mceToggleFormat', false, 'full_width_image');
+                        editor.formatter.remove('wide_image');
+                        editor.formatter.remove('aside_image');
+                    },
+					onSetup: (buttonApi) => {
+						buttonApi.setActive(editor.formatter.match('full_width_image'));
+                    	let change = editor.formatter.formatChanged('full_width_image', (state) => buttonApi.setActive(state));
+                    	return () => {
+                            change.unbind();
+                        };
+                    },
+                });
+
+                editor.ui.registry.addToggleButton('asideimage', {
+                    icon: 'image-float',
+                    onAction: (api) => {
+                        editor.execCommand('mceToggleFormat', false, 'aside_image');
+                        editor.formatter.remove('full_width_image');
+                        editor.formatter.remove('wide_image');
+                    },
+                    onSetup: (buttonApi) => {
+                        buttonApi.setActive(editor.formatter.match('aside_image'));
+                        let change = editor.formatter.formatChanged('aside_image', (state) => buttonApi.setActive(state));
+                        return () => {change.unbind();};
+                    },
+                });
+
+                // Add a custom toolbar button to open the image properties dialog
+                editor.ui.registry.addButton('imageproperties', {
+                    icon: 'image-options',
+                    onAction: (api) => {
+                        // the mceImage command opens the image properties dialog
+                        // https://www.tiny.cloud/docs/plugins/image/#commands
+                        editor.execCommand('mceImage');
+                    }
+                });
+            },
+
+            // The following css will be injected into the editor, extending
+            // the default styles.
+            // In a real world scenario, it's recommended to use the content_css
+            // option to load a separate CSS file. Makes editing easier too.
+            // We also assume you know enough CSS to make sense of the styles below
+            // https://www.tiny.cloud/docs/configure/content-appearance/#content_style
+            // https://www.tiny.cloud/docs/configure/content-appearance/#content_css
+            content_style: `
+                body {
+                    color: #444;
+                    font-size: 17px;
+                    line-height: 1.35;
+                    margin: 0;
+                    padding: 0;
+                }
+
+                body > * {
+                    margin-left: auto;
+                    margin-right: auto;
+                    max-width: 800px;
+                    width: 100%;
+                }
+
+                h1 {
+                    font-size: 44px;
+                    font-weight: 800;
+                    letter-spacing: -1px;
+                }
+
+                img {
+                    margin-left: 50px;
+                    max-width: 700px;
+                }
+
+                figure.image {
+                    max-width: 700px;
+                }
+
+                figure.image img {
+                    margin-left: 0;
+                }
+
+                img.aside {
+                    float: right;
+                    height: auto;
+                    margin-bottom: 1rem;
+                    margin-left: 1rem;
+                    margin-right: 0;
+                    max-width: 50%;
+                    width: 50%;
+                }
+
+                figure.image.aside {
+                    float: right;
+                    height: auto;
+                    margin-bottom: 1rem;
+                    margin-left: 2rem;
+                    margin-right: calc(50vw - 400px);
+                    max-width: 400px;
+                    width: 50%;
+                }
+
+                img.wide {
+                    display: block;
+                    height: auto;
+                    margin-left: 0;
+                    max-width: 900px;
+                    transform: translateX(-50px);
+                    width: 900px;
+                }
+
+                figure.image.wide {
+                    display: block;
+                    height: auto;
+                    max-width: 900px;
+                    width: 900px;
+                }
+
+                img.full-width {
+                    margin-left: calc((100vw - 816px) / 2 * -1);
+                    max-width: calc(100vw - 16px);
+                    width: calc(100vw - 16px);
+                }
+
+                figure.image.full-width {
+                    display: block;
+                    max-width: calc(100vw - 16px);
+                    width: calc(100vw - 16px);
+                }
+
+                figure.image img,
+                figure.image.aside img,
+                figure.image.wide img,
+                figure.image.full-width img {
+                    height: auto;
+                    max-width: 100%;
+                    width: 100%;
+                }
+            `
+        });
+    </script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0
+            font-family: 'Lato',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',sans-serif;
+            color: #262C42;
+        }
+    </style>
+</head>
+<body>
+<textarea id='editor'>
+    <h1>The Incomparable Yosemite</h1>
+    <p><strong>The most famous and accessible of these ca&ntilde;on valleys</strong>, and also the one that presents their most striking and sublime features on the grandest scale, is the Yosemite, situated in the basin of the Merced River at an elevation of 4000 feet above the level of the sea. <span style="background-color: #fbeeb8;">It is about&nbsp;<em>seven miles long</em>, half a mile to a mile wide, and nearly a mile deep in the&nbsp;solid granite flank&nbsp;of the range.</span>&nbsp;</p>
+    <p><em>The walls are made up of rocks</em>, mountains in size, partly separated from each other by side ca&ntilde;ons, and they are so sheer in front, and so compactly and harmoniously arranged on a level floor, that the Valley, comprehensively seen, looks like an immense hall or temple lighted from abo
+    <figure class="image"><img src="images/yosemite.jpeg" alt="Road in foreground, Yosemite peak in background" />
+        <figcaption>Photo by Trent Erwin on Unsplash</figcaption>
+    </figure>
+    <p>But no temple made with hands can compare with Yosemite. Every rock in its walls seems to glow with life. Some lean back in majestic repose;&nbsp;<span style='background-color: #c2e0f4; color: #236fa1;'>others, absolutely sheer or nearly so for thousands of feet, advance beyond their companions in thoughtful attitudes, giving welcome to storms and calms alike, seemingly aware, yet heedless, of everything going on about them</span>.&nbsp;</p>
+    <p>Down through the middle of the Valley flows the crystal Merced, River of Mercy, peacefully quiet, reflecting lilies and trees and the onlooking rocks;</p>
+    <p>Awful in stern, immovable majesty, how softly these rocks are adorned, and how fine and reassuring the company they keep: their feet among beautiful groves and meadows, their brows in the sky, a thousand flowers leaning confidingly against their feet, bathed in floods of water, floods of light, while the snow and waterfalls, the winds and avalanches and clouds shine and sing and wreathe about them as the years go by, and myriads of small winged creatures birds, bees, butterflies--give glad animation and help to make all the air into music. Down through the middle of the Valley flows the crystal Merced, River of Mercy, peacefully quiet, reflecting lilies and trees and the onlooking rocks; things frail and fleeting and types of endurance meeting here and blending in countless forms, as if into this one mountain mansion Nature had gathered her choicest treasures, to draw her lovers into close and confiding communion with her.</p>
+</textarea>
+
+</body>
+</html>

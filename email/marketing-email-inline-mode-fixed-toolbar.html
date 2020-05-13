@@ -1,0 +1,252 @@
+<!--
+    The proper way to do marketing email with TinyMCE is to use
+    inline mode, and move all table layout outside of TinyMCE.
+    Tables in TinyMCE are first and formost to display tabular
+    data, not for layouts do doing table layouts in TinyMCE,
+    while possible, is not recommended. It is simply too
+    easy to break the design.
+
+    Here is an example of how to do a marketing email using
+    TinyMCE inline mode. The TinyMCE editor is only applied
+    to the rich text parts. All the table layout are outside
+    of TinyMCE. This makes it easy for you to to add other
+    logic such as inserting blocks and drag and drop reordering.
+-->
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Marketing email editor using inline mode and fixed toolbar</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5-dev/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector:'.tinymce',
+
+            // Enable inline mode
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#inline
+            inline: true,
+
+            // Tip! To make TinyMCE leaner, only include the plugins you actually need.
+            plugins: 'link lists image emoticons code',
+
+            // This option allows you to specify the buttons and the order that they
+            // will appear on TinyMCE’s toolbar.
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar
+            toolbar: 'undo redo | styleselect | bold italic underline strikethrough | forecolor backcolor | link image emoticons | alignleft aligncenter alignright | bullist numlist | code removeformat',
+
+            // Toggle the menubar off to get a leaner visual experience
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#menubar
+            menubar: false,
+
+            // To remove the outside borders of the toolbar we use a premium skin.
+            // You can also easily create your own borderless skin too.
+            // https://www.tiny.cloud/docs/enterprise/premium-skins-and-icon-packs/borderless-demo/
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#skin
+            // https://www.tiny.cloud/docs/advanced/creating-a-skin/
+            skin: 'borderless',
+
+            // Render the inline toolbar into this element
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#fixed_toolbar_container
+            fixed_toolbar_container: '.toolbar',
+
+            // In emails we rarely use target for links so we hide the
+            // target drop down in the link dialog
+            // https://www.tiny.cloud/docs/plugins/link/#target_list
+            target_list: false,
+
+            // We don't want users to be able to resize images by using
+            // drag and drop because it can break layout templates.
+            // https://www.tiny.cloud/docs/configure/advanced-editing-behavior/#object_resizing
+            object_resizing : false,
+
+            // The formats option is where custom formatting options are defined.
+            // In this case we define a couple of headings and a button appearance
+            // for links. HTML Emails require inlining the CSS. Fortunately the
+            // styles property makes that easy.
+            // https://www.tiny.cloud/docs/configure/content-formatting/#formats
+            formats: {
+                h1: { block: 'h1', styles: { fontSize: '32px' } },
+                h2: { block: 'h2', styles: { fontSize: '18px' } },
+                cta: { selector: 'a', styles: { backgroundColor: '#706FD3', padding: '12px 16px', color: '#ffffff', borderRadius: '4px', textDecoration: 'none', display: 'inline-block'} }
+            },
+
+            // The style_formats option controls the styleformat toolbar button menu
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#style_formats
+            style_formats: [
+                { title: 'Paragraph', format: 'p' },
+                { title: 'Heading 1', format: 'h1' },
+                { title: 'Heading 2', format: 'h2' },
+                { title: 'Button styles'},
+                { title: 'Call-to-action', format: 'cta' },
+            ],
+
+            setup: (editor) => {
+                // Apply a custom class to the wrapper element when the editor gets focus
+                // https://www.tiny.cloud/docs/advanced/events/
+                editor.on('focus', () => {
+                    document.getElementById('editor').classList.add('focused');
+                });
+
+                // Remove the custom class when the editor loses focus
+                // https://www.tiny.cloud/docs/advanced/events/
+                editor.on('blur', () => {
+                    document.getElementById('editor').classList.remove('focused');
+                });
+            }
+        });
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Work+Sans:400,900&display=swap');
+
+        body {
+            font-family: 'Work Sans', sans-serif;
+            font-size: 16px;
+            line-height: 1.4;
+            margin: 2rem;
+        }
+
+        .editor {
+            max-width: 1200px;
+            margin: auto;
+            position: relative;
+            border: 1px solid #ccc;
+        }
+
+        .toolbar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 0;
+            min-height: 38px;
+            border-bottom: 1px solid #ccc;
+            background-color: #fff;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity .1s;
+        }
+
+        .editor.focused .toolbar {
+            opacity: 1;
+        }
+
+        .editable-area {
+            box-sizing: border-box;
+            height: calc(100vh - 4rem);
+            outline: none;
+            overflow: scroll;
+            background-color: #f2f2f2;
+            padding-top: 40px;
+        }
+
+        .tinymce:focus {
+            border-radius: 0.5px;
+            box-shadow: 0 0 0 4px #fff, 0 0 0 7px #706FD333;
+            outline: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="editor" id="editor">
+    <div class="toolbar" id="toolbar"></div>
+    <div class="editable-area">
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+            a:link,
+            a:visited,
+            a:hover,
+            a:active {
+              color: #706FD3;
+            }
+        </style>
+        <table style="background-color: #f2f2f2; width: 100%;" border="0">
+            <tr>
+                <td align="center" cellpadding="16px" style="padding: 16px;">
+                    <table border="0" width="100%" style="max-width: 600px; width: 100%; background-color: #ffffff; border-top-left-radius: 16px; border-top-right-radius: 16px; padding-top: 32px; padding-left: 32px; padding-right: 32px;">
+                        <tr>
+                            <td width="64px">
+                                <img src="images/vcf-logo-2.png" width="64" height="64" alt="Logo">
+                            </td>
+                            <td align="right">
+                                <p style="font-family: 'Fira Sans', sans-serif; font-size: 17px; font-weight: bold;"><strong>Monthly Newsletter</strong></p>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table border="0" width="100%" style="max-width: 600px; width: 100%; background-color: #ffffff; padding-left: 32px; padding-right: 32px; padding-bottom: 32px;">
+                        <tr>
+                            <td>
+                                <div id="tinymce" class="tinymce" style="font-family: 'Fira Sans', sans-serif; color: #222222; font-size: 15px; line-height: 1.5;">
+                                    <h1 style="font-size: 32px; font-weight: bold;">Looking back at the original Olympus OM1</h1>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum a molestie nisl, at sodales diam. Vivamus ullamcorper convallis odio, ut lacinia sem. Proin in dui sit amet justo hendrerit imperdiet.</p>
+                                    <p>Duis ac velit eget purus vestibulum finibus. Nulla facilisi. Donec sit amet erat metus. Phasellus id ullamcorper sapien, eget vehicula lectus. Integer at mi id sapien dignissim gravida id ac metus. Duis vel varius quam. Donec rhoncus nunc id arcu molestie, a auctor ipsum viverra.</p>
+                                    <p><a style="background-color: #706fd3; padding: 12px 16px; color: #ffffff; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; text-decoration: none; display: inline-block;" href="https://tiny.cloud">Take me to the Olympus OM1</a></p>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table border="0" width="100%" style="max-width: 600px; width: 100%; background-color: #ffffff;">
+                        <tr>
+                            <td width="50%" style="padding-left: 32px; padding-right: 8px; padding-bottom: 32px; padding-top: 16px; vertical-align: top;">
+                                <div class="tinymce" style="font-family: 'Fira Sans', sans-serif; color: #222222; font-size: 15px; line-height: 1.5;">
+                                    <p><img src="images/feature_0.png" alt="" width="100%" /></p>
+                                    <h2 style="font-size: 18px;">Featured: Kodak Instamatic</h2>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum a molestie nisl, at sodales diam.</p>
+                                    <p><em><a href="https://unsplash.com/photos/ETRn6yJN5SM">Photo by Britt Geiser, Unsplash</a></em></p>
+                                </div>
+                            </td>
+                            <td width="50%" style="padding-right: 32px; padding-left: 8px; padding-bottom: 32px; padding-top: 16px; vertical-align: top;">
+                                <div class="tinymce" style="font-family: 'Fira Sans', sans-serif; color: #222222; font-size: 15px; line-height: 1.5;">
+                                    <p><img src="images/feature_1.png" alt="" width="100%" /></p>
+                                    <h2 style="font-size: 18px;">Featured: Pony 828</h2>
+                                    <p>Vestibulum a molestie nisl, at sodales diam. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                    <p><em><a href="https://unsplash.com/photos/ETRn6yJN5SM">Photo by Markus Spiske on Unsplash</a></em></p>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table border="0"  width="100%" style="max-width: 600px; width: 100%; background-color: #ffffff; padding-top: 32px; padding-left: 32px; padding-right: 32px; padding-bottom: 32px; border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;">
+                        <tr>
+                            <td align="center">
+                                <img src="images/logo.jpg" width="48">
+                                <p style="font-family: 'Fira Sans', sans-serif; font-size: 14px; color: #222222;">VintageCameraFoundation</p>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td align="center">
+                                <h3 style="font-family: 'Fira Sans', sans-serif; font-size: 14px; color: #aaaaaa;">Follow us on</h3>
+                                <table>
+                                    <tr>
+                                        <td><a href="#"><img src="images/social-fb.jpg" width="32"></a></td>
+                                        <td><a href="#"><img src="images/social-twitter.jpg" width="32"></a></td>
+                                        <td><a href="#"><img src="images/social-flickr.jpg" width="32"></a></td>
+                                        <td><a href="#"><img src="images/social-instagram.jpg" width="32"></a></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table style="width: 100%; margin-top: 32px" border="0">
+                        <tr>
+                            <td align="center">
+                                <a href="#" style="font-family: 'Fira Sans', sans-serif; font-size: 14px; color: #5464BF;">Unsubscribe from this list</a>
+                                <p style="font-family: 'Fira Sans', sans-serif; font-size: 14px; color: #aaaaaa;">© Vintage Camera Foundation, All rights reserved<br>Renmarkstorget 6, 90326 Umeå</p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

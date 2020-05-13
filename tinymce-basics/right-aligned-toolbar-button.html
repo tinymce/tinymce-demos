@@ -1,0 +1,84 @@
+<!--
+    Normally we strongly advice against overriding the TinyMCE CSS
+    to tweak the editor. The proper way to change the visual
+    appearance is to make a skin. That said, there is always
+    exceptions to a good rule and moving a couple of toolbar buttons
+    to the right side of the toolbar is one example of such an
+    exeception.
+
+    Since the toolbar is using flexbox it's pretty easy to just add
+    one simple CSS override to move a toolbar button group over to
+    the other side. However, there are some caveats:
+
+    * It is not supported
+    * It probably has issues with right-to-left languages
+    * Future updates to TinyMCE might change the UI HTML and CSS,
+      thus breaking the UI
+
+    But if you know what you are doing and accept the consequences,
+    this is how you move buttons! See the Style tag below for
+    instructions.
+-->
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Right aligned toolbar buttons</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5-dev/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script>
+        tinymce.init({
+            selector: "#editor",
+
+            // Tip! To make TinyMCE leaner, only include the plugins you actually need
+            plugins: "link lists fullscreen code",
+
+            // We have put our custom callout button last.
+            toolbar: "undo redo | styleselect | bold italic strikethrough backcolor | bullist link | code fullscreen",
+
+            // Toggle the menubar off to get a leaner visual experience
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#menubar
+            menubar: false,
+
+            // Tip! The height option accepts any valid CSS for height
+            height: '500px',
+        });
+    </script>
+    <style>
+        body {
+            margin: 2rem .5rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        main {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        /*
+            The toolbar is using flexbox. With a carefully targeted override
+            we can push the toolbar group over to the right side
+        */
+        .tox .tox-toolbar__group:last-child {
+            margin-left: auto !important;
+        }
+    </style>
+</head>
+<body>
+<main>
+    <textarea id="editor">
+        <h1>Right aligned toolbar buttons</h1>
+        <p>Normally we <strong>strongly advice against overriding the TinyMCE CSS</strong> to tweak the editor. The proper way to change the visual appearance is to make a skin. That said, there is always exceptions to a good rule and moving a couple of toolbar buttons to the right side of the toolbar is one example of such an exeception.</p>
+        <p>Since the toolbar is using <em>flexbox</em> it's pretty easy to just add one simple CSS override to move a toolbar button group over to the other side. However, there are some caveats:</p>
+        <ul>
+            <li>It is not supported</li>
+            <li>It probably has issues with right-to-left languages</li>
+            <li>Future updates to TinyMCE might change the UI HTML and CSS, thus breaking the UI.</li>
+        </ul>
+        <p>But if you know what you are doing and accept the consequences, this is how you move buttons!</p>
+    </textarea>
+</main>
+</body>
+</html>

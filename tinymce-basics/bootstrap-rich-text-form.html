@@ -1,0 +1,117 @@
+<!--
+    Demo on how to integrate TinyMCE into Bootstrap
+-->
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Bootstrap rich text form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5-dev/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector:'#editor',
+
+            // If we don't need the menubar or statusbar we can hide them
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#menubar
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#statusbar
+            menubar: false,
+            statusbar: false,
+
+            // Tip! To make TinyMCE leaner, only include the plugins you actually need.
+            plugins: 'autoresize autolink image imagetools link lists media help',
+
+            // This option allows you to specify the buttons and the order that they
+            // will appear on TinyMCE’s toolbar.
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar
+            toolbar: 'h1 h2 bold italic strikethrough blockquote bullist numlist backcolor | link image media | removeformat help fullscreen ',
+
+            // We use the Bootstrap premium skin to make TinyMCE match the
+            // visual style of Bootstrap, primarily colors and the dialogs.
+            // You can also create your own bootstrap skin.
+            // https://www.tiny.cloud/docs/enterprise/premium-skins-and-icon-packs/outside-demo/
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#skin
+            // https://www.tiny.cloud/docs/advanced/creating-a-skin/
+            skin: 'bootstrap',
+
+            // Setting the minimum height when using the autoresize plugin
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#min_height
+            min_height: 400,
+
+            // Set the whitespace between the bottom most row and the bottom of the editor
+            // https://www.tiny.cloud/docs/plugins/autoresize/#autoresize_bottom_margin
+            autoresize_bottom_margin: 20,
+
+            // To make sure the toolbar never scrolls out of view which can happen when
+            // writing very long texts while using the autoresize plugin. This option
+            // sticks the toolbar to the top of the screen while the editable area
+            // is visible
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar_sticky
+            toolbar_sticky: true,
+
+            setup: (editor) => {
+                // Apply the Bootstrap focus outline and associated animation
+                // Read more about different editor events in the documentation
+                // https://www.tiny.cloud/docs/advanced/events/
+                editor.on('init', () => {
+                    // https://www.tiny.cloud/docs/api/tinymce/tinymce.editor/#getcontainer
+                    editor.getContainer().style.transition="border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out"
+                });
+                editor.on('focus', () => {
+                    editor.getContainer().style.boxShadow="0 0 0 .2rem rgba(0, 123, 255, .25)",
+                    editor.getContainer().style.borderColor="#80bdff"
+                });
+                editor.on('blur', () => {
+                    editor.getContainer().style.boxShadow="",
+                    editor.getContainer().style.borderColor=""
+                });
+            }
+        });
+    </script>
+    <style>
+
+    </style>
+</head>
+<body>
+
+<div class="container mt-4 mb-4">
+    <div class="row justify-content-md-center">
+        <div class="col-md-12 col-lg-8">
+            <h1 class="h2 mb-4">Submit issue</h1>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" placeholder="Your name">
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email address</label>
+              <input type="email" class="form-control" id="email" placeholder="Enter email">
+              <small class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+
+            <div class="form-group">
+              <label>Describe the condition in detail</label>
+              <textarea id="editor"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Primary phone number</label>
+                <input type="text" class="form-control" id="phone" placeholder="">
+            </div>
+
+            <hr>
+
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="terms">
+                <label class="form-check-label" for="terms">I agree to the <a href="#">terms and conditions</a></label>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

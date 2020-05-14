@@ -1,0 +1,93 @@
+<!--
+    This demo shows how to format a link into a call-to-action button
+    by creating a format that applies a class to a link turning it
+    into a button.
+
+    If you're looking for email friendly call-to-action button links,
+    take a look at the email/marketing-email-inline-mode.html demo.
+-->
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Format a link into a call to action button</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5-dev/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector:'#editor',
+
+            // Tip! To make TinyMCE leaner, only include the plugins you actually need.
+            plugins: 'link lists image emoticons code',
+
+            // This option allows you to specify the buttons and the order that they
+            // will appear on TinyMCE’s toolbar.
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar
+            toolbar: 'styleselect | bold italic underline | link image emoticons | align bullist numlist | code removeformat',
+
+            //Set the height of the editor. Tip: Any css value is accepted as a string.
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#height
+            height: 400,
+
+            // The formats option is where custom formatting options are defined.
+            // If you're looking for email friendly call-to-action button links,
+            // take a look at the email/marketing-email-inline-mode.html demo.
+            // https://www.tiny.cloud/docs/configure/content-formatting/#formats
+            formats: {
+                // We name our format "calltoaction"
+                calltoaction: {
+                    // The format is only applicable on links
+                    selector: 'a',
+                    // Apply the class "btn" when enabled.
+                    classes: 'btn'
+                }
+            },
+
+            // The style_formats option controls the styleformat toolbar button menu
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#style_formats
+            style_formats: [
+                { title: 'Paragraph', format: 'p' },
+                { title: 'Heading 1', format: 'h1' },
+                { title: 'Heading 2', format: 'h2' },
+                { title: 'Button styles'},
+                { title: 'Call-to-action', format: 'calltoaction' },
+            ],
+
+            // The following css will be injected into the editor, extending
+            // the default styles. In a real world scenario, it's recommended
+            // to use the content_css option to load a separate CSS file.
+            // https://www.tiny.cloud/docs/configure/content-appearance/#content_style
+            // https://www.tiny.cloud/docs/configure/content-appearance/#content_css
+            content_style: `
+                .btn {
+                    background-color: #706FD3;
+                    padding: 12px 16px;
+                    color: #ffffff;
+                    border-radius: 4px;
+                    text-decoration: none;
+                    display: inline-block;
+                }
+            `
+        });
+    </script>
+    <style>
+        main {
+            position: relative;
+            max-width: 720px;
+            width: 100%;
+            margin: 4rem auto;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <textarea id='editor'>
+            <h1>Creator sessions</h1>
+            <p>This week on Creator Sessions, Aussie frontman Jam Jones takes the stage and brings us an intimate performance from the place where all the magic happens, Brisbane Studios.</p>
+            <p><a class="btn" href="https://tiny.cloud">Save your seat with 1 click!</a></p>
+        </textarea>
+    </main>
+</div>
+</body>
+</html>

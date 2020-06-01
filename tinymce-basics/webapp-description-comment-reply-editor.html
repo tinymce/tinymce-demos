@@ -2,20 +2,16 @@
 
 Comment Demo
 
-The Write Comment demo (not confused with Tiny Comments) is an attempt
-at making a reply editor commonly seen in help desk and ticketing systems
+The Write Comment demo (not to be confused with Tiny Comments) shows how
+to make a reply editor commonly seen in help desk and ticketing systems
 like Zendesk, Jira.
 
 This demo showcases among other things:
 
 - The ability to create a custom border outside of TinyMCE and visually encapsulate external content.
-- Having a transparent editor that let background color shine through
-- Align some toolbar buttons to the right
 - Use textpattern plugin to provide markdown-like replacement formatting. Also try typing `->`
-- Custom insert boiler plate reply text through a toolbar button using the template plugin and replacement values
 - Use of the autoresize plugin. The editor grows as you type.
 - An usecase for the small premium icon pack
-- The use of a custom button to format inline code.
 
 -->
 
@@ -28,7 +24,7 @@ This demo showcases among other things:
     <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5-dev/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
         tinymce.init({
-            selector:'#editor',
+            selector:'#description',
 
             // If we don't need the menubar or statusbar we can hide them
             // https://www.tiny.cloud/docs/configure/editor-appearance/#menubar
@@ -104,6 +100,15 @@ This demo showcases among other things:
             margin: auto;
         }
 
+        label {
+            color: #222;
+            display: block;
+            font-size: 12px;
+            font-weight: bold;
+            margin: 0 0 .5rem;
+            text-transform: uppercase;
+        }
+
         .editor-wrap {
             border: 1px solid #ccc;
             border-radius: 6px;
@@ -146,8 +151,9 @@ This demo showcases among other things:
 </head>
 <body>
 <main>
+    <label for="description">Description</label>
     <div class="editor-wrap">
-        <textarea id="editor"></textarea>
+        <textarea id="description" name="description"></textarea>
 
         <footer>
             <button type="">Save</button>

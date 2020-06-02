@@ -59,7 +59,7 @@
             // Define the toolbar that shows up when selecting images. Notice the
             // custom botton we have put last. See further down how it's set up.
             // https://www.tiny.cloud/docs/plugins/quickbars/#quickbars_image_toolbar
-            quickbars_image_toolbar: 'defaultimage wideimage fullwidthimage  asideimage | imageproperties',
+            quickbars_image_toolbar: 'wideimage fullwidthimage  asideimage | imageproperties',
 
             // We don't want users to be able to resize images manually. This option
             // will remove the resize handles on images (and tables)
@@ -106,34 +106,6 @@
             setup: (editor) => {
                 // Register a toolbar button for which is used to toggle the images
                 // https://www.tiny.cloud/docs/ui-components/toolbarbuttons/
-                editor.ui.registry.addToggleButton('defaultimage', {
-                    icon: 'image-default',
-                    onAction: (api) => {
-                        // Remove all the special classes
-                        editor.formatter.remove('aside_image');
-                        editor.formatter.remove('full_width_image');
-                        editor.formatter.remove('wide_image');
-                    },
-                    onSetup: (buttonApi) => {
-                        // Check if none of the classes apply to the image
-                        const checkState = () => !editor.formatter.match('aside_image') && !editor.formatter.match('full_width_image') && !editor.formatter.match('wide_image');
-                        buttonApi.setActive(checkState());
-                        // Listen for changes to any of the special classes
-                        const change = editor.formatter.formatChanged('aside_image,full_width_image,wide_image', (state) => {
-                            // If any classes exist, set this button to inactive
-                            if (state === true) {
-                                buttonApi.setActive(false);
-                            } else {
-                                // If a class has been toggled off, check if there's no classes and set active accordingly
-                                buttonApi.setActive(checkState());
-                            }
-                        });
-                        return () => {
-                            change.unbind();
-                        };
-                    },
-                });
-
                 editor.ui.registry.addToggleButton('wideimage', {
                     // References the icon identifier in the icon pack at the top of this
                     // document and loaded into TinyMCE using the icons option.

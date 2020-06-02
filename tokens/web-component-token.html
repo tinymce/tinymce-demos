@@ -56,7 +56,7 @@
                 // https://www.tiny.cloud/docs/advanced/events/#editorcoreevents
                 editor.on("preinit", () => {
                     // During the creation of the web component we set contenteditable false
-                    // on the web component to make it behave like a noneditable and selectable
+                    // on the web component to make it behave like a noneditable but selectable
                     // element inside TinyMCE. But we don't want the contenteditable attribute
                     // to be saved with the content. We therefore need to filter out the attribute
                     // upon serlialization (which happens on "save", view sourcecode and preview
@@ -64,8 +64,7 @@
                     // https://www.tiny.cloud/docs/api/tinymce.dom/tinymce.dom.serializer/#addnodefilter
                     editor.serializer.addNodeFilter("inline-token", (nodes) => {
                         // Iterate through all filtered nodes and remove the contenteditable attribute
-                        // https://www.tiny.cloud/docs/api/tinymce.util/tinymce.util.tools/#each
-                        tinymce.util.Tools.each(nodes, (node) => {
+                        nodes.forEach((node) => {
                             if (!!node.attr("contenteditable")) {
                                 node.attr("contenteditable", null);
                             }
@@ -171,12 +170,8 @@
                     super();
 
                     // During the creation of the web component we set contenteditable false
-                    // on the web component to make it behave like a noneditable and selectable
+                    // on the web component to make it behave like a noneditable but selectable
                     // element inside TinyMCE.
-
-                    // We set contenteditable false on the inline token to prevent editing
-                    // of the content within the web component and to make the token behave
-                    // like a selectable element inside TinyMCE
                     this.setAttribute("contenteditable", false);
 
                     // Attach the shadow DOM to the element

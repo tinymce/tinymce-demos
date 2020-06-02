@@ -90,7 +90,7 @@
 
                 // Below we register our three callout color buttons that we will
                 // put into the context toolbar. To better illustrate how
-                // the code works, we repeaded every button. In a real world
+                // the code works, we repeated every button. In a real world
                 // scenario you would make a loop to create all the variants.
                 // and make the toggling of the classes more elegant.
                 editor.ui.registry.addButton('calloutyellow', {
@@ -167,13 +167,11 @@
                 });
 
                 // Register a custom context toolbar
-                // QUESTION: Is there a better way? Also, the classlist doesn't work on an empty error
                 // https://www.tiny.cloud/docs/ui-components/contexttoolbar/#registeringacontexttoolbar
                 editor.ui.registry.addContextToolbar('callout', {
                     predicate: function (node) {
-                        // Return true if the node has the callout class. Due to a bug in
-                        // TinyMCE (TINY-4751) we must also make sure the node is an element node
-                        return node.nodeType === 1 && node.classList.contains('callout');
+                        // Return true if the node has the callout class.
+                        return node.classList.contains('callout');
                     },
                     items: 'calloutblue calloutyellow calloutred | removecallout',
                     position: 'node',
@@ -181,7 +179,7 @@
                 });
 
                 // Register a custom menu item which contains sub menu items for each
-                // callout color. We deliberately repeaded ourself to make it easier
+                // callout color. We deliberately repeated ourself to make it easier
                 // to understand what is going on. In a real world scenario, you would
                 // probably use a loop to create the menu items
                 editor.ui.registry.addNestedMenuItem('callout', {
@@ -290,7 +288,12 @@
 <main>
     <textarea id="editor">
         <h1>About this demo</h1>
-        <p>In this demo we use a callout block to demonstrate creating a <span style="background-color: #fbeeb8;">custom toolbar button</span>, a <span style="background-color: #c2e0f4;">custom menu item</span> and a <span style="background-color: #bfedd2;">custom context toolbar</span>.</p>
+        <div class="callout">
+            <div class="content">
+                <p><strong>Look at me! </strong>I am a callout. Select me to bring up a context menu where you can change my background color. Or delete me. Also try adding callouts via the insert menu or by using the toolbar button.</p>
+            </div>
+        </div>
+        <p>In this demo we use a callout block to demonstrate creating a custom <em>toolbar button</em>, a custom <em>menu item</em> and a custom <em>context toolbar</em>.</p>
         <p>Insert a callout by pressing the <strong>last toolbar button</strong> or through the <strong>Insert menu</strong>.</p>
     </textarea>
 </main>

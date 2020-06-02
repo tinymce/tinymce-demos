@@ -101,8 +101,10 @@
                 }
             },
 
+
+
             setup: (editor) => {
-                // Register a toolbar button for which is used to toggle the image
+                // Register a toolbar button for which is used to toggle the images
                 // https://www.tiny.cloud/docs/ui-components/toolbarbuttons/
                 editor.ui.registry.addToggleButton('wideimage', {
                     // References the icon identifier in the icon pack at the top of this
@@ -118,8 +120,8 @@
                         editor.formatter.remove('aside_image');
                     },
 					onSetup: (buttonApi) => {
-                        // This block of code make sure the toggle toolbar becomes enabled
-                        // if the specified format is matched when selecting an image
+                        // This block of code highlights this button if the selected image
+                        // already has the specified format applied
                         // https://www.tiny.cloud/docs/api/tinymce/tinymce.formatter/
 						buttonApi.setActive(editor.formatter.match('wide_image'));
                     	let change = editor.formatter.formatChanged('wide_image', (state) => buttonApi.setActive(state));
@@ -129,6 +131,7 @@
                     },
                 });
 
+                // Same as `wideimage` button
                 editor.ui.registry.addToggleButton('fullwidthimage', {
                     icon: 'image-full-width',
                     onAction: (api) => {
@@ -145,6 +148,7 @@
                     },
                 });
 
+                // Same as `wideimage` button
                 editor.ui.registry.addToggleButton('asideimage', {
                     icon: 'image-float',
                     onAction: (api) => {
@@ -274,8 +278,8 @@
     <style>
         body {
             margin: 0;
-            padding: 0
-            font-family: 'Lato',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',sans-serif;
+            padding: 0;
+            font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',sans-serif;
             color: #262C42;
         }
     </style>
@@ -284,7 +288,7 @@
 <textarea id='editor'>
     <h1>The Incomparable Yosemite</h1>
     <p><strong>The most famous and accessible of these ca&ntilde;on valleys</strong>, and also the one that presents their most striking and sublime features on the grandest scale, is the Yosemite, situated in the basin of the Merced River at an elevation of 4000 feet above the level of the sea. <span style="background-color: #fbeeb8;">It is about&nbsp;<em>seven miles long</em>, half a mile to a mile wide, and nearly a mile deep in the&nbsp;solid granite flank&nbsp;of the range.</span>&nbsp;</p>
-    <p><em>The walls are made up of rocks</em>, mountains in size, partly separated from each other by side ca&ntilde;ons, and they are so sheer in front, and so compactly and harmoniously arranged on a level floor, that the Valley, comprehensively seen, looks like an immense hall or temple lighted from abo
+    <p><em>The walls are made up of rocks</em>, mountains in size, partly separated from each other by side ca&ntilde;ons, and they are so sheer in front, and so compactly and harmoniously arranged on a level floor, that the Valley, comprehensively seen, looks like an immense hall or temple lighted from above</p>
     <figure class="image"><img src="images/yosemite.jpeg" alt="Road in foreground, Yosemite peak in background" />
         <figcaption>Photo by Trent Erwin on Unsplash</figcaption>
     </figure>

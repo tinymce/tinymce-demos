@@ -124,7 +124,7 @@
             // The template plugin allows inserting variables inside a template which is
             // then replaced with these values upon insertion. This is one way to
             // achieve dynamic templates. Another way would be to generate the whole template
-            // dynamically upon request in case the template_replace_values can be removed.
+            // dynamically upon request in which case the template_replace_values can be removed.
             // https://www.tiny.cloud/docs/plugins/template/#template_replace_values
             template_replace_values: {
                 username : "Jack Black",
@@ -138,7 +138,7 @@
 
             setup: editor => {
 
-                // This is where we define our placeholder. It can be any HTMl.
+                // This is where we define our placeholder. It can be any HTML.
                 // The content is actually being inserted into the editor, but
                 // is filtered out on save/export to avoid it being submitted to
                 // the backend.
@@ -168,14 +168,14 @@
                 // button has been clicked. This event is triggered for every click inside
                 // TinyMCE.
                 // https://www.tiny.cloud/docs/advanced/events/
-                editor.on("click", (e) => {
+                const placeholderManager = (e) => {
 
                     // Check if the content contains the placeholder inserted above.
                     // The get() function looks for an id attribute.
                     // https://www.tiny.cloud/docs/api/tinymce.dom/tinymce.dom.domutils/#get
                     const placeholderExists = editor.dom.get('placeholder')
 
-                    // If a button html element is being clicked this would return true which.
+                    // If a button html element is being clicked this will return true.
                     const button = editor.dom.getParent(e.target, "button");
 
                     if (placeholderExists) {
@@ -192,11 +192,14 @@
                             } else {
 
                                 //
+                                // OPTION 1
+                                //
                                 // If replacement values is not needed, then setContent can be used.
                                 // This also means we're not using the template plugin so all references
                                 // to it can be removed. Remove the alternative insert template block
                                 // below.
                                 //
+
                                 /*
                                 // Inject the template into the content, replacing the placeholder
                                 // https://www.tiny.cloud/docs/api/tinymce/tinymce.editor/#setcontent
@@ -208,6 +211,8 @@
                                 editor.getWin().scrollTo(0, 0);
                                 */
 
+                                //
+                                // OPTION 2
                                 //
                                 // Use the template plugin to get replace values working (variables
                                 // inside templates).
@@ -235,7 +240,14 @@
                             editor.setContent('<h1><br></h1>');
                         }
                     }
-                });
+
+                    // Unbind the event listener to avoid the above code to run on every
+                    // click inside TinyMCE once the placeholder is removed.
+                    editor.off('click', placeholderManager);
+                }
+
+                // Bind the click event listener to the placeholder manager function
+                editor.on("click", placeholderManager);
 
                 editor.on("preinit", () => {
                     // To prevent the placeholder to be submitted out of TinyMCE we

@@ -40,7 +40,9 @@
             content_style: `
 
                 /*
-                 * Improve hr clickability
+                 * -----------------------------------------------------
+                 * Improve horizontal rule clickability
+                 * -----------------------------------------------------
                  */
 
                 /* Make our invisible overlay be positioned relative to the hr */
@@ -52,44 +54,47 @@
                 hr::after {
                   content: '';
                   display: block;
-                  position: absolute;
-                  top: -10px;
-                  left: 0;
-                  right: 0;
                   height: 21px;
+                  left: 0;
+                  position: absolute;
+                  right: 0;
+                  top: -10px;
                 }
 
                 /*
+                 * -----------------------------------------------------
                  * Paragraphs in table cells
+                 * -----------------------------------------------------
                  */
 
                 /* Remove all margins from elements that are direct children
-                 * of td and th. Here we are using the universal selector but
-                 * to give more control you could narrow down to the specific
-                 * selectors you support in your tables
-                 */
+                   of td and th. Here we are using the universal selector but
+                   to give more control you could narrow down to the specific
+                   selectors you support in your tables */
                 td > *,
                 th > * {
                     margin: 0;
                 }
 
                 /* Use the famous lobotomized owl selector to reintroduce a margin
-                 * in-between elements inside table cells.
-                td > * + *
+                   in-between elements inside table cells. */
+                td > * + *,
                 th > * + * {
                     margin-top: .75em;
                 }
 
                 /*
+                 * -----------------------------------------------------
                  * Use box shadow instead of outline for selectable elements
+                 * -----------------------------------------------------
                  */
+
                 img {
                     border-radius: 10px;
                 }
 
                 /* Override the default content styles to remove the outline
-                 * and reintoduce it as a box-shadow
-                 */
+                   and reintroduce it as a box-shadow */
                 .mce-content-body img[data-mce-selected] {
                     box-shadow: 0 0 0 3px #b4d7ff;
                     outline: none;

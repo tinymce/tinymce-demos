@@ -4,7 +4,8 @@
     in order to get a good WYSIWYG writing environment.
 
     That said, here are some tecniques we often implement
-    ourselves that improves the editing experience in TinyMCE
+    ourselves that improves the editing experience in TinyMCE.
+
 -->
 
 <!doctype html>
@@ -50,7 +51,8 @@
                   position: relative;
                 }
 
-                /* Create an invisible overlay that greatly increases the clickable area */
+                /* Create an invisible overlay that greatly increases the clickable area.
+                   These styles are only relevant in TinyMCE */
                 hr::after {
                   content: '';
                   display: block;
@@ -94,7 +96,8 @@
                 }
 
                 /* Override the default content styles to remove the outline
-                   and reintroduce it as a box-shadow */
+                   and reintroduce it as a box-shadow. These styles are only
+                   relevant inside TinyMCE. */
                 .mce-content-body img[data-mce-selected] {
                     box-shadow: 0 0 0 3px #b4d7ff;
                     outline: none;

@@ -1,0 +1,156 @@
+<!--
+    The default content css is very basic and unopinionated to
+    allow you as a developer to integrate the styles you want
+    in order to get a good WYSIWYG writing environment.
+
+    That said, here are some tecniques we often implement
+    ourselves that improves the editing experience in TinyMCE.
+
+-->
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Useful styles to include in your content css</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5-dev/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script>
+        tinymce.init({
+            selector: "#editor",
+
+            // Tip! The height option accepts any valid CSS for height
+            height: 'calc(100vh - 4rem)',
+
+            // Tip! To make TinyMCE leaner, only include the plugins you actually need.
+            plugins: 'code table noneditable',
+
+            // Disable the drag handles on images to avoid having them obscure the
+            // rounded corners on images example
+            // https://www.tiny.cloud/docs/configure/advanced-editing-behavior/#object_resizing
+            object_resizing : false,
+
+            // The following css will be injected into the editor, extending
+            // the default styles.
+            // In a real world scenario, with much more custom styles for headings
+            // links, tables, images etc, it's strongly recommended to use the
+            // content_css option to load a separate CSS file. Makes editing easier too.
+            // https://www.tiny.cloud/docs/configure/content-appearance/#content_style
+            // https://www.tiny.cloud/docs/configure/content-appearance/#content_css
+            content_style: `
+
+                /*
+                 * -----------------------------------------------------
+                 * Improve horizontal rule clickability
+                 * -----------------------------------------------------
+                 */
+
+                /* Make our invisible overlay be positioned relative to the hr */
+                hr {
+                  position: relative;
+                }
+
+                /* Create an invisible overlay that greatly increases the clickable area.
+                   These styles are only relevant in TinyMCE */
+                hr::after {
+                  content: '';
+                  display: block;
+                  height: 21px;
+                  left: 0;
+                  position: absolute;
+                  right: 0;
+                  top: -10px;
+                }
+
+                /*
+                 * -----------------------------------------------------
+                 * Paragraphs in table cells
+                 * -----------------------------------------------------
+                 */
+
+                /* Remove all margins from elements that are direct children
+                   of td and th. Here we are using the universal selector but
+                   to give more control you could narrow down to the specific
+                   selectors you support in your tables */
+                td > *,
+                th > * {
+                    margin: 0;
+                }
+
+                /* Use the famous lobotomized owl selector to reintroduce a margin
+                   in-between elements inside table cells. */
+                td > * + *,
+                th > * + * {
+                    margin-top: .75em;
+                }
+
+                /*
+                 * -----------------------------------------------------
+                 * Use box shadow instead of outline for selectable elements
+                 * -----------------------------------------------------
+                 */
+
+                img {
+                    border-radius: 10px;
+                }
+
+                /* Override the default content styles to remove the outline
+                   and reintroduce it as a box-shadow. These styles are only
+                   relevant inside TinyMCE. */
+                .mce-content-body img[data-mce-selected] {
+                    box-shadow: 0 0 0 3px #b4d7ff;
+                    outline: none;
+                }
+            `
+        });
+    </script>
+    <style>
+        body {
+            margin: 2rem .5rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        main {
+            max-width: 900px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<main>
+    <textarea id="editor">
+        <h1>Useful content css</h1>
+        <p>The default content css is very basic and unopinionated to allow you as a developer to integrate the styles you want in order to get a good WYSIWYG writing environment.</p>
+        <p>That said, here are some tecniques we often implement ourselves that improves the editing experience in TinyMCE</p>
+        <p><em>Inspect the source code to see the actual css used</em></p>
+        <h2>Improve hr clickability</h2>
+        <p>Because the <code>&amp;lt;hr&amp;gt;</code> is often just a 1px gray line, it is very difficult for a user to select and manipulate. By using the <code>::after</code> pseudo element we can create a larger invisible click area greatly improving selectability.</p>
+        <hr />
+
+        <h2>Paragraphs in table cells</h2>
+        <p>A table cell does not intially contain any child elements wrapping the content, but as soon as you hit enter, a paragraph is wrapped around the text within the cell. This paragraph contain both top and bottom margin that makes the cell appear to get way too much padding. Here is how to avoid that
+
+        <table style="border-collapse: collapse; width: 100%;" border="1">
+            <tbody>
+                <tr style="height: 22px;">
+                    <td style="width: 50%; height: 22px; vertical-align: top;">Project X</td>
+                    <td style="width: 50%; height: 22px; vertical-align: top;">
+                        <p>Not finished</p>
+                        <p>Need more info</p>
+                    </td>
+                </tr>
+                <tr style="height: 22px;">
+                    <td style="width: 50%; height: 22px; vertical-align: top;">Project Y</td>
+                    <td style="width: 50%; height: 22px; vertical-align: top;">Completed</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Use box shadow instead of outline for selectable elements</h2>
+        <p>By default selectable elements like images, tables and non-editable elements gets a light blue outline using the <code>outline</code> property. On drawback of using <code>outline</code> is that the outline does not follow rounded borders.
+        <p><img src="images/yosemite.jpeg" width="390" height="260" /></p>
+    </textarea>
+</main>
+</body>
+</html>

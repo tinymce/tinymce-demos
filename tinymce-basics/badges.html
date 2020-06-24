@@ -1,0 +1,195 @@
+<!--
+    The default content css is very basic and unopinionated to
+    allow you as a developer to integrate the styles you want
+    in order to get a good WYSIWYG writing environment.
+
+    That said, here are some tecniques we often implement
+    ourselves that improves the editing experience in TinyMCE.
+
+-->
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Badges</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5-dev/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script>
+        tinymce.init({
+            selector: "#editor",
+
+            // Tip! The height option accepts any valid CSS for height
+            height: 'calc(100vh - 4rem)',
+
+            // Tip! To make TinyMCE leaner, only include the plugins you actually need.
+            plugins: 'code table noneditable',
+
+            toolbar: 'badge',
+
+            // Disable the drag handles on images to avoid having them obscure the
+            // rounded corners on images example
+            // https://www.tiny.cloud/docs/configure/advanced-editing-behavior/#object_resizing
+            object_resizing : false,
+
+            formats: {
+                badge: {
+                    inline: 'span',
+                    attributes: {
+                        class: 'badge',
+                        style: '%styles',
+                        contentEditable: 'false'
+                    },
+                    ceFalseOverride: true
+                }
+            },
+
+            // The following css will be injected into the editor, extending
+            // the default styles.
+            // In a real world scenario, with much more custom styles for headings
+            // links, tables, images etc, it's strongly recommended to use the
+            // content_css option to load a separate CSS file. Makes editing easier too.
+            // https://www.tiny.cloud/docs/configure/content-appearance/#content_style
+            // https://www.tiny.cloud/docs/configure/content-appearance/#content_css
+            content_style: `
+                span.badge {
+                    background-color: gray;
+                    display: inline-block;
+                    background-color: #007bff;
+                    color: #fff;
+                    padding: 0px 4px;
+                    border-radius: 4px;
+                    font-weight: 600;
+                }
+            `,
+
+            setup: (editor) => {
+                // Register a custom toolbar button that inserts the callout
+                // https://www.tiny.cloud/docs/ui-components/toolbarbuttons/
+                editor.ui.registry.addButton('badge', {
+                    icon: '',
+                    tooltip: '',
+                    onAction: function () {
+
+                        // Get the badge's background color or set a default one
+                        const backgroundColor = function() {
+                            node = editor.selection.getNode();
+
+                            if (editor.dom.hasClass(node, 'badge')) {
+                                return node.style.backgroundColor;
+                            }
+
+                            return 'rgb(0, 123, 255)';
+                        }
+
+                        // Get the badge's text color or set a default one
+                        const textColor = function() {
+                            node = editor.selection.getNode();
+
+                            if (editor.dom.hasClass(node, 'badge')) {
+                                return node.style.color;
+                            }
+
+                            return 'rgb(255, 255, 255)';
+                        }
+
+                        // Default form fields
+                        let form = [
+                            {
+                                type: 'input', // component type
+                                name: 'content', // identifier
+                                label: 'Badge text' // text for the label
+                            },
+                            {
+                                type: 'colorinput', // component type
+                                name: 'backgroundcolor', // identifier
+                                label: 'Color Label' // text for the label
+                            },
+                            {
+                                type: 'colorinput', // component type
+                                name: 'textcolor', // identifier
+                                label: 'Color Label' // text for the label
+                            },
+                        ];
+
+                        editor.windowManager.open({
+                            title: 'Badge',
+                            body: {
+                                type: 'panel',
+                                items: form
+                            },
+                            buttons: [
+                            {
+                                type: 'cancel',
+                                name: 'closeButton',
+                                text: 'Cancel'
+                            },
+                            {
+                                type: 'submit',
+                                name: 'submitButton',
+                                text: 'Save',
+                                primary: true
+                            }
+                            ],
+                            initialData: {
+                                content: editor.selection.getNode().textContent, // should be "grab word"
+                                backgroundcolor: backgroundColor(),
+                                textcolor: textColor()
+                            },
+                            onSubmit: function (api) {
+                                var data = api.getData();
+                                const node = editor.selection.getNode();
+                                if (data.content && editor.dom.hasClass(node, 'badge')) editor.dom.setAttrib(node, 'contenteditable', 'true');
+                                if (data.content) editor.selection.getNode().textContent = data.content;
+                                editor.formatter.remove('badge');
+                                editor.formatter.apply('badge', {styles: `background-color: ${data.backgroundcolor}; color: ${data.textcolor};`}, node);
+                                if (data.content && editor.dom.hasClass(node, 'badge')) editor.dom.setAttrib(node, 'contenteditable', 'false');
+                                editor.nodeChanged();
+                                api.close();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    </script>
+    <style>
+        body {
+            margin: 2rem .5rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        main {
+            max-width: 900px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<main>
+    <textarea id="editor">
+        <h1>Badges</h1>
+<table style="border-collapse: collapse; width: 100%;" border="1">
+<thead>
+<tr style="background-color: #ecf0f1;">
+<td style="width: 50%; vertical-align: top;"><strong>Project</strong></td>
+<td style="width: 50%; vertical-align: top;"><strong>Status</strong></td>
+</tr>
+</thead>
+<tbody>
+<tr style="height: 22px;">
+<td style="width: 50%; height: 22px; vertical-align: top;">Project X</td>
+<td style="width: 50%; height: 22px; vertical-align: top;">Badge</td>
+</tr>
+<tr style="height: 22px;">
+<td style="width: 50%; height: 22px; vertical-align: top;">Project Y</td>
+<td style="width: 50%; height: 22px; vertical-align: top;">Badge</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+    </textarea>
+</main>
+</body>
+</html>

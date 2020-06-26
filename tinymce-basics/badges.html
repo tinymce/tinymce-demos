@@ -125,7 +125,7 @@
                             return 'rgb(255, 255, 255)';
                         }
 
-                        // Open a TinMCE modal where the user can set the badge's
+                        // Open a TinyMCE modal where the user can set the badge's
                         // background and text color.
                         // https://www.tiny.cloud/docs/ui-components/dialog/
                         // https://www.tiny.cloud/docs/ui-components/dialogcomponents/
@@ -174,11 +174,16 @@
                                 // Check if the selected node is a badge.
                                 // https://www.tiny.cloud/docs/api/tinymce.dom/tinymce.dom.domutils/
                                 if (editor.dom.hasClass(node, 'badge')) {
-                                    // If the selection is a badge, we manipulate the styles directly
-                                    // instead of using the formatter to set a new format which caused
-                                    // nested spans (it creates a badge inside the badge).
-                                    // https://www.tiny.cloud/docs/api/tinymce.dom/tinymce.dom.domutils/#setstyles
-                                    editor.dom.setStyles(node, {'background-color': data.backgroundcolor, 'color': data.textcolor});
+                                    // Working directly with the DOM often requires manually adding
+                                    // the actions to the undo stack.
+                                    // https://www.tiny.cloud/docs/api/tinymce/tinymce.undomanager/
+                                    editor.undoManager.transact(() => {
+                                        // If the selection is a badge, we manipulate the styles directly
+                                        // instead of using the formatter to set a new format which caused
+                                        // nested spans (it creates a badge inside the badge).
+                                        // https://www.tiny.cloud/docs/api/tinymce.dom/tinymce.dom.domutils/#setstyles
+                                        editor.dom.setStyles(node, {'background-color': data.backgroundcolor, 'color': data.textcolor});
+                                    });
                                 }
                                 else {
                                     // If not a badge, then apply the badge format to the current selection

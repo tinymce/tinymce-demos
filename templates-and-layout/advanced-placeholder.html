@@ -104,7 +104,7 @@
                 <p>Enter test results here</p>
             `,
             blank_template: ''
-        }
+        };
 
         tinymce.init({
             selector: '#editor',
@@ -127,14 +127,14 @@
             // dynamically upon request in which case the template_replace_values can be removed.
             // https://www.tiny.cloud/docs/plugins/template/#template_replace_values
             template_replace_values: {
-                username : "Jack Black",
-                userid : "991234-22"
+                username : 'Jack Black',
+                userid : '991234-22'
             },
 
             // A simple way to get dates into the templates is using the creation date feature
             // of the template plugin.
             // https://www.tiny.cloud/docs/plugins/template/#template_cdate_classes
-            template_cdate_classes: "cdate creationdate",
+            template_cdate_classes: 'cdate creationdate',
 
             setup: editor => {
 
@@ -149,7 +149,7 @@
                 // Notice also that we're not using any javascript inside the content
                 // to avoid XSS vulnerability issues. Instead each button is identified
                 // using an id.
-                editor.on("init", () => {
+                editor.on('init', () => {
                     editor.setContent(`
                         <div id="placeholder">
                             <h1>Document Title</h1>
@@ -173,10 +173,10 @@
                     // Check if the content contains the placeholder inserted above.
                     // The get() function looks for an id attribute.
                     // https://www.tiny.cloud/docs/api/tinymce.dom/tinymce.dom.domutils/#get
-                    const placeholderExists = editor.dom.get('placeholder')
+                    const placeholderExists = editor.dom.get('placeholder');
 
                     // If a button html element is being clicked this will return true.
-                    const button = editor.dom.getParent(e.target, "button");
+                    const button = editor.dom.getParent(e.target, 'button');
 
                     if (placeholderExists) {
 
@@ -187,7 +187,7 @@
                             // In our demo we have a button that manages templates (a feature you have
                             // to build yourself). We first check if that is the button being clicked.
                             // If not, it means we want to insert a template.
-                            if (button.id == 'manage_templates') {
+                            if (button.id === 'manage_templates') {
                                 alert('Managing templates is done by the host app (not part of tinymce)');
                             } else {
 
@@ -237,24 +237,30 @@
                             // In this demo we want to start an empty document with a title.
                             // This does not force having a title for a document, it's simply
                             // a convenience feature.
-                            editor.setContent('<h1><br></h1>');
+                            editor.undoManager.transact(() => {
+                                editor.setContent('<h1><br></h1>');
+                            });
                         }
                     }
-
-                    // Unbind the event listener to avoid the above code running on
-                    // every click inside TinyMCE once the placeholder is removed.
-                    editor.off('click', placeholderManager);
-                }
+                };
 
                 // Bind the click event listener to the placeholder manager function
-                editor.on("click", placeholderManager);
+                editor.once('click tap', placeholderManager);
 
-                editor.on("preinit", () => {
+                editor.on('Undo', () => {
+                    // Rebind the click event listener when the editor is reverted back
+                    // to the original content
+                    if (!editor.undoManager.hasUndo()) {
+                        editor.once('click tap', placeholderManager);
+                    }
+                });
+
+                editor.on('PreInit', () => {
                     // To prevent the placeholder to be submitted out of TinyMCE we
                     // remove it upon serialization. In this case, any <div> tag
                     // will be removed, so adapt it to your needs.
                     // https://www.tiny.cloud/docs/api/tinymce.dom/tinymce.dom.serializer/#addnodefilter
-                    editor.serializer.addNodeFilter("div", nodes => {
+                    editor.serializer.addNodeFilter('div', nodes => {
                         nodes.forEach(node => {
                             node.remove();
                         });

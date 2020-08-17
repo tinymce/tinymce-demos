@@ -1,0 +1,425 @@
+<!--
+    TBD
+
+    Issues/Questions
+    * After running `execCommand('mceTableRowType', false, { type: '...' })` the selection gets removed/positioned outside the editor. Ideally selection should be restored after the operation automatically. If not possible, how do I do that manually?
+    * How to query if a selected table contains (any) header row or header column?
+    * Can't seem to set/remove col header on multiple columns selected at once
+    * Difficult to add context awareness to disable buttons for actions that cannot be performed, like split cells, and paste ros/columns?
+    * Commands for toggle caption is required.
+    * Need commands for sorting table too.
+    * Add table caption to the `mceInsertTable` options
+    * How to handle table summary?
+    * Want color picker menu item as well as color a swatch "icon"
+    * Can't get keyboard shortcuts to work
+    * I want to be able to combine `table_resize_bars: true` with `object_resizing : false` to allow setting cell widths but not resize the table.
+    * There should be a way to remove styles set with `mceTableApplyCellStyle´.
+
+    FIXED issues
+    * Need toggle menu item for header rows
+-->
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Temp table stuff</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5-dev/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        // An iconpack holds our custom button's SVG icons.
+        // Tip! A custom icon pack does not have to be a separate file
+        tinymce.IconManager.add('customIcons', {
+            icons: {
+                'table-column-options': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M19 4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h14zM5 13v5h4v-5H5zm14 0h-4v5h4v-5zm0-7h-4v5h4V6zM5 11h4V6H5v5z"/></svg>',
+            }
+        });
+
+        tinymce.init({
+            selector:'#editor',
+
+            // Tip! To make TinyMCE leaner, only include the plugins you actually need.
+            plugins: 'link lists image table code',
+
+            // This option allows you to specify the buttons and the order that they
+            // will appear on TinyMCE’s toolbar.
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar
+            toolbar: 'styleselect | bold italic underline | inserttable link image emoticons | align bullist numlist | code removeformat',
+
+            //Set the height of the editor. Tip: Any css value is accepted as a string.
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#height
+            height: 400,
+
+            // The following css will be injected into the editor, extending
+            // the default styles. In a real world scenario, it's recommended
+            // to use the content_css option to load a separate CSS file.
+            // https://www.tiny.cloud/docs/configure/content-appearance/#content_style
+            // https://www.tiny.cloud/docs/configure/content-appearance/#content_css
+            content_style: `
+                table {
+                    width: 100%;
+                }
+                table th {
+                    background-color: #efefef;
+                    text-align: left;
+                }
+            `,
+
+            icons: 'customIcons',
+
+            contextmenu: false,
+
+            table_header_type: 'sectionCells',
+
+            table_toolbar: 'celloptions rowoptions columnoptions | tabledelete',
+
+            table_sizing_mode: 'automatically', //'responsive',
+
+            // object_resizing : false,
+
+            // table_resize_bars: true,
+
+            setup: (editor) => {
+
+                // Custom insert table toolbar button
+                editor.ui.registry.addButton('inserttable', {
+                    icon: 'table',
+                    tooltip: 'inserttable',
+                    onAction: function () {
+                        // https://www.tiny.cloud/docs/plugins/table/#commands
+                        editor.execCommand('mceInsertTable', false, { rows: 3, columns: 2, options: { headerRows: 1 } });
+                    }
+                });
+
+                // Custom header toggle button
+                editor.ui.registry.addToggleButton('rowheader', {
+                    icon: 'table-top-header',
+                    onAction: (api) => {
+                        // TODO/QUESTION: How to keep selection between operations?
+                        if (editor.queryCommandValue('mceTableRowType') === 'body') {
+                            editor.execCommand('mceTableRowType', false, { type: 'header' });
+                        } else {
+                            editor.execCommand('mceTableRowType', false, { type: 'body' });
+                        }
+                    },
+                    onSetup: (buttonApi) => {
+                        if (editor.queryCommandValue('mceTableRowType') === 'body') {
+                            console.log('foo');
+                            buttonApi.setActive(false);
+                        } else {
+                            buttonApi.setActive(true);
+                        }
+                    },
+                });
+
+                editor.ui.registry.addMenuButton('rowoptions', {
+                    icon: 'table-row-properties',
+                    tooltip: 'Row options',
+                    fetch: function (callback) {
+                        var items = [
+                            {
+                                type: 'togglemenuitem',
+                                text: 'Header row',
+                                icon: 'table-top-header',
+                                onAction: function () {
+                                    const type = editor.queryCommandValue('mceTableRowType') === 'body' ? 'header' : 'body';
+                                    editor.execCommand('mceTableRowType', false, { type });
+                                },
+                                onSetup: (buttonApi) => {
+                                    const state = editor.queryCommandValue('mceTableRowType') === 'body' ? false : true;
+                                    buttonApi.setActive(state);
+                                }
+                            },
+                            {
+                                type: 'separator',
+                            },
+                            {
+                                type: 'menuitem',
+                                text: 'Insert row before',
+                                icon: 'table-insert-row-above',
+                                shortcut: 'meta+alt+↑',
+                                onAction: function () {
+                                    editor.execCommand('mceTableInsertRowBefore');
+                                }
+                            },
+                            {
+                                type: 'menuitem',
+                                text: 'Insert row after',
+                                icon: 'table-insert-row-after',
+                                shortcut: 'meta+alt+↓',
+                                onAction: function () {
+                                    editor.execCommand('mceTableInsertRowAfter');
+                                }
+                            },
+                            {
+                                type: 'menuitem',
+                                text: 'Delete row',
+                                icon: 'table-delete-row',
+                                onAction: function () {
+                                    editor.execCommand('mceTableDeleteRow');
+                                }
+                            },
+                            {
+                                type: 'separator',
+                            },
+                            {
+                                type: 'menuitem',
+                                text: 'Cut row',
+                                icon: 'cut-row',
+                                onAction: function () {
+                                    editor.execCommand('mceTableCutRow');
+                                }
+                            },
+                            {
+                                type: 'menuitem',
+                                text: 'Copy row',
+                                icon: 'duplicate-row',
+                                onAction: function () {
+                                    editor.execCommand('mceTableCopyRow');
+                                }
+                            },
+                            {
+                                type: 'menuitem',
+                                text: 'Paste row before',
+                                icon: 'paste-row-before',
+                                onAction: function () {
+                                    editor.execCommand('mceTablePasteRowBefore');
+                                }
+                            },
+                            {
+                                type: 'menuitem',
+                                text: 'Paste row after',
+                                icon: 'paste-row-after',
+                                onAction: function () {
+                                    editor.execCommand('mceTablePasteRowAfter');
+                                }
+                            },
+                        ];
+                        callback(items);
+                    }
+                });
+
+                editor.ui.registry.addMenuButton('columnoptions', {
+                    icon: 'table-column-options',
+                    tooltip: 'Column options',
+                    fetch: function (callback) {
+                        var items = [
+                            {
+                                type: 'togglemenuitem',
+                                text: 'Header column',
+                                icon: 'table-left-header',
+                                onAction: function () {
+                                    const type = editor.queryCommandValue('mceTableColType') === 'td' ? 'th' : 'td';
+                                    editor.execCommand('mceTableColType', false, { type });
+                                },
+                                onSetup: (buttonApi) => {
+                                    const state = editor.queryCommandValue('mceTableColType') === 'th' ? true : false;
+                                    buttonApi.setActive(state);
+                                }
+                            },
+                            {
+                                type: 'separator',
+                            },
+                            {
+                                type: 'menuitem',
+                                text: 'Insert column before',
+                                icon: 'table-insert-column-before',
+                                shortcut: 'meta+alt+←',
+                                onAction: function () {
+                                    editor.execCommand('mceTableInsertColBefore');
+                                }
+                            },
+                            {
+                                type: 'menuitem',
+                                text: 'Insert column after',
+                                icon: 'table-insert-column-after',
+                                shortcut: 'meta+alt+→',
+                                onAction: function () {
+                                    editor.execCommand('mceTableInsertColAfter');
+                                }
+                            },
+                            {
+                                type: 'menuitem',
+                                text: 'Delete column',
+                                icon: 'table-delete-column',
+                                onAction: function () {
+                                    editor.execCommand('mceTableDeleteCol');
+                                }
+                            },
+                            {
+                                type: 'separator',
+                            },
+                            {
+                                type: 'menuitem',
+                                text: 'Cut column',
+                                icon: 'cut-column',
+                                onAction: function () {
+                                    editor.execCommand('mceTableCutCol');
+                                }
+                            },
+                            {
+                                type: 'menuitem',
+                                text: 'Copy column',
+                                icon: 'duplicate-column',
+                                onAction: function () {
+                                    editor.execCommand('mceTableCopyCol');
+                                },
+                            },
+                            {
+                                type: 'menuitem',
+                                text: 'Paste column before',
+                                icon: 'paste-column-before',
+                                onAction: function () {
+                                    editor.execCommand('mceTablePasteColBefore');
+                                }
+                            },
+                            {
+                                type: 'menuitem',
+                                text: 'Paste column after',
+                                icon: 'paste-column-after',
+                                onAction: function () {
+                                    editor.execCommand('mceTablePasteColAfter');
+                                }
+                            },
+                        ];
+                        callback(items);
+                    }
+                });
+
+                editor.ui.registry.addMenuButton('celloptions', {
+                    icon: 'table-cell-properties',
+                    tooltip: 'Cell options',
+                    fetch: function (callback) {
+                        var items = [
+                            {
+                                type: 'nestedmenuitem',
+                                text: 'Cell background',
+                                getSubmenuItems: function () {
+                                    return tableCellBgColorManager(editor);
+                                }
+                            },
+                            {
+                                type: 'separator',
+                            },
+                            {
+                                type: 'menuitem',
+                                text: 'Merge cells',
+                                icon: 'table-merge-cells',
+                                onAction: function () {
+                                    editor.execCommand('mceTableMergeCells');
+                                }
+                            },
+                            {
+                                type: 'menuitem',
+                                text: 'Split cell',
+                                icon: 'table-split-cells',
+                                onAction: function () {
+                                    editor.execCommand('mceTableSplitCells');
+                                }
+                            }
+                        ];
+                        callback(items);
+                    }
+                });
+            }
+        });
+
+
+        const tableCellBgColorManager = (editor) => {
+
+            const colors = [
+                {
+                    svg: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><rect width="18" height="18" x="3" y="3" fill="#BFEDD2" fill-rule="evenodd" rx="2"/></svg>',
+                    value: '#BFEDD2',
+                    icon: 'swatch-green',
+                    text: 'Green'
+                },
+                {
+                    svg: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><rect width="18" height="18" x="3" y="3" fill="#FBEEB8" fill-rule="evenodd" rx="2"/></svg>',
+                    value: '#FBEEB8',
+                    icon: 'swatch-yellow',
+                    text: 'Yellow'
+                },
+                {
+                    svg: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><rect width="18" height="18" x="3" y="3" fill="#F8CAC6" fill-rule="evenodd" rx="2"/></svg>',
+                    value: '#F8CAC6',
+                    icon: 'swatch-red',
+                    text: 'Red'
+                },
+                {
+                    svg: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><rect width="18" height="18" x="3" y="3" fill="#ECCAFA" fill-rule="evenodd" rx="2"/></svg>',
+                    value: '#ECCAFA',
+                    icon: 'swatch-purple',
+                    text: 'Purple'
+                },
+                {
+                    svg: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><rect width="18" height="18" x="3" y="3" fill="#C2E0F4" fill-rule="evenodd" rx="2"/></svg>',
+                    value: '#C2E0F4',
+                    icon: 'swatch-blue',
+                    text: 'Blue'
+                },
+                {
+                    svg: '<svg width="18" height="18" xmlns="http://www.w3.org/2000/svg"><path d="M16 0a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h14zm0 1H2a1 1 0 0 0-.993.883L1 2v14a1 1 0 0 0 .883.993L2 17h14a1 1 0 0 0 .993-.883L17 16V2a1 1 0 0 0-.883-.993L16 1z" fill="#CCC"/><path fill="#E74C3D" d="M14.7928932 1.79289322L16.2071068 3.20710678 3.20710678 16.2071068 1.79289322 14.7928932z"/></svg>',
+                    value: 'transparent',
+                    icon: 'swatch-remove',
+                    text: 'Remove color'
+                }
+            ];
+
+            let colorMenuItems = [];
+
+            colors.forEach(color => {
+                editor.ui.registry.addIcon(color.icon, color.svg);
+
+                colorMenuItems.push({
+                    type: 'menuitem',
+                    icon: color.icon,
+                    text: color.text,
+                    tooltip: color.text + ' background',
+                    onAction: function () {
+                        editor.execCommand('mceTableApplyCellStyle', false, { backgroundColor: color.value });
+                    }
+                });
+            });
+
+            return colorMenuItems;
+        };
+    </script>
+    <style>
+        main {
+            position: relative;
+            max-width: 720px;
+            width: 100%;
+            margin: 4rem auto;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <textarea id='editor'>
+            <h1>Test customizing the table ui </h1>
+
+            <table style="border-collapse: collapse; width: 100%;" border="1">
+                <tbody>
+                    <tr>
+                        <td style="width: 31.277332361516034%;">&nbsp;</td>
+                        <td style="width: 31.277332361516034%;">&nbsp;</td>
+                        <td style="width: 31.277332361516034%;">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 31.277332361516034%;">&nbsp;</td>
+                        <td style="width: 31.277332361516034%;">&nbsp;</td>
+                        <td style="width: 31.277332361516034%;">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 31.277332361516034%;">&nbsp;</td>
+                        <td style="width: 31.277332361516034%;">&nbsp;</td>
+                        <td style="width: 31.277332361516034%;">&nbsp;</td>
+                    </tr>
+                </tbody>
+            </table>
+        </textarea>
+    </main>
+</div>
+</body>
+</html>

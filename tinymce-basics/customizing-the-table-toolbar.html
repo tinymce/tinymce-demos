@@ -87,7 +87,7 @@
                 editor.ui.registry.addButton('inserttable', {
                     icon: 'table',
                     tooltip: 'inserttable',
-                    onAction: function () {
+                    onAction: () => {
                         // https://www.tiny.cloud/docs/plugins/table/#commands
                         editor.execCommand('mceInsertTable', false, { rows: 3, columns: 2, options: { headerRows: 1 } });
                     }
@@ -98,13 +98,13 @@
                 editor.ui.registry.addMenuButton('rowoptions', {
                     icon: 'table-row-properties', // Part of the default icon pack: https://www.tiny.cloud/docs/advanced/editor-icon-identifiers/
                     tooltip: 'Row options',
-                    fetch: function (callback) {
+                    fetch: (callback) => {
                         var items = [
                             {
                                 type: 'togglemenuitem',
                                 text: 'Header row',
                                 icon: 'table-top-header',
-                                onAction: function () {
+                                onAction: () => {
                                     // Check the type of the selected table row and inverse it
                                     // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#querycommandvaluestableplugin
                                     const type = editor.queryCommandValue('mceTableRowType') === 'body' ? 'header' : 'body';
@@ -126,7 +126,7 @@
                                 type: 'menuitem',
                                 text: 'Insert row before',
                                 icon: 'table-insert-row-above',
-                                onAction: function () {
+                                onAction: () => {
                                     // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
                                     editor.execCommand('mceTableInsertRowBefore');
                                 }
@@ -135,7 +135,7 @@
                                 type: 'menuitem',
                                 text: 'Insert row after',
                                 icon: 'table-insert-row-after',
-                                onAction: function () {
+                                onAction: () => {
                                     // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
                                     editor.execCommand('mceTableInsertRowAfter');
                                 }
@@ -144,7 +144,7 @@
                                 type: 'menuitem',
                                 text: 'Delete row',
                                 icon: 'table-delete-row',
-                                onAction: function () {
+                                onAction: () => {
                                     // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
                                     editor.execCommand('mceTableDeleteRow');
                                 }
@@ -156,7 +156,7 @@
                                 type: 'menuitem',
                                 text: 'Cut row',
                                 icon: 'cut-row',
-                                onAction: function () {
+                                onAction: () => {
                                     // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
                                     editor.execCommand('mceTableCutRow');
                                 }
@@ -165,7 +165,7 @@
                                 type: 'menuitem',
                                 text: 'Copy row',
                                 icon: 'duplicate-row',
-                                onAction: function () {
+                                onAction: () => {
                                     // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
                                     editor.execCommand('mceTableCopyRow');
                                 }
@@ -174,7 +174,7 @@
                                 type: 'menuitem',
                                 text: 'Paste row before',
                                 icon: 'paste-row-before',
-                                onAction: function () {
+                                onAction: () => {
                                     // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
                                     editor.execCommand('mceTablePasteRowBefore');
                                 },
@@ -190,7 +190,7 @@
                                 type: 'menuitem',
                                 text: 'Paste row after',
                                 icon: 'paste-row-after',
-                                onAction: function () {
+                                onAction: () => {
                                     // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
                                     editor.execCommand('mceTablePasteRowAfter');
                                 },
@@ -212,13 +212,13 @@
                 editor.ui.registry.addMenuButton('columnoptions', {
                     icon: 'table-column-options', // Insert the icon from the icon pack at the beginning of this file
                     tooltip: 'Column options',
-                    fetch: function (callback) {
+                    fetch: (callback) => {
                         var items = [
                             {
                                 type: 'togglemenuitem',
                                 text: 'Header column',
                                 icon: 'table-left-header',
-                                onAction: function () {
+                                onAction: () => {
                                     // Check the type of the selected table column and inverse it
                                     // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#querycommandvaluestableplugin
                                     const type = editor.queryCommandValue('mceTableColType') === 'td' ? 'th' : 'td';
@@ -240,7 +240,7 @@
                                 type: 'menuitem',
                                 text: 'Insert column before',
                                 icon: 'table-insert-column-before',
-                                onAction: function () {
+                                onAction: () => {
                                     // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
                                     editor.execCommand('mceTableInsertColBefore');
                                 }
@@ -249,7 +249,7 @@
                                 type: 'menuitem',
                                 text: 'Insert column after',
                                 icon: 'table-insert-column-after',
-                                onAction: function () {
+                                onAction: () => {
                                     // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
                                     editor.execCommand('mceTableInsertColAfter');
                                 }
@@ -258,7 +258,7 @@
                                 type: 'menuitem',
                                 text: 'Delete column',
                                 icon: 'table-delete-column',
-                                onAction: function () {
+                                onAction: () => {
                                     // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
                                     editor.execCommand('mceTableDeleteCol');
                                 }
@@ -270,7 +270,7 @@
                                 type: 'menuitem',
                                 text: 'Cut column',
                                 icon: 'cut-column',
-                                onAction: function () {
+                                onAction: () => {
                                     // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
                                     editor.execCommand('mceTableCutCol');
                                 }
@@ -279,7 +279,7 @@
                                 type: 'menuitem',
                                 text: 'Copy column',
                                 icon: 'duplicate-column',
-                                onAction: function () {
+                                onAction: () => {
                                     // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
                                     editor.execCommand('mceTableCopyCol');
                                 }
@@ -288,7 +288,7 @@
                                 type: 'menuitem',
                                 text: 'Paste column before',
                                 icon: 'paste-column-before',
-                                onAction: function () {
+                                onAction: () => {
                                     // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
                                     editor.execCommand('mceTablePasteColBefore');
                                 },
@@ -304,7 +304,7 @@
                                 type: 'menuitem',
                                 text: 'Paste column after',
                                 icon: 'paste-column-after',
-                                onAction: function () {
+                                onAction: () => {
                                     // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
                                     editor.execCommand('mceTablePasteColAfter');
                                 },
@@ -326,12 +326,12 @@
                 editor.ui.registry.addMenuButton('celloptions', {
                     icon: 'table-cell-properties', // Part of the default icon pack: https://www.tiny.cloud/docs/advanced/editor-icon-identifiers/
                     tooltip: 'Cell options',
-                    fetch: function (callback) {
+                    fetch: (callback) => {
                         var items = [
                             {
                                 type: 'nestedmenuitem',
                                 text: 'Cell background',
-                                getSubmenuItems: function () {
+                                getSubmenuItems: () => {
                                     // The cell background submenu is extracted into a function
                                     // with the editor instance passed along as an argument
                                     return tableCellBgColorManager(editor);
@@ -344,7 +344,7 @@
                                 type: 'menuitem',
                                 text: 'Merge cells',
                                 icon: 'table-merge-cells',
-                                onAction: function () {
+                                onAction: () => {
                                     // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
                                     editor.execCommand('mceTableMergeCells');
                                 }
@@ -353,7 +353,7 @@
                                 type: 'menuitem',
                                 text: 'Split cell',
                                 icon: 'table-split-cells',
-                                onAction: function () {
+                                onAction: () => {
                                     // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
                                     editor.execCommand('mceTableSplitCells');
                                 }
@@ -429,7 +429,7 @@
                     icon: color.icon,
                     text: color.text,
                     tooltip: color.text + ' background',
-                    onAction: function () {
+                    onAction: () => {
                         // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
                         editor.execCommand('mceTableApplyCellStyle', false, { backgroundColor: color.value });
                     }

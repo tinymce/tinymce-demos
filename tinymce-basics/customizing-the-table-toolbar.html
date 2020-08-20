@@ -177,6 +177,13 @@
                                 onAction: function () {
                                     // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
                                     editor.execCommand('mceTablePasteRowBefore');
+                                },
+                                onSetup: (buttonApi) => {
+                                    // Check the clipboard for any rows and disable the menu item if there is none
+                                    // https://www.tiny.cloud/docs/plugins/table/#api
+                                    // https://www.tiny.cloud/docs/ui-components/typesoftoolbarbuttons/#api
+                                    const state = editor.plugins.table.getClipboardRows().length > 0 ? false : true;
+                                    buttonApi.setDisabled(state);
                                 }
                             },
                             {
@@ -186,6 +193,13 @@
                                 onAction: function () {
                                     // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
                                     editor.execCommand('mceTablePasteRowAfter');
+                                },
+                                onSetup: (buttonApi) => {
+                                    // Check the clipboard for any rows and disable the menu item if there is none
+                                    // https://www.tiny.cloud/docs/plugins/table/#api
+                                    // https://www.tiny.cloud/docs/ui-components/typesoftoolbarbuttons/#api
+                                    const state = editor.plugins.table.getClipboardRows().length > 0 ? false : true;
+                                    buttonApi.setDisabled(state);
                                 }
                             },
                         ];
@@ -268,7 +282,7 @@
                                 onAction: function () {
                                     // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
                                     editor.execCommand('mceTableCopyCol');
-                                },
+                                }
                             },
                             {
                                 type: 'menuitem',
@@ -277,6 +291,13 @@
                                 onAction: function () {
                                     // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
                                     editor.execCommand('mceTablePasteColBefore');
+                                },
+                                onSetup: (buttonApi) => {
+                                    // Check the clipboard for any cols and disable the menu item if there is none
+                                    // https://www.tiny.cloud/docs/plugins/table/#api
+                                    // https://www.tiny.cloud/docs/ui-components/typesoftoolbarbuttons/#api
+                                    const state = editor.plugins.table.getClipboardCols().length > 0 ? false : true;
+                                    buttonApi.setDisabled(state);
                                 }
                             },
                             {
@@ -286,6 +307,13 @@
                                 onAction: function () {
                                     // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
                                     editor.execCommand('mceTablePasteColAfter');
+                                },
+                                onSetup: (buttonApi) => {
+                                    // Check the clipboard for any cols and disable the menu item if there is none
+                                    // https://www.tiny.cloud/docs/plugins/table/#api
+                                    // https://www.tiny.cloud/docs/ui-components/typesoftoolbarbuttons/#api
+                                    const state = editor.plugins.table.getClipboardCols().length > 0 ? false : true;
+                                    buttonApi.setDisabled(state);
                                 }
                             },
                         ];
@@ -377,7 +405,7 @@
                 },
                 {
                     svg: '<svg width="18" height="18" xmlns="http://www.w3.org/2000/svg"><path d="M16 0a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h14zm0 1H2a1 1 0 0 0-.993.883L1 2v14a1 1 0 0 0 .883.993L2 17h14a1 1 0 0 0 .993-.883L17 16V2a1 1 0 0 0-.883-.993L16 1z" fill="#CCC"/><path fill="#E74C3D" d="M14.7928932 1.79289322L16.2071068 3.20710678 3.20710678 16.2071068 1.79289322 14.7928932z"/></svg>',
-                    value: 'transparent',
+                    value: '', // Sending an empty value equals removing the styles.
                     icon: 'swatch-remove',
                     text: 'Remove color'
                 }

@@ -17,6 +17,11 @@
     <script>
         // An iconpack holds a custom button SVG icon.
         // Tip! A custom icon pack does not have to be a separate file
+        // If you only need to include one or two icons it's easier to
+        // use the tinymce.editor.ui.Registry.addIcon() method. An example
+        // of that is shown further down in this demo.
+        // https://www.tiny.cloud/docs/advanced/creating-an-icon-pack/
+        // https://www.tiny.cloud/docs/api/tinymce.editor.ui/tinymce.editor.ui.registry/#addicon
         tinymce.IconManager.add('customIcons', {
             icons: {
                 'table-column-options': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M19 4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h14zM5 13v5h4v-5H5zm14 0h-4v5h4v-5zm0-7h-4v5h4V6zM5 11h4V6H5v5z"/></svg>',
@@ -104,14 +109,6 @@
                     menuActionManager.insertRowAfter();
                 });
 
-                editor.addShortcut('ctrl+meta+M', "Merge selected cells", () => {
-                    menuActionManager.mergeCells();
-                });
-
-                editor.addShortcut('ctrl+shift+meta+M', "Split cell", () => {
-                    menuActionManager.splitCell();
-                });
-
                 // TinyMCE 5.4 introduced improved APIs for inserting tables.
                 // Here we create a toolbar button that immediately inserts
                 // a 3x2 table with a header into the content.
@@ -139,11 +136,11 @@
                                 onAction: () => {
                                     menuActionManager.headerRow();
                                 },
-                                onSetup: (buttonApi) => {
-                                    // Set the on/off state of the toggle button by query the type and return a boolean
-                                    const state = editor.queryCommandValue('mceTableRowType') === 'body' ? false : true;
-                                    buttonApi.setActive(state);
-                                }
+                                    onSetup: (buttonApi) => {
+                                        // Set the on/off state of the toggle button by query the type and return a boolean
+                                        const state = editor.queryCommandValue('mceTableRowType') === 'body' ? false : true;
+                                        buttonApi.setActive(state);
+                                    }
                             },
                             {
                                 type: 'separator',
@@ -152,7 +149,7 @@
                                 type: 'menuitem',
                                 text: 'Insert row before',
                                 icon: 'table-insert-row-above',
-                                shortcut: 'meta+alt+↑', // Text displayed in the menuitem's shortcut label
+                                shortcut: 'alt+↑', // Text displayed in the menuitem's shortcut label
                                 onAction: () => {
                                     menuActionManager.insertRowBefore();
                                 }
@@ -161,7 +158,7 @@
                                 type: 'menuitem',
                                 text: 'Insert row after',
                                 icon: 'table-insert-row-after',
-                                shortcut: 'meta+alt+↓', // Text displayed in the menuitem's shortcut label
+                                shortcut: 'alt+↓', // Text displayed in the menuitem's shortcut label
                                 onAction: () => {
                                     menuActionManager.insertRowAfter();
                                 }
@@ -170,7 +167,6 @@
                                 type: 'menuitem',
                                 text: 'Delete row',
                                 icon: 'table-delete-row',
-                                shortcut: 'Meta+Alt+Delete',
                                 onAction: () => {
                                     menuActionManager.deleteRow();
                                 }
@@ -256,7 +252,7 @@
                                 type: 'menuitem',
                                 text: 'Insert column before',
                                 icon: 'table-insert-column-before',
-                                shortcut: 'meta+alt+←', // Text displayed in the menuitem's shortcut label
+                                shortcut: 'alt+←', // Text displayed in the menuitem's shortcut label
                                 onAction: () => {
                                     menuActionManager.insertColumnBefore();
                                 }
@@ -265,7 +261,7 @@
                                 type: 'menuitem',
                                 text: 'Insert column after',
                                 icon: 'table-insert-column-after',
-                                shortcut: 'meta+alt+→', // Text displayed in the menuitem's shortcut label
+                                shortcut: 'alt+→', // Text displayed in the menuitem's shortcut label
                                 onAction: () => {
                                     menuActionManager.insertColumnAfter();
                                 }
@@ -274,7 +270,6 @@
                                 type: 'menuitem',
                                 text: 'Delete column',
                                 icon: 'table-delete-column',
-                                shortcut: 'Ctrl+Alt+delete',
                                 onAction: () => {
                                     menuActionManager.deleteColumn();
                                 }
@@ -355,8 +350,7 @@
                             {
                                 type: 'menuitem',
                                 text: 'Merge cells',
-                                icon: 'Ctrl+Meta+M',
-                                shortcut: '',
+                                icon: 'table-merge-cells',
                                 onAction: () => {
                                     menuActionManager.mergeCells();
                                 }
@@ -365,7 +359,6 @@
                                 type: 'menuitem',
                                 text: 'Split cell',
                                 icon: 'table-split-cells',
-                                shortcut: 'Ctrl+Shift+Meta+M',
                                 onAction: () => {
                                     menuActionManager.splitCell();
                                 }
@@ -519,6 +512,7 @@
 
                 // Register an TinyMCE icon. This is an alternate way of creating icons
                 // in TinyMCE. The first argument is the icon name, the second is the svg data.
+                // https://www.tiny.cloud/docs/api/tinymce.editor.ui/tinymce.editor.ui.registry/#addicon
                 editor.ui.registry.addIcon(color.icon, color.svg);
 
                 // Push a submenu item onto the the submenu array in the format

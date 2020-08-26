@@ -110,15 +110,23 @@
                 });
 
                 // TinyMCE 5.4 introduced improved APIs for inserting tables.
-                // Here we create a toolbar button that immediately inserts
-                // a 3x2 table with a header into the content.
+                // Here's a toolbar button that displays a table gric picker
+                // The table picker is unfortunately undocumented at this stage
                 // https://www.tiny.cloud/docs/ui-components/toolbarbuttons/
-                editor.ui.registry.addButton('inserttable', {
+                editor.ui.registry.addMenuButton('inserttable', {
                     icon: 'table',
-                    tooltip: 'inserttable',
-                    onAction: () => {
-                        // https://www.tiny.cloud/docs/plugins/table/#commands
-                        editor.execCommand('mceInsertTable', false, { rows: 3, columns: 2, options: { headerRows: 1 } });
+                    tooltip: 'Insert table',
+                    fetch: function(callback) {
+                        callback([
+                            {
+                                type: 'fancymenuitem',
+                                fancytype: 'inserttable',
+                                onAction: function(data) {
+                                    // https://www.tiny.cloud/docs/plugins/table/#commands
+                                    editor.execCommand('mceInsertTable', false, { rows: data.numRows, columns: data.numColumns, options: { headerRows: 1 } });
+                                }
+                            }
+                        ]);
                     }
                 });
 

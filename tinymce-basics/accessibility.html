@@ -1,0 +1,75 @@
+<!--
+
+    Accessibility demo
+
+-->
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Some ideas on accessibility</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5-dev/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script>
+        tinymce.init({
+            selector: "#editor",
+
+            // Tip! The height option accepts any valid CSS for height
+            height: 'calc(100vh - 4rem)',
+
+            // Tip! To make TinyMCE leaner, only include the plugins you actually need.
+            plugins: 'code table link lists media image a11ychecker help fullscreen',
+
+            toolbar: 'undo redo a11ycheck | styleformat | bold italic strikethrough underline forecolor backcolor | image link media | align bullist numlist | code help fullscreen',
+
+            // The following css will be injected into the editor, extending
+            // the default styles.
+            // In a real world scenario, with much more custom styles for headings
+            // links, tables, images etc, it's strongly recommended to use the
+            // content_css option to load a separate CSS file. Makes editing easier too.
+            // https://www.tiny.cloud/docs/configure/content-appearance/#content_style
+            // https://www.tiny.cloud/docs/configure/content-appearance/#content_css
+            content_style: `
+                img {
+                    max-width: 700px;
+                }
+
+                img::after {
+                    content: attr(title);
+                }
+            `,
+
+            setup: (editor) => {
+                editor.on('NodeChange', function (e) {
+                    console.log('Node changed', e);
+                });
+            }
+        });
+    </script>
+    <style>
+        body {
+            margin: 2rem .5rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        main {
+            max-width: 900px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<main>
+    <textarea id="editor">
+        <h1>Accessibility</h1>
+        <p>The default content css is very basic and unopinionated to allow you as a developer to integrate the styles you want in order to get a good WYSIWYG writing environment.</p>
+        <figure class="image"><img src="images/yosemite.jpeg" alt="Road in foreground, Yosemite peak in background" title="foo" />
+            <figcaption>Photo by Trent Erwin on Unsplash</figcaption>
+        </figure>
+        <p>That said, here are some tecniques we often implement ourselves that improves the editing experience in TinyMCE</p>
+    </textarea>
+</main>
+</body>
+</html>

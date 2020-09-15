@@ -3,7 +3,7 @@
     often found in document and marketing automation apps.
 
     The power with Web Components is that they allow us to create complex
-    HTML stuctures and abstract away that into a single custom element,
+    HTML components and abstract away that into a single custom element,
     in this case the <conditional-block>. Take a look at the clean
     strucured HTML that gets exported out of TinyMCE (Press the last
     button in the toolbar to view the HTML).
@@ -144,6 +144,10 @@
                     margin: 2rem auto;
                 }
 
+                a {
+                    color: #2980b9;
+                }
+
                 conditional-block {
                     margin: 1rem -6px;
                 }
@@ -172,8 +176,10 @@
 
                     header {
                         display: flex;
-                        padding: 4px 6px 0;
+                        padding: 4px 6px;
                         margin: 0;
+                        background-color: rgba(180, 215, 255, .25);
+                        border-radius: 6px 6px 0 0;
                     }
 
                     header p {

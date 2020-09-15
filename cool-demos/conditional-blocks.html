@@ -1,5 +1,12 @@
 <!--
-    TBD
+    This demo shows how to use Web Components to create conditional blocks
+    often found in document and marketing automation apps.
+
+    The power with Web Components is that they allow us to create complex
+    HTML stuctures and abstract away that into a single custom element,
+    in this case the <conditional-block>. Take a look at the clean
+    strucured HTML that gets exported out of TinyMCE (Press the last
+    button in the toolbar to view the HTML).
 -->
 
 <!doctype html>
@@ -11,7 +18,6 @@
     <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5-dev/tinymce.min.js" referrerpolicy="origin"></script>
 
     <script>
-
         tinymce.init({
             selector: "#editor",
 
@@ -19,14 +25,32 @@
             plugins: "autoresize advcode link lists noneditable",
 
             // We have put our custom insert conditional block button last.
-            toolbar: "bold italic strikethrough backcolor | bullist numlist link | conditionalblock",
+            toolbar: "bold italic strikethrough backcolor | bullist numlist link | conditionalblock | code",
+
+            // "Thin" is a premium icon pack you get wth the cloud essential plan.
+            // See https://www.tiny.cloud for more details and purchasing options
+            // You can also create your own icon packs for TinyMCE
+            // https://www.tiny.cloud/docs/advanced/creating-an-icon-pack/
+            icons: 'thin',
+
+            // "Naked" is a premium icon pack you get wth the cloud essential plan
+            // See https://www.tiny.cloud for more details and purchasing options
+            // You can also create your own skins for TinyMCE
+            // https://www.tiny.cloud/docs/advanced/creating-a-skin/
+            skin: 'naked',
+
+            // If we don't need the menubar we can hide it
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#menubar
+            menubar: false,
 
             // Tell TinyMCE that condictional-block is a valid element.
             // https://www.tiny.cloud/docs/configure/content-filtering/#custom_elements
             custom_elements: "conditional-block",
 
             setup: (editor) => {
-
+                // Instead of defining a custom icon pack, we can register individual
+                // icons using the API.
+                // https://www.tiny.cloud/docs/api/tinymce.editor.ui/tinymce.editor.ui.registry/#addicon
                 editor.ui.registry.addIcon('conditional-block', '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M19 4a2 2 0 1 1-1.854 2.751L15 6.75c-1.239 0-1.85.61-2.586 2.31l-.3.724c-.42 1.014-.795 1.738-1.246 2.217.406.43.751 1.06 1.12 1.92l.426 1.018c.704 1.626 1.294 2.256 2.428 2.307l.158.004h2.145a2 2 0 1 1 0 1.501L15 18.75l-.219-.004c-1.863-.072-2.821-1.086-3.742-3.208l-.49-1.17c-.513-1.163-.87-1.57-1.44-1.614L9 12.75l-2.146.001a2 2 0 1 1 0-1.501H9c.636 0 1.004-.383 1.548-1.619l.385-.92c.955-2.291 1.913-3.382 3.848-3.457L15 5.25h2.145A2 2 0 0 1 19 4z" fill-rule="evenodd"/></svg>');
 
                 // The init event is fired when the editor is fully loaded.
@@ -38,7 +62,6 @@
                     // https://www.tiny.cloud/docs/api/tinymce/tinymce.editor/#getdoc
                     const win = editor.getWin();
                     const doc = editor.getDoc();
-
                     setup(win, doc, editor);
                 });
 
@@ -55,10 +78,16 @@
                     // https://www.tiny.cloud/docs/api/tinymce.dom/tinymce.dom.serializer/#addnodefilter
                     editor.serializer.addNodeFilter("conditional-block", (nodes) => {
                         // Iterate through all filtered nodes and remove the contenteditable attribute
+                        // as well as the wrapper <div> we add when creating the custom element
                         nodes.forEach((node) => {
                             if (!!node.attr("contenteditable")) {
+                                // Remove the contenteditable attribute on the <conditional-block>
                                 node.attr("contenteditable", null);
+                                // Traverse into the first child which would be the <div contenteditable="true">
+                                // https://www.tiny.cloud/docs/api/tinymce.html/tinymce.html.node/#walk
                                 const content = node.walk();
+                                // Remove the div but keep the content
+                                // https://www.tiny.cloud/docs/api/tinymce.html/tinymce.html.node/#unwrap
                                 content.unwrap();
                             }
                         });
@@ -110,6 +139,11 @@
                     outline: none;
                 }
 
+                body {
+                    max-width: 600px;
+                    margin: 2rem auto;
+                }
+
                 conditional-block {
                     margin: 1rem -6px;
                 }
@@ -131,7 +165,7 @@
                      * https://developer.mozilla.org/en-US/docs/Web/CSS/:host()
                      */
                     :host {
-                        display: block;
+                        display: block; /* Required to get block behavior inside TinyMCE */
                         background-color: rgba(180, 215, 255, .25);
                         border-radius: 6px;
                     }
@@ -230,19 +264,24 @@
                 }
 
                 connectedCallback() {
-
+                    // Make the content within <conditional-block> editable by wrapping the
+                    // content in a <div> with contenteditable on it.
                     const cleanupContentEditable = () => {
-                        const editableWrapper = document.createElement('div');
-                        editableWrapper.setAttribute('contenteditable', true);
+                        if (this.firstChild.contentEditable != 'true') {
+                            console.log('foo');
+                            const editableWrapper = document.createElement('div');
+                            editableWrapper.setAttribute('contenteditable', true);
 
-                        while(this.firstChild) {
-                            editableWrapper.appendChild(this.firstChild)
+                            while(this.firstChild) {
+                                editableWrapper.appendChild(this.firstChild)
+                            }
+
+                            this.appendChild(editableWrapper);
                         }
-
-                        this.appendChild(editableWrapper);
                     }
                     cleanupContentEditable();
 
+                    // Open the edit dialog
                     const editConditionalBlock = () => {
                         dialogManager(this, editor);
                         return false;
@@ -250,8 +289,10 @@
                     this.shadowRoot.getElementById('btn').addEventListener('click', editConditionalBlock);
                 }
 
+                // Everytime a custom element's attributes is added, changed or removed
+                // the `attributeChangedCallback` method is invoked. Which attributes are
+                // observed is defined by the `observedAttributes` method.
                 attributeChangedCallback(name, oldValue, newValue) {
-                    console.log('attributeChangedCallback', name, oldValue, newValue);
                     if (name === "data-property") {
                         this.shadowRoot.getElementById('property').textContent = newValue;
                     }
@@ -271,7 +312,12 @@
             win.customElements.define("conditional-block", ConditionalBlock);
         }
 
+        // Custom function that manages the Insert/edit dialog
         const dialogManager = (conditionalBlock, editor) => {
+            // Open a TinyMCE modal where the user can set the badge's
+            // background and text color.
+            // https://www.tiny.cloud/docs/ui-components/dialog/
+            // https://www.tiny.cloud/docs/ui-components/dialogcomponents/
             editor.windowManager.open({
                 title: 'Insert/edit Conditional block',
                 body: {
@@ -327,6 +373,7 @@
                     // Get the form data.
                     var data = dialog.getData();
 
+                    // Check if a block is edited or a new block is to be inserted
                     if (!conditionalBlock) {
                         // Insert content at the location of the cursor.
                         // https://www.tiny.cloud/docs/api/tinymce/tinymce.editor/#insertcontent
@@ -341,6 +388,7 @@
                         // the actions to the undo stack.
                         // https://www.tiny.cloud/docs/api/tinymce/tinymce.undomanager/
                         editor.undoManager.transact(() => {
+                            // Update the data-attributes on the conditional-block element
                             conditionalBlock.dataset.property = data.property;
                             conditionalBlock.dataset.operator = data.operator;
                             conditionalBlock.dataset.value = data.value;
@@ -364,27 +412,35 @@
         }
 
         main {
-            max-width: 800px;
+            max-width: 900px;
             margin: auto;
+        }
+
+        .editor-wrap {
+            border: 1px solid #d1d8e0;
+            border-radius: 6px;
+            padding: 4px;
         }
     </style>
 </head>
 <body>
 <main>
-    <textarea id="editor">
-        <p><strong>Hello {{first_name}}!</strong></p>
-        <p>Thanks for considering Tiny Lodge for your next conference!</p>
-        <conditional-block data-property="number_of_people" data-operator="is greater than" data-value="15">
-            <p>For {{number_of_people}} people the <strong>Cosy Lodge</strong> is perfect. It has ample room for <strong>up to 20 people</strong> and contains whitebords on all walls and a state of the art projector. We can offer break-out rooms upon request.</p>
-            <p><a href="https://tiny.cloud">Look at pictures and read more about Cosy Lodge</a></p>
-        </conditional-block>
-        <conditional-block data-property="number_of_people" data-operator="is equal or less than" data-value="15">
-            <p>Write conditional text here</p>
-        </conditional-block>
-        <p>Do not hesitate to contact me directly with further questions!</p>
-        <p>Have a wonderful day,<br>{{agent_first_name}}</p>
-
-    </textarea>
+    <div class="editor-wrap">
+        <textarea id="editor">
+            <p><img style="display: block; margin-left: auto; margin-right: auto;" src="images/tiny-lodge-logo.png" width="100" height="100" /></p>
+            <p><strong>Hello {{first_name}}!</strong></p>
+            <p>Thanks for considering Tiny Lodge for your next conference!</p>
+            <conditional-block data-property="number_of_people" data-operator="is greater than" data-value="15">
+                <p>For {{number_of_people}} people the <strong>Cosy Lodge</strong> is perfect. It has ample room for <strong>up to 20 people</strong> and contains whitebords on all walls and a state of the art projector. We can offer break-out rooms upon request.</p>
+                <p><a href="https://tiny.cloud">Look at pictures and read more about Cosy Lodge</a></p>
+            </conditional-block>
+            <conditional-block data-property="number_of_people" data-operator="is equal or less than" data-value="15">
+                <p>Write conditional text here</p>
+            </conditional-block>
+            <p>Do not hesitate to contact me directly with further questions!</p>
+            <p>Have a wonderful day,<br>{{agent_first_name}}</p>
+        </textarea>
+    </div>
 </main>
 </body>
 </html>

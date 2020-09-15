@@ -1,0 +1,393 @@
+<!--
+    TBD
+-->
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Conditional blocks</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5-dev/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script>
+
+        tinymce.init({
+            selector: "#editor",
+
+            // Tip! To make TinyMCE leaner, only include the plugins you actually need.
+            plugins: "autoresize advcode link lists noneditable",
+
+            // We have put our custom insert conditional block button last.
+            toolbar: "bold italic strikethrough backcolor | bullist numlist link | conditionalblock",
+
+            // Tell TinyMCE that condictional-block is a valid element.
+            // https://www.tiny.cloud/docs/configure/content-filtering/#custom_elements
+            custom_elements: "conditional-block",
+
+            setup: (editor) => {
+
+                editor.ui.registry.addIcon('conditional-block', '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M19 4a2 2 0 1 1-1.854 2.751L15 6.75c-1.239 0-1.85.61-2.586 2.31l-.3.724c-.42 1.014-.795 1.738-1.246 2.217.406.43.751 1.06 1.12 1.92l.426 1.018c.704 1.626 1.294 2.256 2.428 2.307l.158.004h2.145a2 2 0 1 1 0 1.501L15 18.75l-.219-.004c-1.863-.072-2.821-1.086-3.742-3.208l-.49-1.17c-.513-1.163-.87-1.57-1.44-1.614L9 12.75l-2.146.001a2 2 0 1 1 0-1.501H9c.636 0 1.004-.383 1.548-1.619l.385-.92c.955-2.291 1.913-3.382 3.848-3.457L15 5.25h2.145A2 2 0 0 1 19 4z" fill-rule="evenodd"/></svg>');
+
+                // The init event is fired when the editor is fully loaded.
+                // https://www.tiny.cloud/docs/advanced/events/#editorcoreevents
+                editor.on("init", () => {
+                    // Get the iframe window object and the iframes document object
+                    // and call our setup function that creates the web component
+                    // https://www.tiny.cloud/docs/api/tinymce/tinymce.editor/#getwin
+                    // https://www.tiny.cloud/docs/api/tinymce/tinymce.editor/#getdoc
+                    const win = editor.getWin();
+                    const doc = editor.getDoc();
+
+                    setup(win, doc, editor);
+
+
+                });
+
+                // The preinit event is fired after the editor is loaded but before
+                // the content is loaded
+                // https://www.tiny.cloud/docs/advanced/events/#editorcoreevents
+                editor.on("preinit", () => {
+                    // During the creation of the web component we set contenteditable false
+                    // on the web component to make it behave like a noneditable but selectable
+                    // element inside TinyMCE. But we don't want the contenteditable attribute
+                    // to be saved with the content. We therefore need to filter out the attribute
+                    // upon serlialization (which happens on "save", view sourcecode and preview
+                    // among others).
+                    // https://www.tiny.cloud/docs/api/tinymce.dom/tinymce.dom.serializer/#addnodefilter
+                    editor.serializer.addNodeFilter("conditional-block", (nodes) => {
+                        // Iterate through all filtered nodes and remove the contenteditable attribute
+                        nodes.forEach((node) => {
+                            if (!!node.attr("contenteditable")) {
+                                node.attr("contenteditable", null);
+                                const content = node.walk();
+                                content.unwrap();
+                            }
+                        });
+                    });
+                });
+
+                // Register a custom toolbar menu button to insert the conditional block
+                // https://www.tiny.cloud/docs/ui-components/typesoftoolbarbuttons/#menubutton
+                editor.ui.registry.addButton("conditionalblock", {
+                    icon: "conditional-block",
+                    tooltip: "Insert conditional block",
+                    onAction: () => {
+                        dialogManager(null, editor);
+                    }
+                });
+            },
+
+            // The following css will be injected into the editor, extending
+            // the default styles.
+            // In a real world scenario, with much more custom styles for headings
+            // links, tables, images etc, it's recommended to use the content_css
+            // option to load a separate CSS file. Makes editing easier too.
+            // https://www.tiny.cloud/docs/configure/content-appearance/#content_style
+            // https://www.tiny.cloud/docs/configure/content-appearance/#content_css
+            content_style: `
+                /* We remove the default selected outline because it doesn't follow the
+                 * border radius we have on the inline token element and move it to the
+                 * conditional-block element
+                 * /
+                .mce-content-body conditional-block[contentEditable=false][data-mce-selected] {
+                    outline: none;
+                    cursor: default;
+                }
+
+                /* Here we create a new selection outline using box-shadow
+                 * that follows the border radius (in contrast to outline that
+                 * creates a rectangular box)
+                 */
+                 .mce-content-body conditional-block[contentEditable=false][data-mce-selected] {
+                    outline: none !important;
+                    box-shadow: 0 0 0 3px #b4d7ff;
+                }
+
+                .mce-content-body *[contentEditable=false] *[contentEditable=true]:focus {
+                    outline: none;
+                }
+
+                .mce-content-body *[contentEditable=false] *[contentEditable=true]:hover {
+                    outline: none;
+                }
+
+                conditional-block {
+                    margin: 1rem 0;
+                }
+            `,
+        });
+
+        // Our custom function for setting up the Web Component.
+        // Read more about web components here:
+        // https://developer.mozilla.org/en-US/docs/Web/Web_Components
+        const setup = (win, doc, editor) => {
+            // the shadow root gets it's HTML content from the template element.
+            // We do not need to inject the template element into the content,
+            // we can simply create it in memory and attach it to the shadow root
+            const template = doc.createElement("template");
+
+            template.innerHTML = `
+                <style>
+                    /* The host selector targets the shadow DOM host element
+                     * https://developer.mozilla.org/en-US/docs/Web/CSS/:host()
+                     */
+                    :host {
+                        display: block;
+                        border: 2px solid #FFE8F4;
+                        background-color: #FFFAFD;
+                        border-radius: 6px;
+                    }
+
+                    header {
+                        display: flex;
+                        padding: 0px 8px 2px;
+                        margin: 0;
+                        background-color: #FFE8F4;
+                    }
+
+                    header p {
+                        margin: 0;
+                        line-height: 20px;
+                        font-size: 12px;
+                        color: #B76992;
+                    }
+
+                    span#property {
+                        font-weight: bold;
+                    }
+
+                    span#value {
+                        font-weight: bold;
+                    }
+
+
+                    button {
+                        background: transparent;
+                        border: 0;
+                        outline: 0;
+                        -webkit-tap-highlight-color: rgba(0,0,0,0);
+                        -webkit-user-select: none;
+                        font-weight: normal;
+                        padding: 4px;
+                        margin: 0 0 0 10px;
+                        border-radius: 6px;
+                    }
+
+                    button svg {
+                        fill: #B76992;
+                        display: block;
+                    }
+
+                    button:hover {
+                        background-color: #FBD5E9;
+                    }
+
+                    .content {
+                        margin: 0 1rem;
+                    }
+                </style>
+
+                <!--
+                    The web components HTML. The content between slot will be
+                    replaced by the content wrapped in the <inline-token> element.
+                    The span isn't really needed.
+                    https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_templates_and_slots
+                -->
+                <header>
+                    <p>Show block if <span class="token" id="property"></span>&nbsp;<span id="operator">&nbsp;</span>&nbsp;<span class="token" id="value"></span></p>
+
+                    <button type="button" id="btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"><path d="M0 9.502v2.5h2.5l7.373-7.374-2.5-2.5L0 9.502zm11.807-6.807c.26-.26.26-.68 0-.94l-1.56-1.56a.664.664 0 0 0-.94 0l-1.22 1.22 2.5 2.5 1.22-1.22z"/></svg>
+                    </button>
+                </header>
+                <div class="content">
+                    <slot>token-not-defined</slot>
+                </div>
+            `;
+
+            // Create the inline token web component.
+            // Familiarize yourself with web components here:
+            // https://developer.mozilla.org/en-US/docs/Web/Web_Components
+            class ConditionalBlock extends win.HTMLElement {
+                constructor() {
+                    super();
+
+                    // During the creation of the web component we set contenteditable false
+                    // on the web component to make it behave like a noneditable but selectable
+                    // element inside TinyMCE.
+                    this.setAttribute("contenteditable", false);
+
+                    // template.content.getElementById('property').textContent = this.dataset.property;
+                    // template.content.getElementById('operator').textContent = this.dataset.operator;
+                    // template.content.getElementById('value').textContent = this.dataset.value;
+
+                    // Attach the shadow DOM to the element
+                    // https://developer.mozilla.org/en-US/docs/Web/API/Element/attachShadow
+                    const shadow = this.attachShadow({mode: "open"});
+
+                    // Attach the Template to the web components shadow DOM
+                    this.shadowRoot.appendChild(template.content.cloneNode(true));
+                }
+
+                connectedCallback() {
+
+                    const cleanupContentEditable = () => {
+                        const editableWrapper = document.createElement('div');
+                        editableWrapper.setAttribute('contenteditable', true);
+
+                        while(this.firstChild) {
+                        editableWrapper.appendChild(this.firstChild)
+                        }
+
+                        this.appendChild(editableWrapper);
+                    }
+
+                    cleanupContentEditable();
+
+                    const editConditionalBlock = () => {
+                        dialogManager(this, editor);
+                        return false;
+                    }
+
+                    this.shadowRoot.getElementById('btn').addEventListener('click', editConditionalBlock);
+                }
+
+                attributeChangedCallback(name, oldValue, newValue) {
+                    console.log('attributeChangedCallback', name, oldValue, newValue);
+                    if (name === "data-property") {
+                        this.shadowRoot.getElementById('property').textContent = newValue;
+                    }
+                    else if (name === 'data-operator') {
+                        this.shadowRoot.getElementById('operator').textContent = newValue;
+                    }
+                    else if (name === 'data-value') {
+                        this.shadowRoot.getElementById('value').textContent = newValue;
+                    }
+                }
+
+                static get observedAttributes() { return ['data-property', 'data-operator', 'data-value']; }
+
+            }
+            // Register our web component to the tag we want to use it as
+            // https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/define
+            win.customElements.define("conditional-block", ConditionalBlock);
+        }
+
+        const dialogManager = (conditionalBlock, editor) => {
+            editor.windowManager.open({
+                title: 'Insert/edit Conditional block',
+                body: {
+                    type: 'panel',
+                    items: [
+                        {
+                            type: 'selectbox',
+                            name: 'property',
+                            label: 'Property',
+                            items: [
+                                { value: 'number_of_people', text: 'number_of_people' },
+                                { value: 'name_of_event', text: 'name_of_event' },
+                                { value: 'length_of_stay', text: 'length_of_stay' },
+                            ]
+                        }, {
+                            type: 'selectbox',
+                            name: 'operator',
+                            label: 'Operator',
+                            items: [
+                                { value: 'is greater than', text: 'is greater than' },
+                                { value: 'is equal or greater than', text: 'is equal or greater than' },
+                                { value: 'is equal to', text: 'is equal to' },
+                                { value: 'is equal or less than', text: 'is equal or less than' },
+                                { value: 'is less than', text: 'is less than' },
+                                { value: 'is not equal to', text: 'is not equal to' },
+                            ]
+                        }, {
+                            type: 'input',
+                            name: 'value',
+                            label: 'Value'
+                        }
+                    ]
+                },
+                buttons: [
+                {
+                    type: 'cancel',
+                    name: 'closeButton',
+                    text: 'Cancel'
+                },
+                {
+                    type: 'submit',
+                    name: 'submitButton',
+                    text: 'Save',
+                    primary: true
+                }
+                ],
+                initialData: {
+                    property: conditionalBlock ? conditionalBlock.dataset.property : 'null' ,
+                    operator: conditionalBlock ? conditionalBlock.dataset.operator : 'is equal to',
+                    value: conditionalBlock ? conditionalBlock.dataset.value: '0'
+                },
+                onSubmit: function (dialog) {
+                    // Get the form data.
+                    var data = dialog.getData();
+
+                    if (!conditionalBlock) {
+                        // Insert content at the location of the cursor.
+                        // https://www.tiny.cloud/docs/api/tinymce/tinymce.editor/#insertcontent
+                        editor.insertContent(`<conditional-block data-property="${data.property}" data-operator="${data.operator}" data-value="${data.value}"><p>Write conditional text here</p></conditional-block>`);
+                    }
+                    else {
+                        // Get the currently selected node.
+                        // https://www.tiny.cloud/docs/api/tinymce.dom/tinymce.dom.selection/
+                        const node = editor.selection.getNode();
+
+                        // Working directly with the DOM often requires manually adding
+                        // the actions to the undo stack.
+                        // https://www.tiny.cloud/docs/api/tinymce/tinymce.undomanager/
+                        editor.undoManager.transact(() => {
+                            conditionalBlock.dataset.property = data.property;
+                            conditionalBlock.dataset.operator = data.operator;
+                            conditionalBlock.dataset.value = data.value;
+                        });
+
+                        // Tell TinyMCE that the ui has been updated.
+                        // https://www.tiny.cloud/docs/api/tinymce/tinymce.editor/#nodechanged
+                        editor.nodeChanged();
+                    }
+
+                    // Close the dialog.
+                    dialog.close();
+                }
+            });
+        }
+    </script>
+    <style>
+        body {
+            margin: 2rem .5rem;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        main {
+            max-width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<main>
+    <textarea id="editor">
+        <p><strong>Hello {{first_name}}!</strong></p>
+        <p>Thanks for considering Tiny Lodge for your next conference!</p>
+        <conditional-block data-property="number_of_people" data-operator="is greater than" data-value="15">
+            <p>For {{number_of_people}} people the <strong>Cosy Lodge</strong> is perfect. It has ample room for <strong>up to 20 people</strong> and contains whitebords on all walls and a state of the art projector. We can offer break-out rooms upon request.</p>
+            <p><a href="https://tiny.cloud">Look at pictures and read more about Cosy Lodge</a></p>
+        </conditional-block>
+        <conditional-block data-property="number_of_people" data-operator="is equal or less than" data-value="15">
+            <p>Write conditional text here</p>
+        </conditional-block>
+        <p>Do not hesitate to contact me directly with further questions!</p>
+        <p>Have a wonderful day,<br>{{agent_first_name}}</p>
+
+    </textarea>
+</main>
+</body>
+</html>

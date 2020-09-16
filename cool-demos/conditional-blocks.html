@@ -19,13 +19,13 @@
 
     <script>
         tinymce.init({
-            selector: "#editor",
+            selector: '#editor',
 
             // Tip! To make TinyMCE leaner, only include the plugins you actually need.
-            plugins: "autoresize advcode link lists noneditable",
+            plugins: 'autoresize advcode link lists noneditable',
 
             // We have put our custom insert conditional block button last.
-            toolbar: "bold italic strikethrough backcolor | bullist numlist link | conditionalblock | code",
+            toolbar: 'bold italic strikethrough backcolor | bullist numlist link | conditionalblock | code',
 
             // "Thin" is a premium icon pack you get wth the cloud essential plan.
             // See https://www.tiny.cloud for more details and purchasing options
@@ -45,7 +45,7 @@
 
             // Tell TinyMCE that condictional-block is a valid element.
             // https://www.tiny.cloud/docs/configure/content-filtering/#custom_elements
-            custom_elements: "conditional-block",
+            custom_elements: 'conditional-block',
 
             setup: (editor) => {
                 // Instead of defining a custom icon pack, we can register individual
@@ -55,7 +55,7 @@
 
                 // The init event is fired when the editor is fully loaded.
                 // https://www.tiny.cloud/docs/advanced/events/#editorcoreevents
-                editor.on("init", () => {
+                editor.on('init', () => {
                     // Get the iframe window object and the iframes document object
                     // and call our setup function that creates the web component
                     // https://www.tiny.cloud/docs/api/tinymce/tinymce.editor/#getwin
@@ -68,7 +68,7 @@
                 // The preinit event is fired after the editor is loaded but before
                 // the content is loaded
                 // https://www.tiny.cloud/docs/advanced/events/#editorcoreevents
-                editor.on("preinit", () => {
+                editor.on('preinit', () => {
                     // During the creation of the web component we set contenteditable false
                     // on the web component to make it behave like a noneditable but selectable
                     // element inside TinyMCE. But we don't want the contenteditable attribute
@@ -76,13 +76,13 @@
                     // upon serlialization (which happens on "save", view sourcecode and preview
                     // among others).
                     // https://www.tiny.cloud/docs/api/tinymce.dom/tinymce.dom.serializer/#addnodefilter
-                    editor.serializer.addNodeFilter("conditional-block", (nodes) => {
+                    editor.serializer.addNodeFilter('conditional-block', (nodes) => {
                         // Iterate through all filtered nodes and remove the contenteditable attribute
                         // as well as the wrapper <div> we add when creating the custom element
                         nodes.forEach((node) => {
-                            if (!!node.attr("contenteditable")) {
+                            if (!!node.attr('contenteditable')) {
                                 // Remove the contenteditable attribute on the <conditional-block>
-                                node.attr("contenteditable", null);
+                                node.attr('contenteditable', null);
                                 // Traverse into the first child which would be the <div contenteditable="true">
                                 // https://www.tiny.cloud/docs/api/tinymce.html/tinymce.html.node/#walk
                                 const content = node.walk();
@@ -96,9 +96,9 @@
 
                 // Register a custom toolbar menu button to insert the conditional block
                 // https://www.tiny.cloud/docs/ui-components/typesoftoolbarbuttons/#menubutton
-                editor.ui.registry.addButton("conditionalblock", {
-                    icon: "conditional-block",
-                    tooltip: "Insert conditional block",
+                editor.ui.registry.addButton('conditionalblock', {
+                    icon: 'conditional-block',
+                    tooltip: 'Insert conditional block',
                     onAction: () => {
                         dialogManager(null, editor);
                     }
@@ -161,7 +161,7 @@
             // the shadow root gets it's HTML content from the template element.
             // We do not need to inject the template element into the content,
             // we can simply create it in memory and attach it to the shadow root
-            const template = doc.createElement("template");
+            const template = doc.createElement('template');
 
             template.innerHTML = `
                 <style>
@@ -259,11 +259,11 @@
                     // During the creation of the web component we set contenteditable false
                     // on the web component to make it behave like a noneditable-but-selectable
                     // element inside TinyMCE.
-                    this.setAttribute("contenteditable", false);
+                    this.setAttribute('contenteditable', false);
 
                     // Attach the shadow DOM to the element
                     // https://developer.mozilla.org/en-US/docs/Web/API/Element/attachShadow
-                    const shadow = this.attachShadow({mode: "open"});
+                    const shadow = this.attachShadow({mode: 'open'});
 
                     // Attach the html template to the web components shadow DOM
                     this.shadowRoot.appendChild(template.content.cloneNode(true));
@@ -299,7 +299,7 @@
                 // the `attributeChangedCallback` method is invoked. Which attributes are
                 // observed is defined by the `observedAttributes` method.
                 attributeChangedCallback(name, oldValue, newValue) {
-                    if (name === "data-property") {
+                    if (name === 'data-property') {
                         this.shadowRoot.getElementById('property').textContent = newValue;
                     }
                     else if (name === 'data-operator') {
@@ -315,7 +315,7 @@
             }
             // Register our web component to the tag we want to use it as
             // https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/define
-            win.customElements.define("conditional-block", ConditionalBlock);
+            win.customElements.define('conditional-block', ConditionalBlock);
         }
 
         // Custom function that manages the Insert/edit dialog

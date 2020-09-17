@@ -260,11 +260,10 @@
                     // content in a <div> with contenteditable on it.
                     const cleanupContentEditable = () => {
                         if (this.firstChild.contentEditable !== 'true') {
-                            console.log('foo');
                             const editableWrapper = document.createElement('div');
                             editableWrapper.setAttribute('contenteditable', true);
 
-                            while(this.firstChild) {
+                            while (this.firstChild) {
                                 editableWrapper.appendChild(this.firstChild)
                             }
 
@@ -373,10 +372,6 @@
                         editor.insertContent(`<conditional-block data-property="${data.property}" data-operator="${data.operator}" data-value="${data.value}"><p>Write conditional text here</p></conditional-block>`);
                     }
                     else {
-                        // Get the currently selected node.
-                        // https://www.tiny.cloud/docs/api/tinymce.dom/tinymce.dom.selection/
-                        const node = editor.selection.getNode();
-
                         // Working directly with the DOM often requires manually adding
                         // the actions to the undo stack.
                         // https://www.tiny.cloud/docs/api/tinymce/tinymce.undomanager/

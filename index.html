@@ -11,22 +11,27 @@
             font-size: 16px;
             line-height: 1.35;
             margin: 0;
-            padding: 10vh 1rem;
+            padding: 10vh 1rem;            
         }
-
+        
         body > header,
         body > main {
             margin: auto;
-            max-width: 820px;
+        }
+        
+        @media screen and (min-width: 700px) {
+            body > header,
+            body > main {
+                max-width: 620px;
+                padding-left: 200px;                                    
+            }
         }
 
         body > header {
             font-size: 1.25rem;
         }
 
-
         body > main {
-            padding: 0;
         }
 
         section {
@@ -42,11 +47,61 @@
             font-size: .875rem;
             margin-top: 2rem;
         }
+        
+        @media screen and (min-width: 700px) {
+            aside {
+                position: fixed;            
+                left: 2rem;
+                margin: auto;
+                top: calc(10vh + 3.5rem - 1.25rem);    
+                width: 160px;
+            }
+        }
+        
+        @media screen and (min-width: 852px) {
+            aside {
+                left: calc(50vw - (410px - 1rem));
+            }
+        }
+        
+        aside > footer {
+            margin-top: 2rem;
+        }
+        
+        nav {
+            margin-top: 1.6rem;
+        }
+        
+        @media screen and (max-width: 699px) {
+            aside > footer {
+                display: none;
+            }
+            
+            nav {
+                display: none;
+            }
+        }
+        
+        nav a,
+        nav a:link,
+        nav a:visited {
+            color: #909DBC;
+            font-size: 1.25rem;
+            line-height: 2rem;
+        }
+        
+        @media screen and (min-width: 700px) {
+            nav a {
+                display: block;
+            }
+        }
 
         h1 {
             font-size: 2.5rem;
+            line-height: 3.5rem;
             font-weight: 800;
             letter-spacing: -.0125em;
+            margin: 3.5rem 0 1.5rem;
 
         }
 
@@ -81,32 +136,115 @@
             margin: 0 0 .5rem 0;
         }
 
-        span {
+        span.tag {
             background-color: rgb(237, 243, 255);
             border-radius: 10em;
             display: inline-block;
-            font-size: .75rem;
-            font-weight: 500;
+            font-size: .6875rem;
+            font-weight: 600;
             margin: .5rem .5rem 0 0;
             padding: .25em 1em;
+        }
+        
+        span.tag-plugin {
+            background-color: #2769D2;
+            color: #FFEFC5;
+        }
+
+        span.tag-buttons-and-menus {
+            background-color: #86DDD5;
+            color: #2D393C;
+        }
+        span.tag-content-styling {
+            background-color: #EB648B;
+            color: #fff;
+        }
+        span.tag-formats {
+            background-color: #FFD972;
+            color: #CF0541;
+        }
+        span.tag-toolbar {
+            background-color: #DCEDC8;
+            color: #1553B6;
+        }
+        span.tag-dialogs {
+            background-color: #049587;
+            color: #F2F8D7;
+        }
+        span.tag-skinning {
+            background-color: #59D2F6;
+            color: #003286;
+        }
+        span.tag-custom-elements {
+            background-color: #8B572A;
+            color: #FFF5DA;
+        }
+        span.tag-inline-mode {
+            background-color: #FF6A00;
+            color: #FEEC6F;
+        }
+        
+        .github-badge {   
+            display: block;         
+            font-size: .75rem;
+            font-weight: 500;
+            background-color: rgb(237, 243, 255);
+            padding: .5rem;
+            border-radius: 20px;
+            display: flex;            
+            align-items: center;
+            max-width: 120px;
+        }
+        
+        .github-badge:hover {
+            text-decoration: none;
+        }
+        
+        .github-badge span {
+            display: block;
+            flex: 1 1 auto;
+            color: #60687A;
+        }
+        
+        .github-badge svg {
+            margin-right: .5rem;
+            display: block;
+            flex: 0 0 28px;
+            fill: #60687A;
         }
     </style>
 </head>
 <body>
-    <header>
+    <aside>
         <svg width="112" height="96" xmlns="http://www.w3.org/2000/svg"><g fill="#283c6f"><path d="M45 31L67 31 67 36 45 36z"/><path d="M45 61L67 61 67 66 45 66z"/><path d="M37 51L74 51 74 56 37 56z"/><path d="M37 41L74 41 74 46 37 46z"/><path d="M55.747 0l44.9 43.24 6.506-6.069 4.677 4.234-55.915 54.412L10.42 51.651l-6.022 5.813L0 53.2 55.747 0zM14.912 47.315L55.93 87.131 96.918 47.31 55.93 7.469 14.912 47.315z"/></g></svg>
+        <nav>
+            <a href="#tinymce-basics">TinyMCE Basics</a>
+            <a href="#tokens">Tokens</a>
+            <a href="#templates">Templates</a>
+            <a href="#email">Email</a>
+            <a href="#cool-demos">Cool Demos</a>
+        </nav>
+        
+        <footer>
+            <a href="https://github.com/tinymce/tinymce-demos" class="github-badge">
+                <svg width="28" height="28" xmlns="http://www.w3.org/2000/svg"><path d="M16.337 20.882c.57.392 1.26 1.113 1.26 2.471v2.849a12.664 12.664 0 0 1-3.597.525 12.676 12.676 0 0 1-3.598-.525v-2.847c0-1.36.69-2.081 1.26-2.472-3.089-.318-6.4-1.432-6.4-6.76 0-1.496.529-2.72 1.405-3.662-.14-.36-.599-1.747.14-3.623 0 0 1.154-.373 3.77 1.4 1.086-.304 2.269-.406 3.423-.406 1.168 0 2.337.102 3.436.406 2.219-1.434 3.759-1.434 3.759-1.434.75 1.876.276 3.296.138 3.657.875.943 1.406 2.166 1.406 3.661 0 5.33-3.313 6.441-6.402 6.76M14 0C6.28 0 0 6.28 0 14s6.28 14 14 14 14-6.28 14-14S21.72 0 14 0"/></svg>
+                <span>View source on Github!</span>
+            </a>
+        </footer>
+    </aside>
+    
+    <header>        
         <h1>TinyMCE Demos</h1>
         <p>TinyMCE is a versatile tool that can be used for a wide variety of text editing tasks. This repository aims to inspire you and demonstrate different approaches to common use cases.</p>
         <p>Every demo has a thorougly documented html file explaining the TinyMCE config as well as links to relevant documentation to make it easy to use these demos as basis for your own projects.</p>
         <p>Make sure you visit the <a href="https://github.com/tinymce/tinymce-demos">Github repository and look through the HTML files</a>. Each demo is carefully documented to help you get the most out of TinyMCE.
         <p>These demos are released under a MIT license. TinyMCE is licensed under a LGPL or commercial license</p>
     </header>
-
-
+    
     <main>
 
         <section>
-            <header>
+            <header id="tinymce-basics">
                 <h2>TinyMCE Basics</h2>
                 <p>The following demos showcase common how-tos like creating toolbar buttons, menu items, formattingS etc.</p>
             </header>
@@ -114,60 +252,75 @@
             <article>
                 <h3><a href="tinymce-basics/useful_styles_for_content_css.html">Useful styles to include in your content css</a></h3>
                 <p>The default content css is very barebone for maximum flexibility. Here are some tips on styles you can include in your content css to improve the writing experience.</p>
-                <span>Beginner</span>
+                <span class="tag">Beginner</span>
+                <span class="tag tag-content-styling">Content Styling</span>
             </article>
 
             <article>
                 <h3><a href="tinymce-basics/badges.html">Badges with custom text and colors</a></h3>
                 <p>Badges are a common ui component in web apps to indicate statuses. Here is one of many ways to implement them in TinyMCE. This demo allows the user to choose their own text and colors through a dialog and demonstrating how to use formats to create a badge but use the selection api for editing it to make sure the whole badge gets the changes and not just the selected text within it.</p>
-                <span>Intermediate</span>
+                <span class="tag">Intermediate</span>
+                <span class="tag tag-buttons-and-menus">Buttons & Menus</span>
+                <span class="tag tag-dialogs">Dialogs</span>
+                <span class="tag tag-formats">Formats</span>
             </article>
 
             <article>
                 <h3><a href="tinymce-basics/custom-toolbar-button-menu-and-context-toolbar.html">Creating custom toolbar buttons, menus and context toolbars.</a></h3>
                 <p>This demo uses a custom callout block to demonstrate how to create toolbar buttons, customizing the menu and showing a context toolbar when selecting the callout. It also shows how to add a custom icon pack for our custom toolbar button.</p>
-                <span>Intermediate</span>
+                <span class="tag">Intermediate</span>
+                <span class="tag tag-buttons-and-menus">Buttons & Menus</span>                            
             </article>
 
             <article>
                 <h3><a href="tinymce-basics/webapp-description-comment-reply-editor.html">Webapp description/comment/reply editor</a></h3>
                 <p>Here is a demo of an editor suitable for description fields, comment and replys found in webapps like Jira, Zendesk, Asana among others. This demo also includes how to use the text_pattern plugin to achieve automatic conversion of stars into proper lists etc.</p>
-                <span>Intermediate</span>
+                <span class="tag">Intermediate</span>
+                <span class="tag tag-plugin">Plugin:Textpattern</span>
             </article>
 
             <article>
                 <h3><a href="tinymce-basics/bootstrap-rich-text-form.html">Implementing TinyMCE into Bootstrap</a></h3>
                 <p>Here is a guide on how to visually integrate TinyMCE into Bootstrap using our Bootstrap skin</p>
-                <span>Beginner</span>
+                <span class="tag">Beginner</span>
+                <span class="tag tag-content-styling">Content Styling</span>
+                <span class="tag tag-skinning">Skinning</span>
             </article>
 
             <article>
                 <h3><a href="tinymce-basics/right-aligned-toolbar-button.html">Right aligned toolbar buttons</a></h3>
                 <p>Normally we <strong>strongly advice against overriding the TinyMCE CSS</strong> to tweak the editor. The proper way to change the visual appearance is to make a skin. That said, there is always exceptions to a good rule and moving a couple of toolbar buttons to the right side of the toolbar is one example of such an exeception.</p>
-                <span>Beginner</span>
+                <span class="tag">Beginner</span>
+                <span class="tag tag-toolbar">Toolbar</span>
             </article>
 
             <article>
                 <h3><a href="tinymce-basics/toggle-image-size-context-toolbar.html">Toggle between image sizes and layouts using a context toolbar</a></h3>
                 <p>A popular pattern among blog and cmses is to allow the author to switch between different preset image sizes like small, wide and full as well as aligning the image left or right. It also showcases the quickbars plugin that uses medium style context toolbars when selecting content.</p>
-                <span>Intermediate</span>
+                <span class="tag">Intermediate</span>
+                <span class="tag tag-buttons-and-menus">Buttons & Menus</span>
+                <span class="tag tag-content-styling">Content Styling</span>                           
+                <span class="tag tag-formats">Formats</span>
             </article>
 
             <article>
                 <h3><a href="tinymce-basics/format-link-as-button.html">Format links to look like buttons</a></h3>
                 <p>This demo shows how to format a link into a call-to-action button by creating a custom format that applies a class to a link turning it into a button.</p>
-                <span>Beginner</span>
+                <span class="tag">Beginner</span>
+                <span class="tag tag-formats">Formats</span>
             </article>
 
             <article>
                 <h3><a href="tinymce-basics/customizing-the-table-toolbar.html">An alternate table context toolbar</a></h3>
                 <p>TinyMCE 5.4 introduced a couple of new table APIs we can use to construct an alternative table context toolbar. In this demo showcases a table header row/column toggle, a menu for choosing cell background color menu among other things.</p>
-                <span>Intermediate</span>
+                <span class="tag">Intermediate</span>
+                <span class="tag tag-buttons-and-menus">Buttons & Menus</span>
+                <span class="tag tag-plugin">Plugin:Tables</span>
             </article>
         </section>
 
         <section>
-            <header>
+            <header id="tokens">
                 <h2>Tokens</h2>
                 <p>Tokens – or mail merge variables such as {{name.first}} – are often found in document automation and email editors. Here are three ways you can implement them in TinyMCE</p>
             </header>
@@ -175,24 +328,32 @@
             <article>
                 <h3><a href="tokens/text-based-token.html">Text-based tokens</a></h3>
                 <p>Transform any text based tokens such as {{name.first}} into spans that we can style and make noneditable – and transform back to pure text when storing the content. Perfect for existing systems as this approach is non-destructive to your content.</p>
-                <span>Beginner</span>
+                <span class="tag">Beginner</span>
+                <span class="tag tag-buttons-and-menus">Buttons & Menus</span>
+                <span class="tag tag-content-styling">Content Styling</span>
+                <span class="tag tag-plugin">Plugin:Noneditable</span>
             </article>
 
             <article>
                 <h3><a href="tokens/web-component-token.html">Web component tokens</a></h3>
                 <p>With the january 2020 release of Microsoft Edge, all major browsers now supports web components. Here we  create a custom element called <code>&lt;inline-token&gt;</code> that becomes our token. Tip: You can render the custom element using vue/angular/react in your front-end</p>
-                <span>Master</span>
+                <span class="tag">Master</span>
+                <span class="tag tag-buttons-and-menus">Buttons & Menus</span>
+                <span class="tag tag-content-styling">Content Styling</span>
+                <span class="tag tag-custom-elements">Custom Elements</span>
             </article>
 
             <article>
                 <h3><a href="tokens/span-based-token.html">Span-based tokens</a></h3>
                 <p>Here we use a span with a class to wrap our token. A simple but powerful approach.</p>
-                <span>Beginner</span>
+                <span class="tag">Beginner</span>
+                <span class="tag tag-buttons-and-menus">Buttons & Menus</span>
+                <span class="tag tag-content-styling">Content Styling</span> 
             </article>
         </section>
 
         <section>
-            <header>
+            <header id="templates">
                 <h2>Templates</h2>
                 <p>Examples and ideas how to implement templates and layouts with TinyMCE. For example how to only enable editing on select parts of a document or to enable multiple column support in TinyMCE</p>
             </header>
@@ -200,42 +361,51 @@
             <article>
                 <h3><a href="templates-and-layout/advanced-placeholder.html">Advanced Placeholders – pick a template from a blank document</a></h3>
                 <p>This demo shows how to implement an empty page placeholder UI containing complex HTML and buttons to insert templates. This feature is found in popular apps like Notion and Atlassian Confluence among others.</p>
-                <span>Master</span>
+                <span class="tag">Master</span>
+                <span class="tag tag-content-styling">Content Styling</span>
+                <span class="tag tag-plugin">Plugin:Templates</span>
             </article>
 
             <article>
                 <h3><a href="templates-and-layout/multiple-columns-using-css-columns.html">Create a multiple column format using CSS Columns</a></h3>
                 <p>Demo of how to implement columns using CSS Columns and a toolbar button to toggle columns on/off</p>
-                <span>Intermediate</span>
+                <span class="tag">Intermediate</span>
+                <span class="tag tag-buttons-and-menus">Buttons & Menus</span>
+                <span class="tag tag-formats">Formats</span>
             </article>
 
             <article>
                 <h3><a href="templates-and-layout/locked-down-template-inline-default.html">Locked down template example 1: using the default inline mode</a></h3>
                 <p>A popular question we get is how to lock down the editor in different ways to force a specific order of elements or prevent formatting. The way to do this is by using the inline mode which will give you more flexibility over the TinyMCE UI. Here is a basic example using the regular inline mode.</p>
-                <span>Intermediate</span>
+                <span class="tag">Intermediate</span>
+                <span class="tag tag-inline-mode">Inline Mode</span>
             </article>
 
             <article>
                 <h3><a href="templates-and-layout/locked-down-template-inline-context-toolbars.html">Locked down template example 2: using context toolbars</a></h3>
                 <p>Another visual approach is to use the quickbars plugin which enables "Medium" styled context toolbars. This provides a more seamless and integrated solution</p>
-                <span>Intermediate</span>
+                <span class="tag">Intermediate</span>
+                <span class="tag tag-buttons-and-menus">Buttons & Menus</span>
+                <span class="tag tag-inline-mode">Inline Mode</span>
             </article>
 
             <article>
                 <h3><a href="templates-and-layout/locked-down-template-inline-fixed-toolbar.html">Locked down template example 3: using a fixed toolbar</a></h3>
                 <p>A third example is using the <code>fixed_toolbar_container</code> option that allows you to render the toolbars anywhere on the page for maximum flexibility. This approach is very suitable for web apps.</p>
-                <span>Master</span>
+                <span class="tag">Master</span>
+                <span class="tag tag-inline-mode">Inline Mode</span>
             </article>
 
             <article>
                 <h3><a href="templates-and-layout/locked-down-template-inline-bordered.html">Locked down template example 4: emulating a bordered editor </a></h3>
                 <p>All the previous locked down examples have shown a borderless editing experience. Here is an example on how to frame the inline editor to closer match the iframe version of TinyMCE.</p>
-                <span>Master</span>
+                <span class="tag">Master</span>
+                <span class="tag tag-inline-mode">Inline Mode</span>
             </article>
         </section>
 
         <section>
-            <header>
+            <header id="email">
                 <h2>Email</h2>
                 <p>Examples and ideas how to create HTML email editors with TinyMCE, from a rich text webmail editor to the recommended approach for creating visually rich marketing email editor implementations.</p>
             </header>
@@ -243,32 +413,43 @@
             <article>
                 <h3><a href="email/webmail-rich-text-editor.html">Webmail rich text editor</a></h3>
                 <p>Demo of a simple rich text webmail editor including how to set inline CSS styles on the default paragraphs</p>
-                <span>Beginner</span>
+                <span class="tag">Beginner</span>
+                <span class="tag tag-formats">Formats</span>            
             </article>
 
             <article>
                 <h3><a href="email/marketing-email-inline-mode.html">Marketing email editor using inline mode</a></h3>
                 <p>The recommended approach to do marketing emails containing layouts is to move the table layout outside of TinyMCE and enable TinyMCE inline mode on the text blocks only.</p>
-                <span>Master</span>
+                <span class="tag">Master</span>
+                <span class="tag tag-content-styling">Content Styling</span>
+                <span class="tag tag-inline-mode">Inline Mode</span>
             </article>
 
             <article>
                 <h3><a href="email/marketing-email-inline-mode-fixed-toolbar.html">Marketing email editor using inline mode and a fixed toolbar</a></h3>
                 <p>Same example as the previous one but with a fixed toolbar.</p>
-                <span>Master</span>
+                <span class="tag">Master</span>
+                <span class="tag tag-content-styling">Content Styling</span>
+                <span class="tag tag-inline-mode">Inline Mode</span>
+                <span class="tag tag-toolbar">Toolbar</span>
             </article>
         </section>
 
         <section>
             <header>
-                <h2>Cool demos</h2>
+                <h2 id="cool-demos">Cool demos</h2>
                 <p>Sometimes you just want to show off right? Here are a couple of demos showcasing just how versatile TinyMCE is</p>
             </header>
 
             <article>
                 <h3><a href="cool-demos/expand-editor-and-show-toolbar.html">Expand and show toolbar</a></h3>
                 <p>A truly minimal and elegant example of an editor that starts out like a unintrusive textarea and grows into a rich text editor upon focus. Demonstrates an interesting use of the inline mode and features like inline placeholder, toolbar groups as well as our new premium thin icon pack.</p>
-                <span>Master</span>
+                <span class="tag">Master</span>
+                <span class="tag tag-buttons-and-menus">Buttons & Menus</span>
+                <span class="tag tag-content-styling">Content Styling</span>
+                <span class="tag tag-inline-mode">Inline Mode</span>
+                <span class="tag tag-toolbar">Toolbar</span>
+                <span class="tag tag-skinning">Skinning</span>
             </article>
         </section>
     </main>

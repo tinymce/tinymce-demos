@@ -11,19 +11,19 @@
             font-size: 16px;
             line-height: 1.35;
             margin: 0;
-            padding: 10vh 1rem;            
+            padding: 10vh 1rem;
         }
-        
+
         body > header,
         body > main {
             margin: auto;
         }
-        
+
         @media screen and (min-width: 700px) {
             body > header,
             body > main {
                 max-width: 620px;
-                padding-left: 200px;                                    
+                padding-left: 200px;
             }
         }
 
@@ -47,41 +47,41 @@
             font-size: .875rem;
             margin-top: 2rem;
         }
-        
+
         @media screen and (min-width: 700px) {
             aside {
-                position: fixed;            
+                position: fixed;
                 left: 2rem;
                 margin: auto;
-                top: calc(10vh + 3.5rem - 1.25rem);    
+                top: calc(10vh + 3.5rem - 1.25rem);
                 width: 160px;
             }
         }
-        
+
         @media screen and (min-width: 852px) {
             aside {
                 left: calc(50vw - (410px - 1rem));
             }
         }
-        
+
         aside > footer {
             margin-top: 2rem;
         }
-        
+
         nav {
             margin-top: 1.6rem;
         }
-        
+
         @media screen and (max-width: 699px) {
             aside > footer {
                 display: none;
             }
-            
+
             nav {
                 display: none;
             }
         }
-        
+
         nav a,
         nav a:link,
         nav a:visited {
@@ -89,7 +89,7 @@
             font-size: 1.25rem;
             line-height: 2rem;
         }
-        
+
         @media screen and (min-width: 700px) {
             nav a {
                 display: block;
@@ -145,7 +145,7 @@
             margin: .5rem .5rem 0 0;
             padding: .25em 1em;
         }
-        
+
         span.tag-plugin {
             background-color: #2769D2;
             color: #FFEFC5;
@@ -183,29 +183,29 @@
             background-color: #FF6A00;
             color: #FEEC6F;
         }
-        
-        .github-badge {   
-            display: block;         
+
+        .github-badge {
+            display: block;
             font-size: .75rem;
             font-weight: 500;
             background-color: rgb(237, 243, 255);
             padding: .5rem;
             border-radius: 20px;
-            display: flex;            
+            display: flex;
             align-items: center;
             max-width: 120px;
         }
-        
+
         .github-badge:hover {
             text-decoration: none;
         }
-        
+
         .github-badge span {
             display: block;
             flex: 1 1 auto;
             color: #60687A;
         }
-        
+
         .github-badge svg {
             margin-right: .5rem;
             display: block;
@@ -225,7 +225,7 @@
             <a href="#email">Email</a>
             <a href="#cool-demos">Cool Demos</a>
         </nav>
-        
+
         <footer>
             <a href="https://github.com/tinymce/tinymce-demos" class="github-badge">
                 <svg width="28" height="28" xmlns="http://www.w3.org/2000/svg"><path d="M16.337 20.882c.57.392 1.26 1.113 1.26 2.471v2.849a12.664 12.664 0 0 1-3.597.525 12.676 12.676 0 0 1-3.598-.525v-2.847c0-1.36.69-2.081 1.26-2.472-3.089-.318-6.4-1.432-6.4-6.76 0-1.496.529-2.72 1.405-3.662-.14-.36-.599-1.747.14-3.623 0 0 1.154-.373 3.77 1.4 1.086-.304 2.269-.406 3.423-.406 1.168 0 2.337.102 3.436.406 2.219-1.434 3.759-1.434 3.759-1.434.75 1.876.276 3.296.138 3.657.875.943 1.406 2.166 1.406 3.661 0 5.33-3.313 6.441-6.402 6.76M14 0C6.28 0 0 6.28 0 14s6.28 14 14 14 14-6.28 14-14S21.72 0 14 0"/></svg>
@@ -233,16 +233,16 @@
             </a>
         </footer>
     </aside>
-    
-    <header>        
+
+    <header>
         <h1>TinyMCE Demos</h1>
         <p>TinyMCE is a versatile tool that can be used for a wide variety of text editing tasks. This repository aims to inspire you and demonstrate different approaches to common use cases.</p>
         <p>Every demo has a thorougly documented html file explaining the TinyMCE config as well as links to relevant documentation to make it easy to use these demos as basis for your own projects.</p>
         <p>Make sure you visit the <a href="https://github.com/tinymce/tinymce-demos">Github repository and look through the HTML files</a>. Each demo is carefully documented to help you get the most out of TinyMCE.
         <p>These demos are released under a MIT license. TinyMCE is licensed under a LGPL or commercial license</p>
     </header>
-    
-    <main>        
+
+    <main>
         <section>
             <header id="tinymce-basics">
                 <h2>TinyMCE Basics</h2>
@@ -269,7 +269,7 @@
                 <h3><a href="tinymce-basics/custom-toolbar-button-menu-and-context-toolbar.html">Creating custom toolbar buttons, menus and context toolbars.</a></h3>
                 <p>This demo uses a custom callout block to demonstrate how to create toolbar buttons, customizing the menu and showing a context toolbar when selecting the callout. It also shows how to add a custom icon pack for our custom toolbar button.</p>
                 <span class="tag">Intermediate</span>
-                <span class="tag tag-buttons-and-menus">Buttons & Menus</span>                            
+                <span class="tag tag-buttons-and-menus">Buttons & Menus</span>
             </article>
 
             <article>
@@ -299,7 +299,7 @@
                 <p>A popular pattern among blog and cmses is to allow the author to switch between different preset image sizes like small, wide and full as well as aligning the image left or right. It also showcases the quickbars plugin that uses medium style context toolbars when selecting content.</p>
                 <span class="tag">Intermediate</span>
                 <span class="tag tag-buttons-and-menus">Buttons & Menus</span>
-                <span class="tag tag-content-styling">Content Styling</span>                           
+                <span class="tag tag-content-styling">Content Styling</span>
                 <span class="tag tag-formats">Formats</span>
             </article>
 
@@ -308,7 +308,7 @@
                 <p>This demo shows how to format a link into a call-to-action button by creating a custom format that applies a class to a link turning it into a button.</p>
                 <span class="tag">Beginner</span>
                 <span class="tag tag-formats">Formats</span>
-            </article>            
+            </article>
         </section>
 
         <section>
@@ -340,16 +340,16 @@
                 <p>Here we use a span with a class to wrap our token. A simple but powerful approach.</p>
                 <span class="tag">Beginner</span>
                 <span class="tag tag-buttons-and-menus">Buttons & Menus</span>
-                <span class="tag tag-content-styling">Content Styling</span> 
+                <span class="tag tag-content-styling">Content Styling</span>
             </article>
         </section>
-        
+
         <section>
             <header id="tables">
                 <h2>Tables</h2>
                 <p>Demos showcasing diffrent ideas and concepts around tables
             </header>
-            
+
             <article>
                 <h3><a href="tables/customizing-the-table-toolbar.html">An alternate table context toolbar</a></h3>
                 <p>TinyMCE 5.4 introduced a couple of new table APIs we can use to construct an alternative table context toolbar. In this demo showcases a table header row/column toggle, a menu for choosing cell background color menu among other things.</p>
@@ -357,10 +357,10 @@
                 <span class="tag tag-buttons-and-menus">Buttons & Menus</span>
                 <span class="tag tag-plugin">Plugin:Tables</span>
             </article>
-            
+
             <article>
                 <h3><a href="tables/table-row-templates.html">Table row templates</a></h3>
-                <p>t.b.d</p>
+                <p>This demo illustrates inserting templated table rows. This could be useful when dealing with document automation or reporting type apps.</p>
                 <span class="tag">Intermediate</span>
                 <span class="tag tag-buttons-and-menus">Buttons & Menus</span>
                 <span class="tag tag-plugin">Plugin:Tables</span>
@@ -429,7 +429,7 @@
                 <h3><a href="email/webmail-rich-text-editor.html">Webmail rich text editor</a></h3>
                 <p>Demo of a simple rich text webmail editor including how to set inline CSS styles on the default paragraphs</p>
                 <span class="tag">Beginner</span>
-                <span class="tag tag-formats">Formats</span>            
+                <span class="tag tag-formats">Formats</span>
             </article>
 
             <article>
@@ -473,11 +473,11 @@
                     often found in document and marketing automation apps. The power with Web Components is that they allow us to create complex
                     HTML stuctures and abstract away that into a single custom element,
                     in this case the <code>&lt;conditional-block&gt;...&lt;/conditional-block&gt;</code></p>
-                <span class="tag">Master</span> 
+                <span class="tag">Master</span>
                 <span class="tag tag-buttons-and-menus">Buttons & Menus</span>
                 <span class="tag tag-custom-elements">Custom Elements</span>
                 <span class="tag tag-dialogs">Dialogs</span>
-                <span class="tag tag-skinning">Skinning</span>       
+                <span class="tag tag-skinning">Skinning</span>
             </article>
         </section>
     </main>

@@ -81,7 +81,7 @@
                         tooltip: 'Image description (Alt text)'
                     },
 
-                    // The input field label (Currently does nothing).
+                    // The input field label (Currently adds an aria-label for accessibility).
                     label: 'Image description (alt text)',
 
                     // Initial value of the context form's input field
@@ -121,7 +121,7 @@
 
                                     // Close the context form
                                     // https://www.tiny.cloud/docs/ui-components/contextform/#formapi
-                                    contextform.hide();
+                                    contextFormApi.hide();
                                 });
                             }
                         },

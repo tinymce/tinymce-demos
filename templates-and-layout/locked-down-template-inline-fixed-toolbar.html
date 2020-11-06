@@ -43,6 +43,10 @@
             // https://www.tiny.cloud/docs/configure/editor-appearance/#fixed_toolbar_container
             fixed_toolbar_container: '#toolbar',
 
+            // Make the toolbar always visible (requires TinyMCE 5.5)
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar_persist
+            toolbar_persist: true,
+
             // A nice borderless web-appy skin is our premium skin called Snow, here
             // used together with the Thin premium icon pack
             // You can also easily create your own borderless skin too.
@@ -52,7 +56,32 @@
             // https://www.tiny.cloud/docs/configure/editor-appearance/#icons
             // https://www.tiny.cloud/docs/advanced/creating-an-icon-pack/
             skin: 'snow',
-            icons: 'thin'
+            icons: 'thin',
+
+            setup: (editor) => {
+                // Disable the UI when the editor has loaded
+                // TODO: Use init or PreInit?
+                // TODO: Add documentation for the ui.disable API (Requires TinyMCE 5.6)
+                //https://www.tiny.cloud/docs/advanced/events/
+                editor.on('init', () => {
+
+                    editor.ui.disable();
+                });
+
+                // Enable the UI when the editable area gains focus
+                // TODO: Add documentation for the ui.disable API (Requires TinyMCE 5.6)
+                //https://www.tiny.cloud/docs/advanced/events/
+                editor.on('focus', () => {
+                    editor.ui.enable();
+                });
+
+                // Disable the UI when the editor looses focus
+                // TODO: Add documentation for the ui.disable API (Requires TinyMCE 5.6)
+                //https://www.tiny.cloud/docs/advanced/events/
+                editor.on('blur', () => {
+                    editor.ui.disable();
+                });
+            }
         });
     </script>
     <style>

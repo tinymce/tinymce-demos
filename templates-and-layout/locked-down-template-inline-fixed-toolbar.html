@@ -60,24 +60,22 @@
 
             setup: (editor) => {
                 // Disable the UI when the editor has loaded
-                // TODO: Use init or PreInit?
-                // TODO: Add documentation for the ui.disable API (Requires TinyMCE 5.6)
-                //https://www.tiny.cloud/docs/advanced/events/
-                editor.on('init', () => {
-
+                // https://www.tiny.cloud/docs/api/tinymce.editor.ui/tinymce.editor.ui.ui/
+                // https://www.tiny.cloud/docs/advanced/events/
+                editor.on('SkinLoaded', () => {
                     editor.ui.disable();
                 });
 
                 // Enable the UI when the editable area gains focus
-                // TODO: Add documentation for the ui.disable API (Requires TinyMCE 5.6)
-                //https://www.tiny.cloud/docs/advanced/events/
+                // https://www.tiny.cloud/docs/api/tinymce.editor.ui/tinymce.editor.ui.ui/
+                // https://www.tiny.cloud/docs/advanced/events/
                 editor.on('focus', () => {
                     editor.ui.enable();
                 });
 
                 // Disable the UI when the editor looses focus
-                // TODO: Add documentation for the ui.disable API (Requires TinyMCE 5.6)
-                //https://www.tiny.cloud/docs/advanced/events/
+                // https://www.tiny.cloud/docs/api/tinymce.editor.ui/tinymce.editor.ui.ui/
+                // https://www.tiny.cloud/docs/advanced/events/
                 editor.on('blur', () => {
                     editor.ui.disable();
                 });

@@ -50,17 +50,30 @@
             // https://www.tiny.cloud/docs/configure/editor-appearance/#fixed_toolbar_container
             fixed_toolbar_container: '#toolbar',
 
+            // Make the toolbar always visible (requires TinyMCE 5.5)
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar_persist
+            toolbar_persist: true,
+
             setup: (editor) => {
-                // Apply a custom class to the wrapper element when the editor gets focus
+                // Disable the UI when the editor has loaded
+                // https://www.tiny.cloud/docs/api/tinymce.editor.ui/tinymce.editor.ui.ui/
                 // https://www.tiny.cloud/docs/advanced/events/
-                editor.on('focus', () => {
-                    document.getElementById('editor-wrap').classList.add('focused');
+                editor.on('SkinLoaded', () => {
+                    editor.ui.disable();
                 });
 
-                // Remove the custom class when the editor loses focus
+                // Enable the UI when the editable area gains focus
+                // TODO: https://www.tiny.cloud/docs/api/tinymce.editor.ui/tinymce.editor.ui.ui/
+                // https://www.tiny.cloud/docs/advanced/events/
+                editor.on('focus', () => {
+                    editor.ui.enable();
+                });
+
+                // Disable the UI when the editor looses focus
+                // https://www.tiny.cloud/docs/api/tinymce.editor.ui/tinymce.editor.ui.ui/
                 // https://www.tiny.cloud/docs/advanced/events/
                 editor.on('blur', () => {
-                    document.getElementById('editor-wrap').classList.remove('focused');
+                    editor.ui.disable();
                 });
             }
         });
@@ -71,28 +84,17 @@
             margin: 2rem;
         }
 
-        /* Add border around our editor */
         .editor-wrap {
             border: 1px solid #ccc;
-            padding: calc(40px + 1rem) 1rem 1rem;
-            position: relative;
         }
 
-        /* Style the toolbar container's default (nonvisible) state */
         .editor-wrap header {
-            border-bottom: 0;
-            left: 0;
-            opacity: 0;
-            position: absolute;
-            right: 0;
-            top: 0;
-            transition: opacity .15s;
+            border-bottom: 1px solid #ccc;
+            min-height: 38px; /* Avoid the layout to jump around while the editor is loading */
         }
 
-        /* When the editor is focused we apply these styles */
-        .editor-wrap.focused header {
-            border-bottom: 1px solid #ccc;
-            opacity: 1;
+        .editor-content-area {
+            padding: 1rem;
         }
 
         /* Style the textarea to look like a plain text field */
@@ -186,29 +188,30 @@
                 <div id="toolbar"></div>
             </header>
             <div class="editor-content-area">
-            <!--
-            A Textarea is used for title and description to allow multiple lines.
-            We're not using contenteditable on a <h1> as it automatically allows basic
-            formatting on the OS level such as MacOS and iOS.
-            -->
-            <textarea id="title" class="title" placeholder="Post Title" rows="1">Using TinyMCE Inline mode to lock down your content</textarea>
-            <textarea id="description" class="description" placeholder="Post Title" rows="1">This example demonstrate one approach for implementing a plain text title and description together with TinyMCE.</textarea>
+                <!--
+                A Textarea is used for title and description to allow multiple lines.
+                We're not using contenteditable on a <h1> as it automatically allows basic
+                formatting on the OS level such as MacOS and iOS.
+                -->
+                <textarea id="title" class="title" placeholder="Post Title" rows="1">Using TinyMCE Inline mode to lock down your content</textarea>
+                <textarea id="description" class="description" placeholder="Post Title" rows="1">This example demonstrate one approach for implementing a plain text title and description together with TinyMCE.</textarea>
 
-            <div id="tinymce" class="content">
-                <p>A popular question we get is how to lock down the editor to <span style="background-color: #fbeeb8;">always require a title which cannot be styled</span>. The way to do this is by using the inline mode which will give you more flexibility over the TinyMCE UI.</p>
-                <p><strong>The proper way to lock down content</strong>, is to <span style="background-color: #eccafa;">move it outside of TinyMCE</span>. Here we have created separate textareas for the title and description fields <em>giving you as a developer full control</em> to make sure that the title will always come first, cannot be empty and be plain-text.</p>
-                <p>This particular demo emulates the regular bordered TinyMCE editor. Make sure you try out the other examples showcasing other visual appearances such as context toolbars.</p>
+                <div id="tinymce" class="content">
+                    <p>A popular question we get is how to lock down the editor to <span style="background-color: #fbeeb8;">always require a title which cannot be styled</span>. The way to do this is by using the inline mode which will give you more flexibility over the TinyMCE UI.</p>
+                    <p><strong>The proper way to lock down content</strong>, is to <span style="background-color: #eccafa;">move it outside of TinyMCE</span>. Here we have created separate textareas for the title and description fields <em>giving you as a developer full control</em> to make sure that the title will always come first, cannot be empty and be plain-text.</p>
+                    <p>This particular demo emulates the regular bordered TinyMCE editor. Make sure you try out the other examples showcasing other visual appearances such as context toolbars.</p>
+                </div>
             </div>
         </div>
     </main>
 
-<!--
-    A small script is used to make the textarea automatically grow to fit the text.
--->
-<script src="https://cdn.jsdelivr.net/npm/autosize@4.0.2/dist/autosize.min.js" integrity="sha256-dW8u4dvEKDThJpWRwLgGugbARnA3O2wqBcVerlg9LMc=" crossorigin="anonymous"></script>
-<script>
-    autosize(document.getElementById('title'));
-    autosize(document.getElementById('description'));
-</script>
+    <!--
+        A small script is used to make the textarea automatically grow to fit the text.
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/autosize@4.0.2/dist/autosize.min.js" integrity="sha256-dW8u4dvEKDThJpWRwLgGugbARnA3O2wqBcVerlg9LMc=" crossorigin="anonymous"></script>
+    <script>
+        autosize(document.getElementById('title'));
+        autosize(document.getElementById('description'));
+    </script>
 </body>
 </html>

@@ -37,6 +37,8 @@
             block_formats: 'Title=h1; Heading=h2; Sub heading=h3; Blockquote=blockquote; Paragraph=p',
             font_css: ['https://fonts.googleapis.com/css2?family=Asap:ital,wght@0,400;0,550;1,400&display=swap'], // URLs containing commas and such has to be wrapped in an Array to work
 
+            toolbar_sticky_offset: 60,
+
             a11y_advanced_options: true,
             a11ychecker_html_version: 'html5',
             a11ychecker_level: 'aa',
@@ -119,10 +121,11 @@
     </script>
     <style>
         body {
-            margin: 2rem .5rem;
+            margin: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif;
             background-color: #fafafc;
             font-family: 'Asap', serif;
+            color: #222f3e;
         }
 
         .editor-wrap {
@@ -130,11 +133,12 @@
             border: 1px solid rgba(0,0,0,.1);
             border-radius: 3px;
             background-color: #fff;
+            margin-bottom: 2rem;
         }
 
         main {
             max-width: 1000px;
-            margin: auto;
+            margin: auto auto 4rem;
         }
 
         label {
@@ -178,16 +182,142 @@
             background-color: #10ac84;
         }
 
+        input[type=text],
+        input[type=date] {
+            color: #222f3e;
+            padding: .5rem 1rem;
+            border: 1px solid rgba(0,0,0,.1);
+            border-radius: 3px;
+            background-color: #fff;
+            font-family: 'Asap', serif;
+            font-weight: 400;
+            font-size: 1rem;
+            box-sizing: border-box;
+            margin-bottom: 2rem;
+        }
+
+        input[type=text] {
+            font-size: 1.25rem;
+            width: 100%;
+        }
+
         /* @media all and (max-width:30em){
              a.button {
                   display: block;
                   margin: 0.2em auto;
              }
         } */
+
+        header {
+            position: fixed;
+            background-color: #48525E;
+            height: 60px;
+            color: #C8C9CC;
+            display: flex;
+            align-items: center;
+            padding: 0 .75rem;
+            line-height: 1;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1;
+        }
+
+        header h1 {
+            font-weight: normal;
+            font-size: 2rem;
+        }
+
+        header span {
+            color: #58B094;
+        }
+
+        header svg {
+            margin-left: auto;
+        }
+
+        header > div {
+            display: flex;
+            align-items: center;
+            margin-left: 3rem;
+        }
+
+        header > div > div {
+            margin-left: 0.5rem;
+        }
+
+        header p {
+            margin: 0;
+        }
+
+        header a {
+            text-decoration: none;
+            font-size: .75rem;
+            color: #66CCAC;
+        }
+
+        section {
+            background-color: #fff;
+            border-bottom: 1px solid rgba(0,0,0,.1);
+            padding: 1.5rem .5rem;
+            margin: 60px 0 2rem 0;
+        }
+
+        section > div {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin: 0 0 .5rem;
+        }
+
+        nav a {
+            color: #66CCAC;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
+    <header>
+        <h1><span>Tiny</span>LMS</h1>
+
+        <svg width="27px" height="25px" viewBox="0 0 27 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g id="chat">
+                    <path d="M11.1875,0 C5.3635,0 0.625,4.008875 0.625,8.9375 C0.646081484,10.9997669 1.45405585,12.9761071 2.88375,14.4625 L0.86225,16.48725 C0.629262633,16.7196481 0.559463521,17.0696328 0.685475497,17.3736278 C0.811487472,17.6776228 1.10842307,17.8755888 1.4375,17.875 L11.1875,17.875 C17.0115,17.875 21.75,13.866125 21.75,8.9375 C21.75,4.008875 17.0115,0 11.1875,0 Z" id="Path" fill="#2196F3"></path>
+                    <path d="M24.36625,20.9625 C25.7955235,19.4758333 26.6034265,17.4996676 26.625,15.4375 C26.5759648,12.9095878 25.3800789,10.5411358 23.375,9.000875 C23.331125,14.7875 17.884125,19.5 11.1875,19.5 L6.66675,19.5 C8.74781898,22.6372194 12.2992578,24.4798891 16.0625,24.375 L25.8125,24.375 C26.1415769,24.3755888 26.4385125,24.1776228 26.5645245,23.8736278 C26.6905365,23.5696328 26.6207374,23.2196481 26.38775,22.98725 L24.36625,20.9625 Z" id="Path" fill="#64B5F6"></path>
+                    <text id="6" font-family="Helvetica" font-size="14" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="7.21386719" y="14">6</tspan>
+                    </text>
+                </g>
+            </g>
+        </svg>
+
+        <div>
+            <div>
+                <img src='data:image/png;base64,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'>
+            </div>
+
+            <div>
+                <p>Lars Marklund</p>
+                <a href="#">Manage profile</a>
+            </div>
+        </div>
+    </header>
+
+<section>
+    <div>
+        <h1>Graphic Design 101</h1>
+        <nav><a href="#">&larr; Back to all assignments</a></nav>
+    </div>
+</section>
+
 <main>
+    <label for="editor">Assignment menu title</label>
+    <input type="text" placeholder="Menu title" value="Assignment #5: Color Theory">
+
     <label for="editor">Assignment body</label>
     <div class="editor-wrap">
     <textarea id="editor">
@@ -259,6 +389,8 @@
             </table>
     </textarea>
     </div>
+    <label for="editor">Due-date</label>
+    <input type="date">
     <div class="btn-group">
         <button type="button" class="btn btn-primary">Save</button>
         <button type="button" class="btn">Cancel</button>

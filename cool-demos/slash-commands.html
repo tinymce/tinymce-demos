@@ -1,0 +1,225 @@
+<!--
+    This demo showcases how to use the autocompleter API to make a
+    slash commands feature and wrap it in a custom plugin
+
+    Learn more about making custom plugins at https://www.tiny.cloud/docs/advanced/creating-a-plugin/
+-->
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Slash commands plugin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5-dev/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script>
+        // Register a TinyMCE plugin
+        // https://www.tiny.cloud/docs/advanced/creating-a-plugin/#registeringacustompluginwithtinymce
+        tinymce.PluginManager.add('commandpalette', function (editor) {
+
+            // An array holding all unique details of each menu item in the
+            // slash commands menu which is later fed into the autocompleter API.
+            var insertActions = [
+                {
+                    text: 'Heading 1',
+                    icon: 'h1',
+                    action: () => {
+                        // Declare what content to be inserted, or what command to execute.
+                        // https://www.tiny.cloud/docs/api/tinymce/tinymce.editor/#insertcontent
+                        // https://www.tiny.cloud/docs/api/tinymce/tinymce.editor/#execcommand
+                        editor.insertContent('<h1>Heading 1</h1>');
+
+                        // Certain actions, like headings, inserts a placeholder to provide some user feedback
+                        // But since the placeholder is meant to be replaced
+                        // we can force TinyMCE to select the placeholder so the user can just begin
+                        // typing their heading
+                        // https://www.tiny.cloud/docs/api/tinymce.dom/tinymce.dom.selection/
+                        editor.selection.select(editor.selection.getNode());
+                    }
+                },
+                {
+                    text: 'Heading 2',
+                    icon: 'h2',
+                    action: () => {
+                        editor.insertContent('<h2>Heading 2</h2>');
+                        editor.selection.select(editor.selection.getNode());
+                    }
+                },
+                {
+                    text: 'Heading 3',
+                    icon: 'h3',
+                    action: () => {
+                        editor.insertContent('<h3>Heading 3</h3>');
+                        editor.selection.select(editor.selection.getNode());
+                    }
+                },
+                {
+                    text: 'Bulleted list',
+                    icon: 'unordered-list',
+                    action: () => editor.execCommand('InsertUnorderedList')
+                },
+                {
+                    text: 'Numbered list',
+                    icon: 'ordered-list',
+                    action: () => editor.execCommand('InsertOrderedList')
+                },
+                {
+                    type: 'separator'
+                },
+                {
+                    text: 'Current time',
+                    icon: 'insert-time',
+                    action: () => editor.execCommand('mceInsertTime')
+                },
+                {
+                    text: 'Current date',
+                    icon: 'insert-time',
+                    action: () => editor.execCommand('mceInsertDate')
+                },
+                {
+                    type: 'separator'
+                },
+                {
+                    text: 'Divider',
+                    icon: 'horizontal-rule',
+                    action: () => editor.execCommand('InsertHorizontalRule')
+                },
+                {
+                    text: 'Table',
+                    icon: 'table',
+                    action: () => editor.execCommand('mceInsertTable', false, { rows: 3, columns: 2, options: { headerRows: 1 } })
+                },
+                {
+                    text: 'Table of contents',
+                    icon: 'toc',
+                    action: () => editor.execCommand('mceInsertToc')
+                },
+                {
+                    text: 'Image...',
+                    icon: 'image',
+                    action: () => editor.execCommand('mceImage')
+                },
+                {
+                    text: 'Media...',
+                    icon: 'embed',
+                    action: () => editor.execCommand('mceMedia')
+                },
+                {
+                    text: 'Quote',
+                    icon: 'quote',
+                    action: () => editor.execCommand('mceBlockQuote')
+                },
+                {
+                    text: 'Code block...',
+                    icon: 'code-sample',
+                    action: () => editor.execCommand('CodeSample')
+                },
+            ]
+
+            // Set up the autocompleter
+            // https://www.tiny.cloud/docs/ui-components/autocompleter/
+            editor.ui.registry.addAutocompleter('insertActions', {
+
+                // The character to trigger the autocompleter,
+                // the number of characters to type before displaying the autocompleter menu and,
+                // configure the autocompleter to display a menu opposed a row of icons
+                // https://www.tiny.cloud/docs/ui-components/autocompleter/#configurationoptions
+                ch: '/',
+                minChars: 0,
+                columns: 1,
+
+                // The fetch function is called when the trigger char is pressed
+                // and the matches predicate returns true.
+                // In other words, this function (re)builds the menu as the user type.
+                fetch: function (pattern) {
+
+                    const matchedActions = insertActions.filter((action) => {
+                        // Normalize the input to match the same action regardless if
+                        // the end-user used upper or lowercase.
+                        return (
+                            action.type === 'separator' ||
+                            action.text.toLowerCase().indexOf(pattern.toLowerCase()) !== -1
+                        );
+                    }).filter((action, i, actions) => {
+                        // As the end-user filters the list, separators can end up adjacent
+                        // to each other which looks bad. This function resolves that
+                        const prevAction = actions[i - 1];
+                        const nextAction = actions[i + 1];
+                        const isRedundantSeparator = action.type === 'separator' && (
+                            !prevAction ||
+                            !nextAction ||
+                            prevAction.type === 'separator' ||
+                            nextAction.type === 'separator'
+                        );
+                        return !isRedundantSeparator;
+                    });
+
+                    // Here the matched autocompleter objects are built
+                    // https://www.tiny.cloud/docs/ui-components/autocompleter/#autocompleteitem
+                    return new tinymce.util.Promise(function (resolve) {
+                        var results = matchedActions.map(function (action) {
+                            return {
+                                meta: action,
+                                text: action.text,
+                                icon: action.icon,
+                                value: action.text,
+                                type: action.type
+                            }
+                        });
+                        resolve(results);
+                    });
+                },
+
+                // Perform the action the end-user selected from the autocompleter menu
+                // https://www.tiny.cloud/docs/ui-components/autocompleter/#configurationoptions
+                onAction: function (autocompleteApi, rng, action, meta) {
+
+                    // In this use-case we want to remove the trigger character and any
+                    // further characters the user typed to filter the actions.
+                    // We begin by creating a selection around those characters
+                    // https://www.tiny.cloud/docs/api/tinymce.dom/tinymce.dom.selection/
+                    editor.selection.setRng(rng);
+
+                    // Delete the selection
+                    // https://www.tiny.cloud/docs/api/tinymce/tinymce.editor/#execcommand
+                    editor.execCommand('Delete');
+
+                    // Perform the selected action
+                    meta.action();
+
+                    // Finally we hide the autocompleter menu
+                    // https://www.tiny.cloud/docs/ui-components/autocompleter/#api
+                    autocompleteApi.hide();
+                }
+            });
+
+            return {};
+        });
+
+        tinymce.init({
+            selector: "textarea",
+            // Remember to include all relevant plugins here which you included in your `insertActions` array above
+            plugins: "commandpalette insertdatetime lists link code table toc hr image codesample media checklist",
+            height: 400,
+        });
+    </script>
+    <style>
+        body {
+            margin: auto;
+        }
+
+        body > div {
+            margin: 2rem auto;
+            max-width: 840px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <textarea id="editor">
+            <p><strong>Slash commands demo</strong>. Type&nbsp;<code>/</code>&nbsp;to open up a menu to quickly insert different stuff</p>
+        </textarea>
+    </div>
+</body>
+</html>

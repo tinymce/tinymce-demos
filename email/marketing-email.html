@@ -39,7 +39,7 @@
             inline: true,
 
             // Tip! To make TinyMCE leaner, only include the plugins you actually need.
-            plugins: 'link lists image emoticons advcode editimage',
+            plugins: 'link lists image emoticons advcode editimage linkchecker',
 
             // This option allows you to specify the buttons and the order that they
             // will appear on TinyMCE’s toolbar.
@@ -68,7 +68,7 @@
             formats: {
                 h1: { block: 'h1', styles: { fontSize: '24px', color: '#335dff' } },
                 h2: { block: 'h2', styles: { fontSize: '18px' } },
-                cta: { selector: 'a', styles: { backgroundColor: '#706FD3', padding: '12px 16px', color: '#ffffff', borderRadius: '4px', textDecoration: 'none', display: 'inline-block'} }
+                calltoaction: { selector: 'a', styles: { backgroundColor: '#335dff', padding: '12px 16px', color: '#ffffff', borderRadius: '4px', textDecoration: 'none', display: 'inline-block'} }
             },
 
             // The style_formats option controls the styleformat toolbar button menu
@@ -77,6 +77,8 @@
                 { title: 'Paragraph', format: 'p' },
                 { title: 'Heading 1', format: 'h1' },
                 { title: 'Heading 2', format: 'h2' },
+                { title: 'Button styles'},
+                { title: 'Call-to-action', format: 'calltoaction' },
             ],
 
             // An inline editor is "invisible" when there are no content in the editor

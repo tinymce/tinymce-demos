@@ -1,0 +1,99 @@
+<!--
+    Create a wordprocessor-like implementation with TinyMCE
+-->
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Wordprocessor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script>
+        tinymce.init({
+            selector: "#editor",
+
+            // Tip! To make TinyMCE leaner, only include the plugins you actually need
+            plugins: "powerpaste casechange searchreplace autolink directionality advcode visualblocks visualchars image link media mediaembed codesample table charmap pagebreak nonbreaking anchor tableofcontents insertdatetime advlist lists checklist wordcount tinymcespellchecker editimage help formatpainter permanentpen charmap tinycomments linkchecker emoticons advtable export",
+
+            // This option allows you to specify the buttons and the order that they
+            // will appear on TinyMCE’s toolbar.
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar
+            toolbar: "undo redo export spellcheckdialog formatpainter | blocks fontsize | bold italic underline forecolor backcolor | link image addcomment showcomments  | alignleft aligncenter alignright alignjustify lineheight | checklist bullist numlist indent outdent",
+
+            // Tip! The height option accepts any valid CSS for height
+            height: '700px',
+
+            // Declare the fonts that should show up in menus. Any font used here must also be included in the `font_css`.
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#font_formats
+            // https://www.tiny.cloud/docs/configure/editor-appearance/#fontsize_formats
+            font_formats: 'Sacramento=Sacramento; Cookie=Cookie; Great Vibes=Great Vibes; Fredoka One=Fredoka One; Alfa Slab One=Alfa Slab One; Satisfy=Satisfy; Permanent Marker=Permanent Marker; Staatliches=Staatliches; Abril Fatface=Abril Fatface; Dancing Script=Dancing Script; Pacifico=Pacifico; Josefin Sans=Josefin Sans; Montserrat=Montserrat; Mogra=Mogra; Andale Mono=andale mono; Arial=arial; Arial Black=arial black; Book Antiqua=book antiqua; Comic Sans MS=comic sans ms; Courier New=courier new; Georgia=georgia; Helvetica=helvetica; Impact=impact; Symbol=symbol; Tahoma=tahoma; Terminal=terminal; Times New Roman=times new roman; Verdana=verdana; Webdings=webdings; Wingdings=wingdings',
+            fontsize_formats: '11px 12px 14px 16px 18px 24px 36px 48px 60px 72px 84px',
+
+            // The `font_css` option allows you to declare font import statements that
+            // gets imported both into the editor content and for the TinyMCE UI so fonts
+            // can be previewed in menus.
+            // The `fonts.css` for this demo simply contains the following CSS:
+            //     @import url("https://fonts.googleapis.com/css?family=Abril+Fatface|Alfa+Slab+One|Cookie|Dancing+Script|Fredoka+One|Great+Vibes|Josefin+Sans:400,400i,700,700i|Mogra|Montserrat:400,400i,700,700i|Pacifico|Permanent+Marker|Sacramento|Satisfy|Staatliches&display=swap");
+            // but can also include @font-face declarations.
+            // Read more about using web fonts at https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_text/Web_fonts
+            // https://www.tiny.cloud/docs/configure/content-appearance/#font_css
+            font_css: 'fonts.css',
+
+            tinycomments_mode: 'embedded',
+            skin: 'snow',
+            icons: 'thin',
+            content_style: `
+
+                body {
+                    background: #fff;
+                }
+
+                @media (min-width: 840px) {
+                    html {
+                        background: #eceef4;
+                        min-height: 100%;
+                        padding: 0 .5rem
+                    }
+
+                    body {
+                        background-color: #fff;
+                        box-shadow: 0 0 4px rgba(0, 0, 0, .15);
+                        box-sizing: border-box;
+                        margin: 1rem auto 0;
+                        max-width: 820px;
+                        min-height: calc(100vh - 1rem);
+                        padding:4rem 6rem 6rem 6rem
+                    }
+                }
+            `,
+
+            toolbar_sticky: true,
+
+
+        });
+    </script>
+    <style>
+        body {
+            margin: 4rem auto;
+            padding: 0 2rem;
+            background-color: #f9f9fb;
+        }
+
+        main {
+            width: 100%;
+            border: 2px solid #e5e5e5
+        }
+    </style>
+</head>
+<body>
+<main>
+    <textarea id="editor">
+        <p><img src="https://www.tiny.cloud/docs/images/logos/android-chrome-256x256.png" alt="The Tiny logotype" width="64" height="64"></p>
+<h1>The TinyMCE Word processor</h1>
+<p>TinyMCE contains a lot of features to create your own custom word processor experience where you get to control what fonts the end-users are allowed to use!</p>
+    </textarea>
+</main>
+</body>
+</html>

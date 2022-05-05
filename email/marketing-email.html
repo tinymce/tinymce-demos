@@ -35,7 +35,7 @@
             selector:'.tinymce',
 
             // Enable inline mode
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#inline
+            // https://www.tiny.cloud/docs/tinymce/6/use-tinymce-inline/
             inline: true,
 
             // Tip! To make TinyMCE leaner, only include the plugins you actually need.
@@ -43,28 +43,28 @@
 
             // This option allows you to specify the buttons and the order that they
             // will appear on TinyMCE’s toolbar.
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar
-            toolbar: 'undo redo | styles | bold italic  link image emoticons tokens | align bullist numlist | code removeformat',
+            // https://www.tiny.cloud/docs/tinymce/6/toolbar-configuration-options/#basic-toolbar-options
+            toolbar: 'styles | bold italic forecolor backcolor link image emoticons tokens | align bullist numlist | code removeformat',
 
             // Toggle the menubar off to get a leaner visual experience
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#menubar
+            // https://www.tiny.cloud/docs/tinymce/6/menus-configuration-options/
             menubar: false,
 
             // In emails we rarely use target for links so we hide the
             // target drop down in the link dialog
-            // https://www.tiny.cloud/docs/plugins/link/#target_list
+            // https://www.tiny.cloud/docs/tinymce/6/link/#link_target_list
             target_list: false,
 
             // We don't want users to be able to resize images by using
             // drag and drop because it can break layout templates.
-            // https://www.tiny.cloud/docs/configure/advanced-editing-behavior/#object_resizing
+            // https://www.tiny.cloud/docs/tinymce/6/content-behavior-options/#object_resizing
             object_resizing : false,
 
             // The formats option is where custom formatting options are defined.
             // In this case we define a couple of headings and a button appearance
             // for links. HTML Emails require inlining the CSS. Fortunately the
             // styles property makes that easy.
-            // https://www.tiny.cloud/docs/configure/content-formatting/#formats
+            // https://www.tiny.cloud/docs/tinymce/6/content-formatting/
             formats: {
                 h1: { block: 'h1', styles: { fontSize: '24px', color: '#335dff' } },
                 h2: { block: 'h2', styles: { fontSize: '18px' } },
@@ -72,7 +72,7 @@
             },
 
             // The style_formats option controls the styleformat toolbar button menu
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#style_formats
+            // https://www.tiny.cloud/docs/tinymce/6/user-formatting-options/#style_formats
             style_formats: [
                 { title: 'Paragraph', format: 'p' },
                 { title: 'Heading 1', format: 'h1' },
@@ -83,29 +83,29 @@
 
             // An inline editor is "invisible" when there are no content in the editor
             // Make sure to use the placeholder option to show the user where to write
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#placeholder
+            // https://www.tiny.cloud/docs/tinymce/6/editor-important-options/#placeholder
             placeholder: "Write here...",
 
             // Toolbar_mode controls how the toolbar behaves when toolbar buttons do not
             // fit on one row. Wrap displays all toolbar buttons wrapped over multiple rows
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar_mode
+            // https://www.tiny.cloud/docs/tinymce/6/toolbar-configuration-options/#toolbar_mode
             toolbar_mode: "wrap",
 
             // The noneditable_regexp option transforms matched text into spans which is then
             // visually styled to look like tags.
-            // https://www.tiny.cloud/docs/plugins/noneditable/
+            // https://www.tiny.cloud/docs/tinymce/6/content-behavior-options/#noneditable_regexp
             noneditable_regexp: /\{\{[^\}]+\}\}/g, // matches {{handlebar}},
 
             setup: (editor) => {
                 // Instead of defining a custom icon pack, we can register individual
                 // icons using the API.
                 // This particular icon is from the Material Icon library
-                // https://www.tiny.cloud/docs/api/tinymce.editor.ui/tinymce.editor.ui.registry/#addicon
+                // https://www.tiny.cloud/docs/tinymce/6/apis/tinymce.editor.ui.registry/#addIcon
                 // https://fonts.google.com/icons
                 editor.ui.registry.addIcon('token', '<svg enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="m0 0h24v24h-24z" fill="none"/><path d="m21 12-4.37 6.16c-.37.52-.98.84-1.63.84h-3v-2h3l3.55-5-3.55-5h-10v3h-2v-3c0-1.1.9-2 2-2h10c.65 0 1.26.31 1.63.84zm-11 3h-3v-3h-2v3h-3v2h3v3h2v-3h3z"/></svg>');
 
                 // Register a custom toolbar menu button to insert tokens
-                // https://www.tiny.cloud/docs/ui-components/typesoftoolbarbuttons/#menubutton
+                // https://www.tiny.cloud/docs/tinymce/6/custom-menu-toolbar-button/
                 editor.ui.registry.addMenuButton("tokens", {
                     icon: "token",
                     tooltip: "Insert token",
@@ -116,7 +116,7 @@
                                 text: token.text,
                                 onAction: () => {
                                     // Insert content at the location of the cursor.
-                                    // https://www.tiny.cloud/docs/api/tinymce/tinymce.editor/#insertcontent
+                                    // https://www.tiny.cloud/docs/tinymce/6/apis/tinymce.editor/#insertContent
                                     editor.insertContent(token.value);
                                 }
                             }
@@ -186,6 +186,7 @@
                                     <p><strong>Building an new email client</strong> (i.e. the next Gmail) and need rich text editor functionality?</p>
                                     <p><strong>Building email marketing software</strong> (i.e. the next Mailchimp) and need to add more rich text editor functionality, or enhance the default editor?</p>
                                     <p>Then use the only WYSIWYG editor that is trusted by 1,5M devs!</p>
+                                    <p><a style="background-color: rgb(51, 93, 255); padding: 12px 16px; color: rgb(255, 255, 255); border-radius: 4px; text-decoration: none; display: inline-block;" href="https://tiny.cloud/pricing">Get started with your 14-day free trial</a></p>
                                 </div>
                             </td>
                         </tr>

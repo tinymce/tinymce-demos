@@ -1,0 +1,220 @@
+<!--
+    This demo shows how to implement a typical LMS course builder in TinyMCE.
+    The demo features several premium plugins. Sign up for a free trial at
+    https://tiny.cloud to try them out ourself.
+-->
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>LMS use-case demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        // An array containing the available tokens.
+        var tokens = [
+            { text: "student.name", value: "{{student.name}}" },
+            { text: "course.name", value: "{{course.name}}" },
+            { text: "assignment.name", value: "{{assignment.name}}" },
+            { text: "assignment.id", value: "{{assignment.id}}" },
+            { text: "assignment.duedate", value: "{{assignment.duedate}}" },
+        ];
+
+        tinymce.init({
+            selector: "#editor",
+
+            // Tip! To make TinyMCE leaner, only include the plugins you actually need.
+            plugins: "code a11ychecker autosave autoresize link image table lists media mediaembed tinymcespellchecker powerpaste emoticons charmap linkchecker",
+
+            statusbar: false,
+            toolbar_sticky: true,
+            mediaembed_max_width: 800,
+            block_formats: 'Title=h1; Heading=h2; Sub heading=h3; Blockquote=blockquote; Paragraph=p',
+            font_css: ['https://fonts.googleapis.com/css2?family=Asap:ital,wght@0,400;0,550;1,400&display=swap'], // URLs containing commas and such has to be wrapped in an Array to work
+
+            a11y_advanced_options: true,
+            a11ychecker_html_version: 'html5',
+            a11ychecker_level: 'aa',
+
+            // Formatselect opposed to styleselect to limit what can be inputted
+            // We have put our custom insert token button last.
+            toolbar: "undo redo | blocks | bold italic strikethrough forecolor backcolor | align | bullist numlist link image media | tokens",
+
+            // The noneditable_regexp option transforms matched text into spans which is then
+            // visually styled to look like tags.
+            // https://www.tiny.cloud/docs/plugins/noneditable/
+            noneditable_regexp: /\{\{[^\}]+\}\}/g, // matches {{handlebar}},
+
+            text_patterns: [
+                { start: 'fuck', replacement: '🤬' },
+                { start: '🖕', replacement: '✌️' },
+                { start: '1/2', replacement: '½' },
+                { start: '--', replacement: '—' },
+                { start: '(c)', replacement: '©' },
+                { start: '->', replacement: '→' },
+                { start: '* ', cmd: 'InsertUnorderedList' },
+                { start: '1. ', cmd: 'InsertOrderedList', value: { 'list-style-type': 'decimal' } },
+                { start: '#', format: 'h1' },
+                { start: '##', format: 'h2' },
+                { start: '###', format: 'h3' },
+            ],
+
+            setup: (editor) => {
+                // Register a custom toolbar menu button to insert tokens
+                // https://www.tiny.cloud/docs/ui-components/typesoftoolbarbuttons/#menubutton
+                editor.ui.registry.addMenuButton("tokens", {
+                    text: "Token",
+                    tooltip: "Insert token",
+                    fetch: (callback) => {
+                        var items = tokens.map((token) => {
+                            return {
+                                type: "menuitem",
+                                text: token.text,
+                                onAction: () => {
+                                    // Insert content at the location of the cursor.
+                                    // https://www.tiny.cloud/docs/api/tinymce/tinymce.editor/#insertcontent
+                                    editor.insertContent(token.value);
+                                }
+                            }
+                        });
+                        callback(items);
+                    }
+                });
+            },
+
+            // The following css will be injected into the editor, extending
+            // the default styles.
+            // In a real world scenario, with much more custom styles for headings
+            // links, tables, images etc, it's recommended to use the content_css
+            // option to load a separate CSS file. Makes editing easier too.
+            // https://www.tiny.cloud/docs/configure/content-appearance/#content_style
+            // https://www.tiny.cloud/docs/configure/content-appearance/#content_css
+            content_style: `
+                body {
+                    max-width: 800px;
+                    margin: auto;
+                    font-family: 'Asap', serif;
+                    font-size: 17px;
+                    color: #222f3e;
+                }
+
+                h1, h2, h3, strong {
+                    font-weight: 550;
+                }
+
+                .mceNonEditable {
+                    padding: 1px 0;
+                    color: #44719B;
+                    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+                    font-size: 0.9375em;
+                }
+
+                table th,
+                table thead td {
+                    background-color: #ecf0f1;
+                    font-weight: 550;
+                    text-align: left;
+                }
+
+                table caption {
+                    display: none;
+                }
+
+                table[data-mce-selected="1"] caption {
+                    display: table-caption;
+                }
+            `,
+        });
+    </script>
+    <style>
+        body {
+            margin: 60px 16px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background-color: #fafafc;
+            font-family: 'Asap', serif;
+            color: #222f3e;
+        }
+
+        .editor-wrap {
+            max-width: 980px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="editor-wrap">
+    <textarea id="editor">
+        <h1>Assignment #5: Color Theory</h1>
+        <p>Hello&nbsp;{{student.name}}</p>
+        <p>For this weeks assignment you will learn the basics of color theory</p>
+        <p>Select one of the following topics, and write a research essay. Ensure you answer the questions in full, and provide reference for any primary or secondary sources consulted. Contact {{teacher.name}} or {{head.department}} if you have any questions about the assignment.</p>
+        <div style="left: 0px; width: 100%; height: 0px; position: relative; padding-bottom: 56.25%; max-width: 800px;" data-ephox-embed-iri="https://www.youtube.com/watch?v=Qj1FK8n7WgY"><iframe style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" src="https://www.youtube.com/embed/Qj1FK8n7WgY?rel=0" scrolling="no" allowfullscreen="allowfullscreen"></iframe></div>
+        <h2>This week's tasks</h2>
+        <p>Begin by watching the video above then proceed to the assignment questionare by pressing continue below.</p>
+        <h3>Topic List</h3>
+        <ul>
+            <li>The origin of Color theory and it's affect on emotion and mood is contentious. Identify your understanding of the originators of Color theory. Argue for the effectiveness of certain colors palettes over others to create different moods.</li>
+            <li>While some experts argue there are no new color palettes, others argue innovation is a constant process. Choose one side, and build and argument: There are no new color palette innovations. New color palette innovations are happening all the time.</li>
+            <li>Select three examples of color theory in practice that are all part of one medium (e.g. film, magazine, television). Explain why these three examples are effective. Contrast and argue why one of these examples is more effective in it's use of color theory concepts compared to the others.</li>
+            <li>Wassily Kandinsky states “Color is a power which directly influences the soul.” Explain what Kandinsky meant, and provide an argument explaining what Kandinsky means using color theory principals.</li>
+        </ul>
+        <h3>Also...</h3>
+        <ul>
+        <li>Think about the difference between mixing colors using colored lights vs using paint.</li>
+        <li>Pay extra attention to the different compilmentary color models.</li>
+        </ul>
+        <blockquote>
+        <p>&ldquo;Color is a power which directly influences the soul.&rdquo;<br /><span style="color: #95a5a6;"><em>&ndash;&nbsp;Wassily Kandinsky&nbsp;</em></span></p>
+        </blockquote>
+        <h2>Deadlines</h2>
+        <p>Please submit your tasks before {{assignment.duedate}}</p>
+        <h2>Grading Criteria</h2>
+        <table style="border-collapse: collapse; width: 99.8698%; height: 157px;" border="1">
+            <thead>
+            <tr>
+            <th style="width: 18.0915%;" scope="col">&nbsp;</th>
+            <td style="width: 18.0915%;" scope="col">High Achievement</td>
+            <td style="width: 18.2224%;" scope="col">Good Achievement</td>
+            <td style="width: 18.2224%;" scope="col">Pass</td>
+            <td style="width: 18.2224%;" scope="col">Fail</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+            <th style="width: 18.0915%;" scope="col">Demonstrated knowledge of color theory</th>
+            <td style="width: 18.0915%;">The student shows an outstanding knowledge and command of color theory concepts</td>
+            <td style="width: 18.2224%;">The student shows good knowledge and understanding of color theory concepts</td>
+            <td style="width: 18.2224%;">The student shows some knowledge of color theory, and a basic understanding of color theory concepts</td>
+            <td style="width: 18.2224%;">The student has not demonstrated knowledge of color theory, or the concepts of color theory.</td>
+            </tr>
+            <tr>
+            <th style="width: 18.0915%;" scope="col">Argument composition skills</th>
+            <td style="width: 18.0915%;">The student shows an outstanding argument composition skills</td>
+            <td style="width: 18.2224%;">The student shows good argument composition skills</td>
+            <td style="width: 18.2224%;">The student shows some argument composition skills.</td>
+            <td style="width: 18.2224%;">The student does not show clear argument composition skills</td>
+            </tr>
+            <tr>
+            <th style="width: 18.0915%;" scope="col">Consulted resources</th>
+            <td style="width: 18.0915%;">The student shows they have consulted excellent resources</td>
+            <td style="width: 18.2224%;">The student has consulted good resources</td>
+            <td style="width: 18.2224%;">The student has consulted some resources required for the assignment</td>
+            <td style="width: 18.2224%;">The student has not consulted adequate resources</td>
+            </tr>
+            <tr>
+            <th style="width: 18.0915%;" scope="col">Writing, Grammar, and Clarity</th>
+            <td style="width: 18.0915%;">The student shows a command of language in their work</td>
+            <td style="width: 18.2224%;">The student shows effective writing skills</td>
+            <td style="width: 18.2224%;">The student shows clear writing skills</td>
+            <td style="width: 18.2224%;">The student shows unclear writing skills</td>
+            </tr>
+            </tbody>
+            </table>
+    </textarea>
+</div>
+
+</body>
+</html>
+

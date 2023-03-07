@@ -1,29 +1,28 @@
-<!--
-    Create a wordprocessor-like implementation with TinyMCE
--->
-
 <!doctype html>
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Wordprocessor</title>
+    <title>TinyMCE Document Management System (DMS)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 
     <script>
+        // TinyMCE Document Management System (DMS) Starter Config
+
         tinymce.init({
+            // Select the element(s) to add TinyMCE to using any valid CSS selector
             selector: "#editor",
 
-            // Tip! To make TinyMCE leaner, only include the plugins you actually need
+            // Tip - To keep TinyMCE lean, only include the plugins you need.
             plugins: "powerpaste casechange searchreplace autolink directionality advcode visualblocks visualchars image link media mediaembed codesample table charmap pagebreak nonbreaking anchor tableofcontents insertdatetime advlist lists checklist wordcount tinymcespellchecker editimage help formatpainter permanentpen charmap tinycomments linkchecker emoticons advtable export print autosave",
 
-            // This option allows you to specify the buttons and the order that they
-            // will appear on TinyMCE’s toolbar.
-            // https://www.tiny.cloud/docs/tinymce/6/toolbar-configuration-options/#basic-toolbar-options
+            // Configure the toolbar so it fits your app. There are many
+            // different configuration options available:
+            // https://www.tiny.cloud/docs/tinymce/6/toolbar-configuration-options/
             toolbar: "undo redo print spellcheckdialog formatpainter | blocks fontfamily fontsize | bold italic underline forecolor backcolor | link image addcomment showcomments  | alignleft aligncenter alignright alignjustify lineheight | checklist bullist numlist indent outdent | removeformat",
 
-            // Tip! The height option accepts any valid CSS for height
-            // If your editor is expected to get larger than the viewport
+            // Tip - The height option accepts any valid CSS for height
+            // If your editor is expected to get larger than the viewport,
             // the sticky toolbar is useful for keeping the controls
             // always visible
             // https://www.tiny.cloud/docs/tinymce/6/editor-size-options/
@@ -31,7 +30,7 @@
             height: '700px',
             toolbar_sticky: true,
 
-            // You can customize the look and feel of the ui using skins and icons,
+            // You can customize the look and feel of the UI using skins and icons,
             // In this demo we are using an alternative icon pack
             // https://www.tiny.cloud/docs/tinymce/6/editor-icons/
             icons: 'thin',
@@ -45,18 +44,17 @@
             autosave_restore_when_empty: true,
 
             // The Tiny Comments plugin enables you to quickly get collaboration up and
-            // running. There are a lot of customizability but here are the most basic
-            // options to get you started
+            // running. There are a lot of options, but here are the most basic
+            // ones to get you started
             // https://www.tiny.cloud/docs/tinymce/6/introduction-to-tiny-comments/
             tinycomments_mode: 'embedded',
             tinycomments_author: 'john.doe',
             tinycomments_author_name: 'John Doe',
 
-            // The following css will be injected into the editor, extending
+            // The following CSS will be injected into the editor, extending
             // the default styles.
-            // In a real world scenario, with much more custom styles for headings
-            // links, tables, images etc, it's recommended to use the content_css
-            // option to load a separate CSS file. Makes editing easier too.
+            // In a real world scenario, it's recommended to use the content_css
+            // option to load a separate CSS file. This makes editing easier too.
             // https://www.tiny.cloud/docs/tinymce/6/add-css-options/
             content_style: `
                 body {
@@ -107,10 +105,10 @@
             </colgroup>
             <tbody>
                 <tr>
-                    <td style="text-align: center;"><strong><span style="font-size: 36pt;">📝</span><br><br>Building a next generation document creation solution</strong> and want to offer the best rich text editing<strong> experience to</strong> your content creators?</td>
+                    <td style="text-align: center;"><strong><span style="font-size: 36pt;">📝</span><br><br>Building a next-generation document creation solution</strong> and want to offer the best rich text editing experience to your content creators?</td>
                     <td>
                         <p style="text-align: center;"><span style="font-size: 36pt;"><strong>🗂️</strong></span></p>
-                        <p style="text-align: center;"><strong>Developing an innovative documentation system</strong> to organize, track, store and share documents, and you want to add editing capabilities?</p>
+                        <p style="text-align: center;"><strong>Developing an innovative documentation system</strong> to organize, track, store, and share documents, and you want to add editing capabilities?</p>
                     </td>
                 </tr>
             </tbody>
@@ -122,10 +120,8 @@
             <li class="tox-checklist--checked">Copy complex rich content from another app into the editor</li>
             <li>Add or resolve a comment</li>
             <li>Drag-and-drop an image from your computer, then edit it within TinyMCE</li>
-            <li>Any other other functionality that you would expect in a document editor!</li>
+            <li>Any other functionality that you would expect in a document editor!</li>
         </ul>
-        <p>Want the full tour? Watch the video below (embedded in one click using <em>Enhanced Media Embed</em>):</p>
-        <div style="left: 0px; width: 100%; height: 0px; position: relative; padding-bottom: 56.25%; max-width: 650px;" data-ephox-embed-iri="https://www.youtube.com/watch?v=tajL2X3bcr8"><iframe style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" src="https://www.youtube.com/embed/tajL2X3bcr8?rel=0" scrolling="no" allowfullscreen="allowfullscreen"></iframe></div>
     </textarea>
 </main>
 </body>

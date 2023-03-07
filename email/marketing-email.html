@@ -1,17 +1,16 @@
 <!--
-    The proper way to do marketing email with TinyMCE is to use
+    The proper way to do marketing emails with TinyMCE is to use
     inline mode, and move all table layout outside of TinyMCE.
-    Tables in TinyMCE are first and formost to display tabular
-    data, not for layouts do doing table layouts in TinyMCE,
-    while possible, is not recommended. It is simply too easy
-    to accidentally break the design.
+    Tables in TinyMCE are first and foremost to display tabular
+    data, not for laying out emails.
 
-    Here is an example of how to do a marketing email using
+    Here is an example of how to edit a marketing email using
     TinyMCE inline mode. The TinyMCE editor is only applied
-    to the rich text parts. All the table layout are outside
+    to the rich text components. All of the table layout is outside
     of TinyMCE. This makes it easy for you to to add other
-    logic such as inserting blocks and drag and drop reordering
-    yourself.
+    logic such as inserting blocks and drag and drop functionality,
+    with the editor fitting within whatever custom logic you've
+    created.
 -->
 
 <!doctype html>
@@ -22,7 +21,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
-        // An array containing the available tokens.
+        // TinyMCE Email Starter Config
+
+        // An array containing the available tokens for email personalization
         var tokens = [
             { text: "name.first", value: "{{name.first}}" },
             { text: "name.last", value: "{{name.last}}" },
@@ -38,22 +39,22 @@
             // https://www.tiny.cloud/docs/tinymce/6/use-tinymce-inline/
             inline: true,
 
-            // Tip! To make TinyMCE leaner, only include the plugins you actually need.
-            plugins: 'link lists image emoticons advcode editimage linkchecker',
+            // Tip - To keep TinyMCE lean, only include the plugins you need.
+            plugins: 'link lists image emoticons advcode editimage linkchecker powerpaste',
 
-            // This option allows you to specify the buttons and the order that they
-            // will appear on TinyMCE’s toolbar.
+            // Configure the toolbar so it fits your app. There are many
+            // different configuration options available:
             // https://www.tiny.cloud/docs/tinymce/6/toolbar-configuration-options/#basic-toolbar-options
             toolbar: 'styles | bold italic forecolor backcolor link image emoticons tokens | align bullist numlist | code removeformat',
 
             // Toggle the menubar off to get a leaner visual experience
-            // https://www.tiny.cloud/docs/tinymce/6/menus-configuration-options/
+            // https://www.tiny.cloud/docs/tinymce/6/menus-configuration-options/#menubar
             menubar: false,
 
             // In emails we rarely use target for links so we hide the
             // target drop down in the link dialog
             // https://www.tiny.cloud/docs/tinymce/6/link/#link_target_list
-            target_list: false,
+            link_target_list: false,
 
             // We don't want users to be able to resize images by using
             // drag and drop because it can break layout templates.
@@ -64,7 +65,7 @@
             // In this case we define a couple of headings and a button appearance
             // for links. HTML Emails require inlining the CSS. Fortunately the
             // styles property makes that easy.
-            // https://www.tiny.cloud/docs/tinymce/6/content-formatting/
+            // https://www.tiny.cloud/docs/tinymce/6/content-formatting/#formats
             formats: {
                 h1: { block: 'h1', styles: { fontSize: '24px', color: '#335dff' } },
                 h2: { block: 'h2', styles: { fontSize: '18px' } },
@@ -126,6 +127,11 @@
                 });
             },
         });
+
+      // Next step: Check out Tiny Drive for easy cloud storage of your users'
+      // images and media. Integrates seamlessly with TinyMCE.
+      // https://www.tiny.cloud/drive/
+
     </script>
     <style>
         body {
@@ -183,9 +189,9 @@
                                     <p>Hey {{first.name}}</p>
                                     <h1 style="font-size: 24px; color: rgb(51, 93, 255);">What's your email editing project?</h1>
                                     <p>Are you:</p>
-                                    <p><strong>Building an new email client</strong> (i.e. the next Gmail) and need rich text editor functionality?</p>
+                                    <p><strong>Building a new email client</strong> (i.e. the next Gmail) and need rich text editor functionality?</p>
                                     <p><strong>Building email marketing software</strong> (i.e. the next Mailchimp) and need to add more rich text editor functionality, or enhance the default editor?</p>
-                                    <p>Then use the only WYSIWYG editor that is trusted by 1,5M devs!</p>
+                                    <p>Then use the only WYSIWYG editor that is trusted by 1.5M developers!</p>
                                     <p><a style="background-color: rgb(51, 93, 255); padding: 12px 16px; color: rgb(255, 255, 255); border-radius: 4px; text-decoration: none; display: inline-block;" href="https://tiny.cloud/pricing">Get started with your 14-day free trial</a></p>
                                 </div>
                             </td>

@@ -10,6 +10,6 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-      "browser-sync": "^2.26.5"
+      "browser-sync": "^2.29.3"
     }
   }

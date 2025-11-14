@@ -125,7 +125,7 @@
                 // the number of characters to type before displaying the autocompleter menu and,
                 // configure the autocompleter to display a menu opposed a row of icons
                 // https://www.tiny.cloud/docs/ui-components/autocompleter/#configurationoptions
-                ch: '/',
+                trigger: '/',
                 minChars: 0,
                 columns: 1,
 
@@ -157,7 +157,7 @@
 
                     // Here the matched autocompleter objects are built
                     // https://www.tiny.cloud/docs/ui-components/autocompleter/#autocompleteitem
-                    return new tinymce.util.Promise(function (resolve) {
+                    return new Promise(function (resolve) {
                         var results = matchedActions.map(function (action) {
                             return {
                                 meta: action,
@@ -200,7 +200,7 @@
         tinymce.init({
             selector: "textarea",
             // Remember to include all relevant plugins here which you included in your `insertActions` array above
-            plugins: "commandpalette insertdatetime lists link code table toc image codesample media checklist",
+            plugins: "commandpalette insertdatetime lists link code table image codesample media checklist",
             height: 400,
         });
     </script>

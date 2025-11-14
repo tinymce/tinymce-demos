@@ -14,7 +14,7 @@
     <meta charset="utf-8">
     <title>Useful styles to include in your content css</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5-dev/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/8/tinymce.min.js" referrerpolicy="origin"></script>
 
     <script>
         tinymce.init({
@@ -46,8 +46,8 @@
                  * -----------------------------------------------------
                  */
 
-                /* Make our invisible overlay be positioned relative to the hr */
-                hr {
+                /* Make our invisible overlay be positioned relative to the */
+                {
                   position: relative;
                 }
 
@@ -124,7 +124,7 @@
         <p>The default content css is very basic and unopinionated to allow you as a developer to integrate the styles you want in order to get a good WYSIWYG writing environment.</p>
         <p>That said, here are some tecniques we often implement ourselves that improves the editing experience in TinyMCE</p>
         <p><em>Inspect the source code to see the actual css used</em></p>
-        <h2>Improve hr clickability</h2>
+        <h2>Improve clickability</h2>
         <p>Because the <code>&amp;lt;hr&amp;gt;</code> is often just a 1px gray line, it is very difficult for a user to select and manipulate. By using the <code>::after</code> pseudo element we can create a larger invisible click area greatly improving selectability.</p>
         <hr />
 

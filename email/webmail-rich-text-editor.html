@@ -8,7 +8,7 @@
     <meta charset="utf-8">
     <title>Rich text webmail editor demo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5-dev/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/8/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
         tinymce.init({
             selector:'#editor',
@@ -47,7 +47,7 @@
                 formatgroup: {
                     icon: 'format',
                     tooltip: 'Formatting',
-                    items: 'fontselect | formatselect | bold italic underline strikethrough forecolor | align bullist numlist outdent indent blockquote'
+                    items: 'fontselect | styles | bold italic underline strikethrough forecolor | align bullist numlist outdent indent blockquote'
                 }
             },
 
@@ -58,9 +58,9 @@
             // The formats option is where custom formatting options are defined.
             // In this case we define a couple of headings and text formats.
             // The p is configured to match against multiple formats to make sure
-            // the styleselect toolbar menu button shows paragraphs as enabled on
+            // the styles toolbar menu button shows paragraphs as enabled on
             // p tags that lacks style attribute. The first item in the array will
-            // be the one applied when choosing the format via the styleselect
+            // be the one applied when choosing the format via the styles
             // toolbar button.
             // https://www.tiny.cloud/docs/configure/content-formatting/#formats
             formats: {
@@ -73,8 +73,8 @@
                 small: { block: 'small', styles: { fontSize: '12px', color: '#aaaaaa' } }
             },
 
-            // An alternative to the styleselect toolbar button is the formatselect button
-            // which is a simpler version of the styleselect button. It is configured
+            // An alternative to the styles toolbar button is the styles button
+            // which is a simpler version of the styles button. It is configured
             // using the block_formats option.
             // https://www.tiny.cloud/docs/configure/editor-appearance/#block_formats
             block_formats: 'Normal=p; Heading=h1; Sub heading=h2; Small=small',

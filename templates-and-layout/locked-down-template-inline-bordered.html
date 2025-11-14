@@ -11,7 +11,7 @@
     <title>Inline bordered demo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5-dev/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/8/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
         tinymce.init({
             selector: '#tinymce',
@@ -29,7 +29,7 @@
             // This option allows you to specify the buttons and the order that they
             // will appear on TinyMCE’s toolbar.
             // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar
-            toolbar: 'undo redo | formatselect | bold italic strikethrough backcolor | link image | align bullist numlist',
+            toolbar: 'undo redo | styles | bold italic strikethrough backcolor | link image | align bullist numlist',
 
             // Toggle the menubar off to get a leaner visual experience
             // https://www.tiny.cloud/docs/configure/editor-appearance/#menubar
@@ -38,13 +38,6 @@
             // Text to show when the editor is empty
             // https://www.tiny.cloud/docs/configure/editor-appearance/#placeholder
             placeholder: 'Page body',
-
-            // To remove the outside borders of the toolbar we use a premium skin.
-            // You can also easily create your own borderless skin too.
-            // https://www.tiny.cloud/docs/enterprise/premium-skins-and-icon-packs/borderless-demo/
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#skin
-            // https://www.tiny.cloud/docs/advanced/creating-a-skin/
-            skin: 'borderless',
 
             // Render the inline toolbar in this element
             // https://www.tiny.cloud/docs/configure/editor-appearance/#fixed_toolbar_container
@@ -59,21 +52,21 @@
                 // https://www.tiny.cloud/docs/api/tinymce.editor.ui/tinymce.editor.ui.ui/
                 // https://www.tiny.cloud/docs/advanced/events/
                 editor.on('SkinLoaded', () => {
-                    editor.ui.disable();
+                    editor.ui.setEnabled(false);
                 });
 
                 // Enable the UI when the editable area gains focus
                 // TODO: https://www.tiny.cloud/docs/api/tinymce.editor.ui/tinymce.editor.ui.ui/
                 // https://www.tiny.cloud/docs/advanced/events/
                 editor.on('focus', () => {
-                    editor.ui.enable();
+                    editor.ui.setEnabled(true);
                 });
 
                 // Disable the UI when the editor looses focus
                 // https://www.tiny.cloud/docs/api/tinymce.editor.ui/tinymce.editor.ui.ui/
                 // https://www.tiny.cloud/docs/advanced/events/
                 editor.on('blur', () => {
-                    editor.ui.disable();
+                    editor.ui.setEnabled(false);
                 });
             }
         });

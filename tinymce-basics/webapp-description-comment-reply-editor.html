@@ -9,7 +9,7 @@ like Zendesk, Jira.
 This demo showcases among other things:
 
 - The ability to create a custom border outside of TinyMCE and visually encapsulate external content.
-- Use textpattern plugin to provide markdown-like replacement formatting. Also try typing `->`
+- Use plugin to provide markdown-like replacement formatting. Also try typing `->`
 - Use of the autoresize plugin. The editor grows as you type.
 - An usecase for the small premium icon pack
 
@@ -21,7 +21,7 @@ This demo showcases among other things:
     <meta charset="utf-8">
     <title>Comment editor demo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5-dev/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/8/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
         tinymce.init({
             selector:'#description',
@@ -46,12 +46,12 @@ This demo showcases among other things:
             icons: 'small',
 
             // Tip! To make TinyMCE leaner, only include the plugins you actually need.
-            plugins: 'code autoresize anchor, autolink codesample emoticons hr image link lists table textpattern',
+            plugins: 'code autoresize anchor, autolink codesample emoticons image link lists table textpattern',
 
             // This option allows you to specify the buttons and the order that
             // they will appear on TinyMCE’s toolbar.
             // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar
-            toolbar: 'formatselect | bold italic strikethrough blockquote | bullist numlist codesample link image table emoticons hr',
+            toolbar: 'styles | bold italic strikethrough blockquote | bullist numlist codesample link image table emoticons hr',
 
             // Setting the minimum height when using the autoresize plugin
             // https://www.tiny.cloud/docs/configure/editor-appearance/#min_height

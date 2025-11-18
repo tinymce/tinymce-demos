@@ -20,7 +20,7 @@
             // You have to wire up the persistent storage yourself, for example
             // getting the editable area's DOM tree, serlialize it and send it
             // to the backend using a hidden inputfield.
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#inline
+            // https://www.tiny.cloud/docs/tinymce/latest/use-tinymce-inline/
             inline: true,
 
             // Tip! To make TinyMCE leaner, only include the plugins you actually need.
@@ -28,43 +28,50 @@
 
             // This option allows you to specify the buttons and the order that they
             // will appear on TinyMCE’s toolbar.
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar
+            // https://www.tiny.cloud/docs/tinymce/latest/toolbar-configuration-options/#toolbar
             toolbar: 'undo redo | styles | bold italic strikethrough backcolor | link image | align bullist numlist',
 
             // Toggle the menubar off to get a leaner visual experience
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#menubar
+            // https://www.tiny.cloud/docs/tinymce/latest/menus-configuration-options/#menubar
             menubar: false,
 
             // Text to show when the editor is empty
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#placeholder
+            // https://www.tiny.cloud/docs/tinymce/latest/editor-important-options/#placeholder
             placeholder: 'Page body',
 
+            // To remove the outside borders of the toolbar we use a premium skin.
+            // You can also easily create your own borderless skin too.
+            // https://www.tiny.cloud/docs/tinymce/latest/borderless-demo/
+            // https://www.tiny.cloud/docs/tinymce/latest/editor-skin/
+            // https://www.tiny.cloud/docs/tinymce/latest/creating-a-skin/
+            skin: 'borderless',
+
             // Render the inline toolbar in this element
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#fixed_toolbar_container
+            // https://www.tiny.cloud/docs/tinymce/latest/menus-configuration-options/#fixed_toolbar_container
             fixed_toolbar_container: '#toolbar',
 
-            // Make the toolbar always visible (requires TinyMCE 5.5)
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar_persist
+            // Make the toolbar always visible
+            // https://www.tiny.cloud/docs/tinymce/latest/toolbar-configuration-options/#persistent-inline-editor-toolbar-options
             toolbar_persist: true,
 
             setup: (editor) => {
                 // Disable the UI when the editor has loaded
-                // https://www.tiny.cloud/docs/api/tinymce.editor.ui/tinymce.editor.ui.ui/
-                // https://www.tiny.cloud/docs/advanced/events/
+                // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.editor.ui.ui/
+                // https://www.tiny.cloud/docs/tinymce/latest/events/
                 editor.on('SkinLoaded', () => {
                     editor.ui.setEnabled(false);
                 });
 
                 // Enable the UI when the editable area gains focus
-                // TODO: https://www.tiny.cloud/docs/api/tinymce.editor.ui/tinymce.editor.ui.ui/
-                // https://www.tiny.cloud/docs/advanced/events/
+                // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.editor.ui.ui/
+                // https://www.tiny.cloud/docs/tinymce/latest/events/
                 editor.on('focus', () => {
                     editor.ui.setEnabled(true);
                 });
 
                 // Disable the UI when the editor looses focus
-                // https://www.tiny.cloud/docs/api/tinymce.editor.ui/tinymce.editor.ui.ui/
-                // https://www.tiny.cloud/docs/advanced/events/
+                // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.editor.ui.ui/
+                // https://www.tiny.cloud/docs/tinymce/latest/events/
                 editor.on('blur', () => {
                     editor.ui.setEnabled(false);
                 });

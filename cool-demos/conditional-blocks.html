@@ -22,45 +22,54 @@
             selector: '#editor',
 
             // Tip! To make TinyMCE leaner, only include the plugins you actually need.
-            plugins: 'autoresize advcode link lists noneditable',
+            plugins: 'autoresize advcode link lists mergetags',
 
             // We have put our custom insert conditional block button last.
-            toolbar: 'bold italic strikethrough backcolor | bullist numlist link | conditionalblock | code',
+            toolbar: 'bold italic strikethrough backcolor | bullist numlist link mergetags | conditionalblock | code',
 
             // "Thin" is a premium icon pack you get wth the cloud essential plan.
             // See https://www.tiny.cloud for more details and purchasing options
             // You can also create your own icon packs for TinyMCE
-            // https://www.tiny.cloud/docs/advanced/creating-an-icon-pack/
+            // https://www.tiny.cloud/docs/tinymce/latest/enhanced-skins-and-icon-packs/
+            // https://www.tiny.cloud/docs/tinymce/latest/creating-an-icon-pack/
             icons: 'thin',
 
             // "Naked" is a premium icon pack you get wth the cloud essential plan
             // See https://www.tiny.cloud for more details and purchasing options
             // You can also create your own skins for TinyMCE
-            // https://www.tiny.cloud/docs/advanced/creating-a-skin/
+            // https://www.tiny.cloud/docs/tinymce/latest/creating-a-skin/
             skin: 'naked',
 
             // If we don't need the menubar we can hide it
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#menubar
+            // https://www.tiny.cloud/docs/tinymce/latest/menus-configuration-options/#menubar
             menubar: false,
 
+            // Easily configure replacement values using merge tags plugin
+            // https://www.tiny.cloud/docs/tinymce/latest/mergetags/
+            mergetags_list: [
+                { title: "first_name", value: "first_name" },
+                { title: "number_of_people", value: "number_of_people" },
+                { title: "agent_first_name", value: "agent_first_name" },
+            ],
+
             // Tell TinyMCE that conditional-block is a valid element.
-            // https://www.tiny.cloud/docs/configure/content-filtering/#custom_elements
+            // https://www.tiny.cloud/docs/tinymce/latest/content-filtering/#custom_elements
             custom_elements: 'conditional-block',
 
             setup: (editor) => {
                 // Instead of defining a custom icon pack, we can register individual
                 // icons using the API.
-                // https://www.tiny.cloud/docs/api/tinymce.editor.ui/tinymce.editor.ui.registry/#addicon
+                // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.editor.ui.registry/#addicon
                 editor.ui.registry.addIcon('conditional-block', '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M19 4a2 2 0 1 1-1.854 2.751L15 6.75c-1.239 0-1.85.61-2.586 2.31l-.3.724c-.42 1.014-.795 1.738-1.246 2.217.406.43.751 1.06 1.12 1.92l.426 1.018c.704 1.626 1.294 2.256 2.428 2.307l.158.004h2.145a2 2 0 1 1 0 1.501L15 18.75l-.219-.004c-1.863-.072-2.821-1.086-3.742-3.208l-.49-1.17c-.513-1.163-.87-1.57-1.44-1.614L9 12.75l-2.146.001a2 2 0 1 1 0-1.501H9c.636 0 1.004-.383 1.548-1.619l.385-.92c.955-2.291 1.913-3.382 3.848-3.457L15 5.25h2.145A2 2 0 0 1 19 4z" fill-rule="evenodd"/></svg>');
 
                 // The preinit event is fired after the editor is loaded but before
                 // the content is loaded
-                // https://www.tiny.cloud/docs/advanced/events/#editorcoreevents
+                // https://www.tiny.cloud/docs/tinymce/latest/events/
                 editor.on('PreInit', () => {
                     // Get the iframe window object and the iframes document object
                     // and call our setup function that creates the web component
-                    // https://www.tiny.cloud/docs/api/tinymce/tinymce.editor/#getwin
-                    // https://www.tiny.cloud/docs/api/tinymce/tinymce.editor/#getdoc
+                    // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.editor/#getWin
+                    // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.editor/#getDoc
                     const win = editor.getWin();
                     const doc = editor.getDoc();
                     setupWebComponent(win, doc, editor);
@@ -71,7 +80,7 @@
                     // to be saved with the content. We therefore need to filter out the attribute
                     // upon serlialization (which happens on "save", view sourcecode and preview
                     // among others).
-                    // https://www.tiny.cloud/docs/api/tinymce.dom/tinymce.dom.serializer/#addnodefilter
+                    // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.dom.serializer/#addNodeFilter
                     editor.serializer.addNodeFilter('conditional-block', (nodes) => {
                         // Iterate through all filtered nodes and remove the contenteditable attribute
                         // as well as the wrapper <div> we add when creating the custom element
@@ -81,7 +90,7 @@
                                 node.attr('contenteditable', null);
                                 // Traverse into the first child which would be the <div contenteditable="true">
                                 // and use unwrap to remove the <div> but keep the children.
-                                // https://www.tiny.cloud/docs/api/tinymce.html/tinymce.html.node/#unwrap
+                                // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.html.node/#unwrap
                                 node.firstChild.unwrap();
                             }
                         });
@@ -89,7 +98,7 @@
                 });
 
                 // Register a custom toolbar menu button to insert the conditional block
-                // https://www.tiny.cloud/docs/ui-components/typesoftoolbarbuttons/#menubutton
+                // https://www.tiny.cloud/docs/tinymce/latest/custom-toolbarbuttons/#menubutton
                 editor.ui.registry.addButton('conditionalblock', {
                     icon: 'conditional-block',
                     tooltip: 'Insert conditional block',
@@ -104,8 +113,8 @@
             // In a real world scenario, with much more custom styles for headings
             // links, tables, images etc, it's recommended to use the content_css
             // option to load a separate CSS file. Makes editing easier too.
-            // https://www.tiny.cloud/docs/configure/content-appearance/#content_style
-            // https://www.tiny.cloud/docs/configure/content-appearance/#content_css
+            // https://www.tiny.cloud/docs/tinymce/latest/add-css-options/#content_style
+            // https://www.tiny.cloud/docs/tinymce/latest/add-css-options/#content_css
             content_style: `
                 /* We remove the default selected outline because it doesn't follow the
                  * border radius and reintroduce it as a box-shadow.
@@ -307,8 +316,7 @@
         const dialogManager = (conditionalBlock, editor) => {
             // Open a TinyMCE modal where the user can set the badge's
             // background and text color.
-            // https://www.tiny.cloud/docs/ui-components/dialog/
-            // https://www.tiny.cloud/docs/ui-components/dialogcomponents/
+            // https://www.tiny.cloud/docs/tinymce/latest/dialog/
             editor.windowManager.open({
                 title: 'Insert/edit Conditional block',
                 body: {
@@ -368,13 +376,13 @@
                     // Check if a block is edited or a new block is to be inserted
                     if (!conditionalBlock) {
                         // Insert content at the location of the cursor.
-                        // https://www.tiny.cloud/docs/api/tinymce/tinymce.editor/#insertcontent
+                        // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.editor/#insertContent
                         editor.insertContent(`<conditional-block data-property="${data.property}" data-operator="${data.operator}" data-value="${data.value}"><p>Write conditional text here</p></conditional-block>`);
                     }
                     else {
                         // Working directly with the DOM often requires manually adding
                         // the actions to the undo stack.
-                        // https://www.tiny.cloud/docs/api/tinymce/tinymce.undomanager/
+                        // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.undomanager/
                         editor.undoManager.transact(() => {
                             // Update the data-attributes on the conditional-block element
                             conditionalBlock.dataset.property = data.property;
@@ -383,7 +391,7 @@
                         });
 
                         // Tell TinyMCE that the ui has been updated.
-                        // https://www.tiny.cloud/docs/api/tinymce/tinymce.editor/#nodechanged
+                        // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.editor/#nodeChanged
                         editor.nodeChanged();
                     }
 

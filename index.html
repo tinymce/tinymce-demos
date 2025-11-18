@@ -240,14 +240,14 @@
         <p>TinyMCE is a versatile tool that can be used for a wide variety of text editing tasks. This repository aims to inspire you and demonstrate different approaches to common use cases.</p>
         <p>Every demo has a thorougly documented html file explaining the TinyMCE config as well as links to relevant documentation to make it easy to use these demos as basis for your own projects.</p>
         <p>Make sure you visit the <a href="https://github.com/tinymce/tinymce-demos">Github repository and look through the HTML files</a>. Each demo is carefully documented to help you get the most out of TinyMCE.
-        <p>These demos are released under a MIT license. TinyMCE is licensed under a LGPL or commercial license</p>
+        <p>These demos are released under a MIT license. TinyMCE is available under a commercial license and a subset of the features are open source under the GNU General Public License Version 2 or later</p>
     </header>
 
     <main>
         <section>
             <header id="tinymce-basics">
                 <h2>TinyMCE Basics</h2>
-                <p>The following demos showcase common how-tos like creating toolbar buttons, menu items, formattingS etc.</p>
+                <p>The following demos showcase common how-tos like creating toolbar buttons, menu items, formatting etc.</p>
             </header>
 
             <article>
@@ -286,13 +286,6 @@
                 <span class="tag">Beginner</span>
                 <span class="tag tag-content-styling">Content Styling</span>
                 <span class="tag tag-skinning">Skinning</span>
-            </article>
-
-            <article>
-                <h3><a href="tinymce-basics/right-aligned-toolbar-button.html">Right aligned toolbar buttons</a></h3>
-                <p>Normally we <strong>strongly advice against overriding the TinyMCE CSS</strong> to tweak the editor. The proper way to change the visual appearance is to make a skin. That said, there is always exceptions to a good rule and moving a couple of toolbar buttons to the right side of the toolbar is one example of such an exeception.</p>
-                <span class="tag">Beginner</span>
-                <span class="tag tag-toolbar">Toolbar</span>
             </article>
 
             <article>
@@ -355,62 +348,13 @@
                 <span class="tag tag-buttons-and-menus">Buttons & Menus</span>
                 <span class="tag tag-plugin">Plugin:Tables</span>
             </article>
-        </section>
-
-        <section>
-            <header id="tokens">
-                <h2>Tokens</h2>
-                <p>Tokens – or mail merge variables such as {{name.first}} – are often found in document automation and email editors. Here are three ways you can implement them in TinyMCE</p>
-            </header>
-
-            <article>
-                <h3><a href="tokens/text-based-token.html">Text-based tokens</a></h3>
-                <p>Transform any text based tokens such as {{name.first}} into spans that we can style and make noneditable – and transform back to pure text when storing the content. Perfect for existing systems as this approach is non-destructive to your content.</p>
-                <span class="tag">Beginner</span>
-                <span class="tag tag-buttons-and-menus">Buttons & Menus</span>
-                <span class="tag tag-content-styling">Content Styling</span>
-                <span class="tag tag-plugin">Plugin:Noneditable</span>
-            </article>
-
-            <article>
-                <h3><a href="tokens/web-component-token.html">Web component tokens</a></h3>
-                <p>With the january 2020 release of Microsoft Edge, all major browsers now supports web components. Here we  create a custom element called <code>&lt;inline-token&gt;</code> that becomes our token. Tip: You can render the custom element using vue/angular/react in your front-end</p>
-                <span class="tag">Master</span>
-                <span class="tag tag-buttons-and-menus">Buttons & Menus</span>
-                <span class="tag tag-content-styling">Content Styling</span>
-                <span class="tag tag-custom-elements">Custom Elements</span>
-            </article>
-
-            <article>
-                <h3><a href="tokens/span-based-token.html">Span-based tokens</a></h3>
-                <p>Here we use a span with a class to wrap our token. A simple but powerful approach.</p>
-                <span class="tag">Beginner</span>
-                <span class="tag tag-buttons-and-menus">Buttons & Menus</span>
-                <span class="tag tag-content-styling">Content Styling</span>
-            </article>
-        </section>
+        </section>        
 
         <section>
             <header id="templates">
                 <h2>Templates</h2>
                 <p>Examples and ideas how to implement templates and layouts with TinyMCE. For example how to only enable editing on select parts of a document or to enable multiple column support in TinyMCE</p>
             </header>
-
-            <article>
-                <h3><a href="templates-and-layout/advanced-placeholder.html">Advanced Placeholders – pick a template from a blank document</a></h3>
-                <p>This demo shows how to implement an empty page placeholder UI containing complex HTML and buttons to insert templates. This feature is found in popular apps like Notion and Atlassian Confluence among others.</p>
-                <span class="tag">Master</span>
-                <span class="tag tag-content-styling">Content Styling</span>
-                <span class="tag tag-plugin">Plugin:Templates</span>
-            </article>
-
-            <article>
-                <h3><a href="templates-and-layout/multiple-columns-using-css-columns.html">Create a multiple column format using CSS Columns</a></h3>
-                <p>Demo of how to implement columns using CSS Columns and a toolbar button to toggle columns on/off</p>
-                <span class="tag">Intermediate</span>
-                <span class="tag tag-buttons-and-menus">Buttons & Menus</span>
-                <span class="tag tag-formats">Formats</span>
-            </article>
 
             <article>
                 <h3><a href="templates-and-layout/locked-down-template-inline-default.html">Locked down template example 1: using the default inline mode</a></h3>

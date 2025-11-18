@@ -25,7 +25,7 @@
             selector:'.tinymce',
 
             // Enable inline mode
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#inline
+            // https://www.tiny.cloud/docs/tinymce/latest/use-tinymce-inline/
             inline: true,
 
             // Tip! To make TinyMCE leaner, only include the plugins you actually need.
@@ -33,39 +33,39 @@
 
             // This option allows you to specify the buttons and the order that they
             // will appear on TinyMCE’s toolbar.
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar
+            // https://www.tiny.cloud/docs/tinymce/latest/toolbar-configuration-options/#toolbar
             toolbar: 'undo redo | styles | bold italic underline strikethrough | forecolor backcolor | link image emoticons | alignleft aligncenter alignright | bullist numlist | code removeformat',
 
             // Toggle the menubar off to get a leaner visual experience
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#menubar
+            // https://www.tiny.cloud/docs/tinymce/latest/menus-configuration-options/#menubar
             menubar: false,
 
             // To remove the outside borders of the toolbar we use a premium skin.
             // You can also easily create your own borderless skin too.
-            // https://www.tiny.cloud/docs/enterprise/premium-skins-and-icon-packs/borderless-demo/
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#skin
-            // https://www.tiny.cloud/docs/advanced/creating-a-skin/
+            // https://www.tiny.cloud/docs/tinymce/latest/borderless-demo/
+            // https://www.tiny.cloud/docs/tinymce/latest/editor-skin/
+            // https://www.tiny.cloud/docs/tinymce/latest/creating-a-skin/
             skin: 'borderless',
 
             // Render the inline toolbar into this element
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#fixed_toolbar_container
+            // https://www.tiny.cloud/docs/tinymce/latest/menus-configuration-options/#fixed_toolbar_container
             fixed_toolbar_container: '.toolbar',
 
             // In emails we rarely use target for links so we hide the
             // target drop down in the link dialog
-            // https://www.tiny.cloud/docs/plugins/link/#target_list
+            // https://www.tiny.cloud/docs/tinymce/latest/link/#link_target_list
             target_list: false,
 
             // We don't want users to be able to resize images by using
             // drag and drop because it can break layout templates.
-            // https://www.tiny.cloud/docs/configure/advanced-editing-behavior/#object_resizing
+            // https://www.tiny.cloud/docs/tinymce/latest/content-behavior-options/#object_resizing
             object_resizing : false,
 
             // The formats option is where custom formatting options are defined.
             // In this case we define a couple of headings and a button appearance
             // for links. HTML Emails require inlining the CSS. Fortunately the
             // styles property makes that easy.
-            // https://www.tiny.cloud/docs/configure/content-formatting/#formats
+            // https://www.tiny.cloud/docs/tinymce/latest/content-formatting/#formats
             formats: {
                 h1: { block: 'h1', styles: { fontSize: '32px' } },
                 h2: { block: 'h2', styles: { fontSize: '18px' } },
@@ -73,7 +73,7 @@
             },
 
             // The style_formats option controls the styleformat toolbar button menu
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#style_formats
+            // https://www.tiny.cloud/docs/tinymce/latest/user-formatting-options/#style_formats
             style_formats: [
                 { title: 'Paragraph', format: 'p' },
                 { title: 'Heading 1', format: 'h1' },
@@ -84,13 +84,13 @@
 
             setup: (editor) => {
                 // Apply a custom class to the wrapper element when the editor gets focus
-                // https://www.tiny.cloud/docs/advanced/events/
+                // https://www.tiny.cloud/docs/tinymce/latest/events/
                 editor.on('focus', () => {
                     document.getElementById('editor').classList.add('focused');
                 });
 
                 // Remove the custom class when the editor loses focus
-                // https://www.tiny.cloud/docs/advanced/events/
+                // https://www.tiny.cloud/docs/tinymce/latest/events/
                 editor.on('blur', () => {
                     document.getElementById('editor').classList.remove('focused');
                 });

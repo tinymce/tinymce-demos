@@ -17,4 +17,4 @@ You can download and run these demos locally. Some demos uses premium plugins so
 
 ## License
 The files in this repository are licensed under an MIT license.
-TinyMCE is licensed under a LGPL or commercial license.
+TinyMCE is available under a commercial license and a subset of the features are open source under the GNU General Public License Version 2 or later.

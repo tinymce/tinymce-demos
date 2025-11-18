@@ -2,7 +2,8 @@
     This demo showcases how to use the autocompleter API to make a
     slash commands feature and wrap it in a custom plugin
 
-    Learn more about making custom plugins at https://www.tiny.cloud/docs/advanced/creating-a-plugin/
+    Learn more about making custom plugins at 
+    https://www.tiny.cloud/docs/tinymce/latest/creating-a-plugin/
 -->
 
 <!doctype html>
@@ -15,7 +16,7 @@
 
     <script>
         // Register a TinyMCE plugin
-        // https://www.tiny.cloud/docs/advanced/creating-a-plugin/#registeringacustompluginwithtinymce
+        // https://www.tiny.cloud/docs/tinymce/latest/creating-a-plugin/#registeringacustompluginwithtinymce
         tinymce.PluginManager.add('commandpalette', function (editor) {
 
             // An array holding all unique details of each menu item in the
@@ -26,15 +27,15 @@
                     icon: 'h1',
                     action: () => {
                         // Declare what content to be inserted, or what command to execute.
-                        // https://www.tiny.cloud/docs/api/tinymce/tinymce.editor/#insertcontent
-                        // https://www.tiny.cloud/docs/api/tinymce/tinymce.editor/#execcommand
+                        // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.editor/#insertContent
+                        // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.editor/#execCommand
                         editor.insertContent('<h1>Heading 1</h1>');
 
                         // Certain actions, like headings, inserts a placeholder to provide some user feedback
                         // But since the placeholder is meant to be replaced
                         // we can force TinyMCE to select the placeholder so the user can just begin
                         // typing their heading
-                        // https://www.tiny.cloud/docs/api/tinymce.dom/tinymce.dom.selection/
+                        // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.dom.selection/
                         editor.selection.select(editor.selection.getNode());
                     }
                 },
@@ -118,13 +119,13 @@
             ]
 
             // Set up the autocompleter
-            // https://www.tiny.cloud/docs/ui-components/autocompleter/
+            // https://www.tiny.cloud/docs/tinymce/latest/autocompleter/
             editor.ui.registry.addAutocompleter('insertActions', {
 
                 // The character to trigger the autocompleter,
                 // the number of characters to type before displaying the autocompleter menu and,
                 // configure the autocompleter to display a menu opposed a row of icons
-                // https://www.tiny.cloud/docs/ui-components/autocompleter/#configurationoptions
+                // https://www.tiny.cloud/docs/tinymce/latest/autocompleter/
                 trigger: '/',
                 minChars: 0,
                 columns: 1,
@@ -156,7 +157,6 @@
                     });
 
                     // Here the matched autocompleter objects are built
-                    // https://www.tiny.cloud/docs/ui-components/autocompleter/#autocompleteitem
                     return new Promise(function (resolve) {
                         var results = matchedActions.map(function (action) {
                             return {
@@ -172,24 +172,23 @@
                 },
 
                 // Perform the action the end-user selected from the autocompleter menu
-                // https://www.tiny.cloud/docs/ui-components/autocompleter/#configurationoptions
                 onAction: function (autocompleteApi, rng, action, meta) {
 
                     // In this use-case we want to remove the trigger character and any
                     // further characters the user typed to filter the actions.
                     // We begin by creating a selection around those characters
-                    // https://www.tiny.cloud/docs/api/tinymce.dom/tinymce.dom.selection/
+                    // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.dom.selection/
                     editor.selection.setRng(rng);
 
                     // Delete the selection
-                    // https://www.tiny.cloud/docs/api/tinymce/tinymce.editor/#execcommand
+                    // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.editor/#execCommand
                     editor.execCommand('Delete');
 
                     // Perform the selected action
                     meta.action();
 
                     // Finally we hide the autocompleter menu
-                    // https://www.tiny.cloud/docs/ui-components/autocompleter/#api
+                    // https://www.tiny.cloud/docs/tinymce/latest/autocompleter/#api
                     autocompleteApi.hide();
                 }
             });
@@ -200,7 +199,7 @@
         tinymce.init({
             selector: "textarea",
             // Remember to include all relevant plugins here which you included in your `insertActions` array above
-            plugins: "commandpalette insertdatetime lists link code table image codesample media checklist",
+            plugins: "commandpalette insertdatetime lists link code table image codesample media checklist tableofcontents",
             height: 400,
         });
     </script>

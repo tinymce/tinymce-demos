@@ -17,7 +17,7 @@
             selector: '#editor',
 
             // If we don't need the menubar we can hide it
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#menubar
+            // https://www.tiny.cloud/docs/tinymce/latest/menus-configuration-options/#menubar
             menubar: false,
 
             // Tip! To make TinyMCE leaner, only include the plugins you actually need.
@@ -25,14 +25,14 @@
 
             // This option allows you to specify the buttons and the order that they
             // will appear on TinyMCE’s toolbar.
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar
+            // https://www.tiny.cloud/docs/tinymce/latest/toolbar-configuration-options/#toolbar
             toolbar: 'styles | bold italic underline  | link image | code',
 
             // To make sure the toolbar never scrolls out of view which can happen when
             // writing very long texts while using the autoresize plugin. This option
             // sticks the toolbar to the top of the screen while the editable area
             // is visible
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar_sticky
+            // https://www.tiny.cloud/docs/tinymce/latest/menus-configuration-options/#toolbar_sticky
             toolbar_sticky: true,
 
             // The following css will be injected into the editor, extending
@@ -40,8 +40,8 @@
             // In a real world scenario, with much more custom styles for headings
             // links, tables, images etc, it's strongly recommended to use the
             // content_css option to load a separate CSS file. Makes editing easier too.
-            // https://www.tiny.cloud/docs/configure/content-appearance/#content_style
-            // https://www.tiny.cloud/docs/configure/content-appearance/#content_css
+            // https://www.tiny.cloud/docs/tinymce/latest/add-css-options/#content_style
+            // https://www.tiny.cloud/docs/tinymce/latest/add-css-options/#content_css
             content_style: `
                 body {
                     min-height: 100vh;
@@ -56,11 +56,11 @@
             setup: (editor) => {
                 // Instead of defining a custom icon pack, we can register individual
                 // icons using the API.
-                // https://www.tiny.cloud/docs/api/tinymce.editor.ui/tinymce.editor.ui.registry/#addicon
+                // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.editor.ui.registry/#addIcon
                 editor.ui.registry.addIcon('alt-text', '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><g fill-rule="evenodd"><path fill-rule="nonzero" d="M16.144 3.372l1.286.772L7.658 20.43l-1.286-.772.614-1.024c-1.099-.627-2.13-1.451-3.089-2.436a18.159 18.159 0 0 1-2.06-2.547l-.127-.192-.223-.35-.18-.3-.14-.247a6.025 6.025 0 0 1-.054-.101 1 1 0 0 1 0-.922l.054-.101.14-.247.18-.3.223-.35.127-.192a18.159 18.159 0 0 1 2.06-2.547C6.2 5.438 8.908 4 12 4c1.19 0 2.324.213 3.4.61l.744-1.238zM12 6C9.523 6 7.289 7.187 5.33 9.198A16.178 16.178 0 0 0 3.153 12l.217.342c.04.063.083.127.128.195a16.178 16.178 0 0 0 1.832 2.265c.845.868 1.742 1.583 2.687 2.114l1.216-2.027a4 4 0 0 1 4.015-6.69l1.099-1.832A7.704 7.704 0 0 0 12 6z"/><path d="M18.007 18.002C16.204 19.272 14.199 20 12 20a9.71 9.71 0 0 1-2.231-.258l1.064-1.74h7.174zM13.279 14h8.641l-.057.085c-.465.652-.989 1.299-1.572 1.917L12.056 16l1.223-2zm2.444-4h6.2l.121.175.246.366.223.35.18.3.14.247.054.101A1 1 0 0 1 23 12h-8.5l1.223-2zm4.38-2.198l.186.198h-3.344l1.175-1.922a15.12 15.12 0 0 1 1.983 1.724z"/></g></svg>');
 
                 // Register a custom context toolbar shown when selecting any image
-                // https://www.tiny.cloud/docs/ui-components/contexttoolbar/#registeringacontexttoolbar
+                // https://www.tiny.cloud/docs/tinymce/latest/contexttoolbar/#registeringacontexttoolbar
                 editor.ui.registry.addContextToolbar('imageContextToolbar', {
                     predicate: function (node) {
                         return node.nodeName.toLowerCase() === 'img'
@@ -72,7 +72,7 @@
 
                 // The context form contains our alt text input field. It also manages
                 // the toolbar button that opens the context form.
-                // https://www.tiny.cloud/docs/ui-components/contextform/
+                // https://www.tiny.cloud/docs/tinymce/latest/contextform/
                 editor.ui.registry.addContextForm('alttext', {
                     // Define the button used in our context toolbar to open the context form
                     launch: {
@@ -88,11 +88,11 @@
                     initValue: () => {
                         // First we get the selected element. It can be either the
                         // callout itself or any child element within it.
-                        // https://www.tiny.cloud/docs/api/tinymce.dom/tinymce.dom.selection/#getnode
+                        // // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.dom.selection/#getNode
                         const node = editor.selection.getNode();
 
                         // Get the selected image's alt attribute text
-                        // https://www.tiny.cloud/docs/api/tinymce.dom/tinymce.dom.domutils/#getattrib
+                        // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.dom.domutils/#getAttrib
                         const altText = tinymce.DOM.getAttrib(node, 'alt');
 
                         // Return the the alt text to be displayed as initial value
@@ -109,18 +109,18 @@
                             onAction: (contextFormApi) => {
                                 // Working directly with the DOM requires manually adding
                                 // the actions to the undo stack.
-                                // https://www.tiny.cloud/docs/api/tinymce/tinymce.undomanager/
+                                // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.undomanager/
                                 editor.undoManager.transact(() => {
                                     // Get the selected element (in this case our image)
-                                    // https://www.tiny.cloud/docs/api/tinymce.dom/tinymce.dom.selection/#getnode
+                                    // // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.dom.selection/#getNode
                                     const node = editor.selection.getNode();
 
                                     // Set the alt attribute on the selected image
-                                    // https://www.tiny.cloud/docs/api/tinymce.dom/tinymce.dom.domutils/#setattrib
+                                    // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.dom.domutils/#setAttrib
                                     const alt = tinymce.DOM.setAttrib(node, 'alt', contextFormApi.getValue());
 
                                     // Close the context form
-                                    // https://www.tiny.cloud/docs/ui-components/contextform/#formapi
+                                    // https://www.tiny.cloud/docs/tinymce/latest/contextform/#formapi
                                     contextFormApi.hide();
                                 });
                             }
@@ -131,7 +131,7 @@
                             icon: 'close',
                             onAction: (contextform) => {
                                 // The cancel button simply closes the context form
-                                // https://www.tiny.cloud/docs/ui-components/contextform/#formapi
+                                // https://www.tiny.cloud/docs/tinymce/latest/contextform/#formapi
                                 contextform.hide();
                             }
                         },

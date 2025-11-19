@@ -13,7 +13,7 @@
     <meta charset="utf-8">
     <title>Badges with custom text and colors</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5-dev/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/8/tinymce.min.js" referrerpolicy="origin"></script>
 
     <script>
         tinymce.init({
@@ -23,20 +23,20 @@
             height: 'calc(100vh - 4rem)',
 
             // If we don't need the menubar we can hide it
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#menubar
+            // https://www.tiny.cloud/docs/tinymce/latest/menus-configuration-options/#menubar
             menubar: false,
 
             // Tip! To make TinyMCE leaner, only include the plugins you actually need.
-            plugins: 'code table noneditable',
+            plugins: 'code table',
 
             // This option allows you to specify the buttons and the order that they
             // will appear on TinyMCE’s toolbar.
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar
-            toolbar: 'formatselect | bold italic underline  | badge table | code',
+            // https://www.tiny.cloud/docs/tinymce/latest/toolbar-configuration-options/#toolbar
+            toolbar: 'styles | bold italic underline  | badge table | code',
 
             // The formats option is where custom formatting options are defined.
             // In this case we define a format for our badge
-            // https://www.tiny.cloud/docs/configure/content-formatting/#formats
+            // https://www.tiny.cloud/docs/tinymce/latest/content-formatting/#formats
             formats: {
                 badge: {
                     // Declare that a badge should be wrapped in a span
@@ -58,7 +58,7 @@
             // regular text after the element. The `inline_boundaries_selector` allows us
             // to use the arrow keys to escape a badge and continue typing regular text
             // before and afterwards.
-            // https://www.tiny.cloud/docs/configure/content-appearance/#inline_boundaries_selector
+            // https://www.tiny.cloud/docs/tinymce/latest/content-behavior-options/#inline_boundaries_selector
             inline_boundaries_selector: 'a[href],code,.mce-annotation,span.badge',
 
             // The following css will be injected into the editor, extending
@@ -66,8 +66,8 @@
             // In a real world scenario, with much more custom styles for headings
             // links, tables, images etc, it's strongly recommended to use the
             // content_css option to load a separate CSS file. Makes editing easier too.
-            // https://www.tiny.cloud/docs/configure/content-appearance/#content_style
-            // https://www.tiny.cloud/docs/configure/content-appearance/#content_css
+            // https://www.tiny.cloud/docs/tinymce/latest/add-css-options/#content_style
+            // https://www.tiny.cloud/docs/tinymce/latest/add-css-options/#content_css
             content_style: `
                 span.badge {
                     background-color: gray;
@@ -83,11 +83,11 @@
             setup: (editor) => {
                 // Instead of defining a custom icon pack, we can register individual
                 // icons using the API.
-                https://www.tiny.cloud/docs/api/tinymce.editor.ui/tinymce.editor.ui.registry/#addicon
+                // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.editor.ui.registry/#addIcon
                 editor.ui.registry.addIcon('badge', '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><g fill="none" fill-rule="evenodd" stroke="#000" stroke-width="2" transform="rotate(-45 11.894 11.644)"><path d="M5 7h10.343a3 3 0 0 1 2.121.879l3.415 3.414a.997.997 0 0 1 0 1.414l-3.415 3.414a3 3 0 0 1-2.12.879H5a.997.997 0 0 1-1-1V8a.997.997 0 0 1 1-1z"/><path stroke-linecap="round" transform="rotate(-135 15.828 12)" d="M16.414 11.414L15.707 12.121"/></g></svg>');
 
                 // Register a custom toolbar button for opening the badge dialog.
-                // https://www.tiny.cloud/docs/ui-components/toolbarbuttons/
+                // https://www.tiny.cloud/docs/tinymce/latest/custom-toolbarbuttons/
                 editor.ui.registry.addButton('badge', {
                     icon: 'badge',
                     tooltip: 'Insert/edit badge',
@@ -98,12 +98,12 @@
                         const backgroundColor = function() {
 
                             // Fetch the node of the current selection.
-                            // https://www.tiny.cloud/docs/api/tinymce.dom/tinymce.dom.selection/
+                            // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.dom.selection/
                             node = editor.selection.getNode();
 
                             // Check if the node has the badge class, if so
                             // it will have a background color style.
-                            // https://www.tiny.cloud/docs/api/tinymce.dom/tinymce.dom.domutils/
+                            // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.dom.domutils/
                             if (editor.dom.hasClass(node, 'badge')) {
                                 return node.style.backgroundColor;
                             }
@@ -127,8 +127,7 @@
 
                         // Open a TinyMCE modal where the user can set the badge's
                         // background and text color.
-                        // https://www.tiny.cloud/docs/ui-components/dialog/
-                        // https://www.tiny.cloud/docs/ui-components/dialogcomponents/
+                        // https://www.tiny.cloud/docs/tinymce/latest/dialog/
                         editor.windowManager.open({
                             title: 'Insert/edit Badge',
                             body: {
@@ -168,32 +167,32 @@
                                 var data = dialog.getData();
 
                                 // Get the currently selected node.
-                                // https://www.tiny.cloud/docs/api/tinymce.dom/tinymce.dom.selection/
+                                // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.dom.selection/
                                 const node = editor.selection.getNode();
 
                                 // Working directly with the DOM often requires manually adding
                                 // the actions to the undo stack.
-                                // https://www.tiny.cloud/docs/api/tinymce/tinymce.undomanager/
+                                // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.undomanager/
                                 editor.undoManager.transact(() => {
                                     // Check if the selected node is a badge.
-                                    // https://www.tiny.cloud/docs/api/tinymce.dom/tinymce.dom.domutils/
+                                    // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.dom.domutils/
                                     if (editor.dom.hasClass(node, 'badge')) {
                                         // If the selection is a badge, we manipulate the styles directly
                                         // instead of using the formatter to set a new format which caused
                                         // nested spans (it creates a badge inside the badge).
-                                        // https://www.tiny.cloud/docs/api/tinymce.dom/tinymce.dom.domutils/#setstyles
+                                        // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.dom.domutils/#setStyles
                                         editor.dom.setStyles(node, {'background-color': data.backgroundcolor, 'color': data.textcolor});
                                     }
                                     else {
                                         // If not a badge, then apply the badge format to the current selection
                                         // or the word the text caret is currently placed in.
-                                        // https://www.tiny.cloud/docs/api/tinymce/tinymce.formatter/#apply
+                                        // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.formatter/#apply
                                         editor.formatter.apply('badge', {styles: `background-color: ${data.backgroundcolor}; color: ${data.textcolor};`});
                                     }
                                 });
 
                                 // Tell TinyMCE that the ui has been updated.
-                                // https://www.tiny.cloud/docs/api/tinymce/tinymce.editor/#nodechanged
+                                // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.editor/#nodeChanged
                                 editor.nodeChanged();
 
                                 // Close the dialog.

@@ -15,13 +15,13 @@
     <meta charset="utf-8">
     <title>Table row templates</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/8/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
         tinymce.init({
             selector:'#editor',
 
             // Toggle the menubar off if it isn't needed
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#menubar
+            // https://www.tiny.cloud/docs/tinymce/latest/menus-configuration-options/#menubar
             menubar: false,
 
             // Tip! To make TinyMCE leaner, only include the plugins you actually need.
@@ -29,38 +29,38 @@
 
             // This option allows you to specify the buttons and the order that they
             // will appear on TinyMCE’s toolbar.
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar
-            toolbar: 'styleselect | bold italic underline forecolor backcolor | table link image emoticons | align bullist numlist | code removeformat',
+            // https://www.tiny.cloud/docs/tinymce/latest/toolbar-configuration-options/#toolbar
+            toolbar: 'styles | bold italic underline forecolor backcolor | table link image emoticons | align bullist numlist | code removeformat',
 
             // The Naked premium skin provides a clean look.
             // You can also easily create your own borderless skin too.
-            // https://www.tiny.cloud/docs/enterprise/premium-skins-and-icon-packs/naked/
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#skin
-            // https://www.tiny.cloud/docs/advanced/creating-a-skin/
+            // https://www.tiny.cloud/docs/tinymce/latest/naked-demo/
+            // https://www.tiny.cloud/docs/tinymce/latest/editor-skin/
+            // https://www.tiny.cloud/docs/tinymce/latest/creating-a-skin/
             skin: 'naked',
 
             // To make sure the toolbar never scrolls out of view which can happen when
             // writing very long texts while using the autoresize plugin. This option
             // sticks the toolbar to the top of the screen while the editable area
             // is visible
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar_sticky
+            // https://www.tiny.cloud/docs/tinymce/latest/menus-configuration-options/#toolbar_sticky
             toolbar_sticky: true,
 
             // "Thin" is a premium icon pack you get wth the cloud essential plan.
             // See https://www.tiny.cloud for more details and purchasing options
             // You can also create your own icon packs for TinyMCE
-            // https://www.tiny.cloud/docs/advanced/creating-an-icon-pack/
+            // https://www.tiny.cloud/docs/tinymce/latest/enhanced-skins-and-icon-packs/
             icons: 'thin',
 
             // When using the autoresize plugin we can set a minimum height of the editor
-            // https://www.tiny.cloud/docs/plugins/autoresize/#min_height
+            // https://www.tiny.cloud/docs/tinymce/latest/autoresize/#min_height
             min_height: 400,
 
             // The following css will be injected into the editor, extending
             // the default styles. In a real world scenario, it's recommended
             // to use the content_css option to load a separate CSS file.
-            // https://www.tiny.cloud/docs/configure/content-appearance/#content_style
-            // https://www.tiny.cloud/docs/configure/content-appearance/#content_css
+            // https://www.tiny.cloud/docs/tinymce/latest/add-css-options/#content_style
+            // https://www.tiny.cloud/docs/tinymce/latest/add-css-options/#content_css
             content_style: `
                 body {
                     max-width: 780px;
@@ -105,18 +105,18 @@
             // Tell TinyMCE how to modify the table HTML when converting regular rows
             // to header rows. In this case td's will move into `thead` and be
             // converted to `th`.
-            // https://www.tiny.cloud/docs/plugins/table/#table_header_type
+            // https://www.tiny.cloud/docs/tinymce/latest/table-options/#table_header_type
             table_header_type: 'sectionCells',
 
             // Configure the table context toolbar. The last button is
             // the built in remove table button.
-            // https://www.tiny.cloud/docs/plugins/table/#table_toolbar
+            // https://www.tiny.cloud/docs/tinymce/latest/toolbar-configuration-options/#table_toolbar
             table_toolbar: 'inserttemplaterow | tabledeleterow tabledelete',
 
             setup: (editor) => {
 
                 // Register a custom toolbar button for opening the badge dialog.
-                // https://www.tiny.cloud/docs/ui-components/toolbarbuttons/
+                // https://www.tiny.cloud/docs/tinymce/latest/custom-toolbarbuttons/
                 editor.ui.registry.addButton('inserttemplaterow', {
                     icon: 'table-insert-row-after',
                     text: 'Insert drone status',
@@ -124,8 +124,7 @@
                     onAction: () => {
 
                         // Opens a TinyMCE modal
-                        // https://www.tiny.cloud/docs/ui-components/dialog/
-                        // https://www.tiny.cloud/docs/ui-components/dialogcomponents/
+                        // https://www.tiny.cloud/docs/tinymce/latest/dialog/
                         editor.windowManager.open({
                         title: 'Insert Drone Details',
                         body: {
@@ -173,20 +172,22 @@
                             `;
 
                             // Store any existing table clipboard row data
-                            // https://www.tiny.cloud/docs/plugins/table/#api
-                            const storedClipboard = editor.plugins.table.getClipboardRows();
+                            // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.fakeclipboard/
+                            const storedClipboard = tinymce.FakeClipboard.read();
 
                             // Set the clipboard data to be the table row element created previously
-                            // https://www.tiny.cloud/docs/plugins/table/#api
-                            editor.plugins.table.setClipboardRows([tr]);
+                            const item = tinymce.FakeClipboard.FakeClipboardItem({
+	                            'x-tinymce/dom-table-rows': [{ dom: tr }],
+                            });
+
+                            tinymce.FakeClipboard.write([item]);
 
                             // Paste the table clipboard data
-                            // https://www.tiny.cloud/docs/plugins/table/#commands
-                            editor.execCommand('mceTablePasteRowAfter');
+                            // https://www.tiny.cloud/docs/tinymce/latest/table/#commands
+                            editor.execCommand('mceTablePasteRowAfter');                            
 
                             // Restore the saved table clipboard row data
-                            // https://www.tiny.cloud/docs/plugins/table/#api
-                            editor.plugins.table.setClipboardRows(storedClipboard);
+                            tinymce.FakeClipboard.write(storedClipboard);
 
                             // Close the dialog.
                             dialog.close();

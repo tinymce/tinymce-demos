@@ -14,7 +14,7 @@
     <meta charset="utf-8">
     <title>Useful styles to include in your content css</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5-dev/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/8/tinymce.min.js" referrerpolicy="origin"></script>
 
     <script>
         tinymce.init({
@@ -24,11 +24,11 @@
             height: 'calc(100vh - 4rem)',
 
             // Tip! To make TinyMCE leaner, only include the plugins you actually need.
-            plugins: 'code table noneditable',
+            plugins: 'code table',
 
             // Disable the drag handles on images to avoid having them obscure the
             // rounded corners on images example
-            // https://www.tiny.cloud/docs/configure/advanced-editing-behavior/#object_resizing
+            // https://www.tiny.cloud/docs/tinymce/latest/content-behavior-options/#object_resizing
             object_resizing : false,
 
             // The following css will be injected into the editor, extending
@@ -36,8 +36,8 @@
             // In a real world scenario, with much more custom styles for headings
             // links, tables, images etc, it's strongly recommended to use the
             // content_css option to load a separate CSS file. Makes editing easier too.
-            // https://www.tiny.cloud/docs/configure/content-appearance/#content_style
-            // https://www.tiny.cloud/docs/configure/content-appearance/#content_css
+            // https://www.tiny.cloud/docs/tinymce/latest/add-css-options/#content_style
+            // https://www.tiny.cloud/docs/tinymce/latest/add-css-options/#content_css
             content_style: `
 
                 /*
@@ -46,7 +46,7 @@
                  * -----------------------------------------------------
                  */
 
-                /* Make our invisible overlay be positioned relative to the hr */
+                /* Make our invisible overlay be positioned relative to the */
                 hr {
                   position: relative;
                 }

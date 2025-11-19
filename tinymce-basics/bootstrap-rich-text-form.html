@@ -9,60 +9,60 @@
     <title>Bootstrap rich text form</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5-dev/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/8/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
         tinymce.init({
             selector:'#editor',
 
             // If we don't need the menubar or statusbar we can hide them
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#menubar
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#statusbar
+            // https://www.tiny.cloud/docs/tinymce/latest/menus-configuration-options/#menubar
+            // https://www.tiny.cloud/docs/tinymce/latest/statusbar-configuration-options/#statusbar
             menubar: false,
             statusbar: false,
 
             // Tip! To make TinyMCE leaner, only include the plugins you actually need.
-            plugins: 'autoresize autolink image imagetools link lists media help',
+            plugins: 'autoresize autolink image link lists media help',
 
             // This option allows you to specify the buttons and the order that they
             // will appear on TinyMCE’s toolbar.
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar
+            // https://www.tiny.cloud/docs/tinymce/latest/toolbar-configuration-options/#toolbar
             toolbar: 'h1 h2 bold italic strikethrough blockquote bullist numlist backcolor | link image media | removeformat help fullscreen ',
 
             // We use the Bootstrap premium skin to make TinyMCE match the
             // visual style of Bootstrap, primarily colors and the dialogs.
             // You can also create your own bootstrap skin.
-            // https://www.tiny.cloud/docs/enterprise/premium-skins-and-icon-packs/outside-demo/
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#skin
-            // https://www.tiny.cloud/docs/advanced/creating-a-skin/
+            // https://www.tiny.cloud/docs/tinymce/latest/bootstrap-demo/
+            // https://www.tiny.cloud/docs/tinymce/latest/editor-skin/
+            // https://www.tiny.cloud/docs/tinymce/latest/creating-a-skin/
             skin: 'bootstrap',
             
             // We also add the new Bootstrap premium icon pack
-            // https://www.tiny.cloud/docs/enterprise/premium-skins-and-icon-packs/ (Coming in v5.7)
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#icons
-            // https://www.tiny.cloud/docs/advanced/creating-an-icon-pack/
+            // https://www.tiny.cloud/docs/tinymce/latest/enhanced-skins-and-icon-packs/
+            // https://www.tiny.cloud/docs/tinymce/latest/editor-icons/
+            // https://www.tiny.cloud/docs/tinymce/latest/creating-an-icon-pack/
             icons: 'bootstrap',
 
             // Setting the minimum height when using the autoresize plugin
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#min_height
+            // https://www.tiny.cloud/docs/tinymce/latest/autoresize/#min_height
             min_height: 400,
 
             // Set the whitespace between the bottom most row and the bottom of the editor
-            // https://www.tiny.cloud/docs/plugins/autoresize/#autoresize_bottom_margin
+            // https://www.tiny.cloud/docs/tinymce/latest/autoresize/#autoresize_bottom_margin
             autoresize_bottom_margin: 20,
 
             // To make sure the toolbar never scrolls out of view which can happen when
             // writing very long texts while using the autoresize plugin. This option
             // sticks the toolbar to the top of the screen while the editable area
             // is visible
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar_sticky
+            // https://www.tiny.cloud/docs/tinymce/latest/menus-configuration-options/#toolbar_sticky
             toolbar_sticky: true,
 
             setup: (editor) => {
                 // Apply the Bootstrap focus outline and associated animation
                 // Read more about different editor events in the documentation
-                // https://www.tiny.cloud/docs/advanced/events/
+                // https://www.tiny.cloud/docs/tinymce/latest/events/
                 editor.on('init', () => {
-                    // https://www.tiny.cloud/docs/api/tinymce/tinymce.editor/#getcontainer
+                    // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.editor/#getContainer
                     editor.getContainer().style.transition="border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out"
                 });
                 editor.on('focus', () => {

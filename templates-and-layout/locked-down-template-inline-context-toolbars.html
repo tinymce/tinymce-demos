@@ -11,7 +11,7 @@
     <title>Inline context toolbars demo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5-dev/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/8/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
         tinymce.init({
             selector: '#tinymce',
@@ -20,26 +20,26 @@
             // You have to wire up the persistent storage yourself, for example
             // getting the editable area's DOM tree, serlialize it and send it
             // to the backend using a hidden inputfield.
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#inline
+            // https://www.tiny.cloud/docs/tinymce/latest/use-tinymce-inline/
             inline: true,
 
             // The quickbars enable the context toolbars shown on selection
             // Tip! To make TinyMCE leaner, only include the plugins you actually need.
-            // https://www.tiny.cloud/docs/plugins/quickbars/
+            // https://www.tiny.cloud/docs/tinymce/latest/quickbars/
             plugins: 'quickbars anchor autolink link lists',
 
             // When using quickbars, we disable the regular toolbar and menubar
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#menubar
+            // https://www.tiny.cloud/docs/tinymce/latest/toolbar-configuration-options/#toolbar
+            // https://www.tiny.cloud/docs/tinymce/latest/menus-configuration-options/#menubar
             toolbar: false,
             menubar: false,
 
             // Configure the toolbar button shown in the context toolbar
-            // https://www.tiny.cloud/docs/plugins/quickbars/#quickbars_selection_toolbar
-            quickbars_selection_toolbar: 'formatselect | bold italic strikethrough backcolor link | align | bullist numlist',
+            // https://www.tiny.cloud/docs/tinymce/latest/quickbars/#quickbars_selection_toolbar
+            quickbars_selection_toolbar: 'styles | bold italic strikethrough backcolor link | align | bullist numlist',
 
             // Text to show when the editor is empty
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#placeholder
+            // https://www.tiny.cloud/docs/tinymce/latest/editor-important-options/#placeholder
             placeholder: 'Page body'
         });
     </script>

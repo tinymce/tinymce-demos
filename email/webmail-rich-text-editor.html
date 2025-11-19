@@ -8,14 +8,14 @@
     <meta charset="utf-8">
     <title>Rich text webmail editor demo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5-dev/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/8/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
         tinymce.init({
             selector:'#editor',
 
             // If we don't need the menubar or statusbar we can hide them
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#menubar
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#statusbar
+            // https://www.tiny.cloud/docs/tinymce/latest/menus-configuration-options/#menubar
+            // https://www.tiny.cloud/docs/tinymce/latest/statusbar-configuration-options/#statusbar
             menubar: false,
             statusbar: false,
 
@@ -25,44 +25,44 @@
             // To create an interesting visual appearance we use a premium skin
             // called outside which moves the toolbar outside of the editor
             // frame. You can also create your own skin and icon pack.
-            // https://www.tiny.cloud/docs/enterprise/premium-skins-and-icon-packs/outside-demo/
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#skin
-            // https://www.tiny.cloud/docs/advanced/creating-a-skin/
-            skin: 'outside',
+            // https://www.tiny.cloud/docs/tinymce/latest/naked-demo/
+            // https://www.tiny.cloud/docs/tinymce/latest/editor-skin/
+            // https://www.tiny.cloud/docs/tinymce/latest/creating-a-skin/
+            skin: 'naked',
 
             // Set the height of the editor. Tip! Any css unit works, even calc().
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#height
+            // https://www.tiny.cloud/docs/tinymce/latest/autoresize/#min_height
             height: '300px',
 
             // This option allows you to specify the buttons and the order that they
             // will appear on TinyMCE’s toolbar.
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar
+            // https://www.tiny.cloud/docs/tinymce/latest/toolbar-configuration-options/#toolbar
             toolbar: 'undo redo | formatgroup | link emoticons image | code removeformat',
 
             // Toolbar groups is a useful concept for organizing the toolbar into
             // sub toolbars that show up as a floating toolbar.
             // This particular toolbar config is inspired by Gmail.
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar_groups
+            // https://www.tiny.cloud/docs/tinymce/latest/toolbar-configuration-options/#toolbar_groups
             toolbar_groups: {
                 formatgroup: {
                     icon: 'format',
                     tooltip: 'Formatting',
-                    items: 'fontselect | formatselect | bold italic underline strikethrough forecolor | align bullist numlist outdent indent blockquote'
+                    items: 'fontfamily | styles | bold italic underline strikethrough forecolor | align bullist numlist outdent indent blockquote'
                 }
             },
 
             // Move the toolbar below the editable area
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar_location
+            // https://www.tiny.cloud/docs/tinymce/latest/toolbar-configuration-options/#toolbar_location
             toolbar_location: 'bottom',
 
             // The formats option is where custom formatting options are defined.
             // In this case we define a couple of headings and text formats.
             // The p is configured to match against multiple formats to make sure
-            // the styleselect toolbar menu button shows paragraphs as enabled on
+            // the styles toolbar menu button shows paragraphs as enabled on
             // p tags that lacks style attribute. The first item in the array will
-            // be the one applied when choosing the format via the styleselect
+            // be the one applied when choosing the format via the styles
             // toolbar button.
-            // https://www.tiny.cloud/docs/configure/content-formatting/#formats
+            // https://www.tiny.cloud/docs/tinymce/latest/content-formatting/#formats
             formats: {
                 h1: { block: 'h1', styles: { fontSize: '24px' } },
                 h2: { block: 'h2', styles: { fontSize: '18px' } },
@@ -73,16 +73,10 @@
                 small: { block: 'small', styles: { fontSize: '12px', color: '#aaaaaa' } }
             },
 
-            // An alternative to the styleselect toolbar button is the formatselect button
-            // which is a simpler version of the styleselect button. It is configured
-            // using the block_formats option.
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#block_formats
-            block_formats: 'Normal=p; Heading=h1; Sub heading=h2; Small=small',
-
             // In order to force TinyMCE to apply inline styles to the default paragraph
             // text we can use the forced_root_block together with forced_root_block_attrs.
-            // https://www.tiny.cloud/docs/configure/content-filtering/#forced_root_block
-            // https://www.tiny.cloud/docs/configure/content-filtering/#forced_root_block_attrs
+            // https://www.tiny.cloud/docs/tinymce/latest/content-filtering/#forced_root_block
+            // https://www.tiny.cloud/docs/tinymce/latest/content-filtering/#forced_root_block_attrs
             forced_root_block: 'p',
             forced_root_block_attrs: { 'style': 'font-size: 14px; font-family: helvetica, arial, sans-serif;'},
         });
@@ -98,14 +92,22 @@
             max-width: 800px;
             margin: auto;
         }
+
+        .editor-wrap {
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            overflow: hidden;
+        }
     </style>
 </head>
 
 <body>
 <main>
-    <textarea id="editor">
-        <p style="font-size: 14px; font-family: helvetica, arial, sans-serif;">Demo showcasing inline styles and email friendly custom formats. Caveat is that remove styles doesn't work properly. It removes our "default" inline font-size and there is no way around that.</p>
-    </textarea>
+    <div class="editor-wrap">
+        <textarea id="editor">
+            <p style="font-size: 14px; font-family: helvetica, arial, sans-serif;">Demo showcasing inline styles and email friendly custom formats. Caveat is that remove styles doesn't work properly. It removes our "default" inline font-size and there is no way around that.</p>
+        </textarea>
+    </div>
 </main>
 </body>
 </html>

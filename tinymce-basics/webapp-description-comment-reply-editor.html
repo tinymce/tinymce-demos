@@ -9,7 +9,7 @@ like Zendesk, Jira.
 This demo showcases among other things:
 
 - The ability to create a custom border outside of TinyMCE and visually encapsulate external content.
-- Use textpattern plugin to provide markdown-like replacement formatting. Also try typing `->`
+- The text patterns feature provides common substitutions when typing.
 - Use of the autoresize plugin. The editor grows as you type.
 - An usecase for the small premium icon pack
 
@@ -21,69 +21,53 @@ This demo showcases among other things:
     <meta charset="utf-8">
     <title>Comment editor demo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5-dev/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/8/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
         tinymce.init({
             selector:'#description',
 
             // If we don't need the menubar or statusbar we can hide them
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#menubar
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#statusbar
+            // https://www.tiny.cloud/docs/tinymce/latest/menus-configuration-options/#menubar
+            // https://www.tiny.cloud/docs/tinymce/latest/statusbar-configuration-options/#statusbar
             menubar: false,
             statusbar: false,
 
             // as we want to provide our own editor border to include the save button
             // we can use the naked skin that completely removes all borders.
             // You can also easily create your own borderless skin.
-            // https://www.tiny.cloud/docs/enterprise/premium-skins-and-icon-packs/naked-demo/
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#skin
-            // https://www.tiny.cloud/docs/advanced/creating-a-skin/
+            // https://www.tiny.cloud/docs/tinymce/latest/naked-demo/
+            // https://www.tiny.cloud/docs/tinymce/latest/editor-skin/
+            // https://www.tiny.cloud/docs/tinymce/latest/creating-a-skin/
             skin: 'naked',
 
             // For a leaner look we can use the Small premium icon pack.
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#icons
-            // https://www.tiny.cloud/docs/advanced/creating-an-icon-pack/
+            // https://www.tiny.cloud/docs/tinymce/latest/editor-icons/
+            // https://www.tiny.cloud/docs/tinymce/latest/creating-an-icon-pack/
             icons: 'small',
 
             // Tip! To make TinyMCE leaner, only include the plugins you actually need.
-            plugins: 'code autoresize anchor, autolink codesample emoticons hr image link lists table textpattern',
+            plugins: 'code autoresize anchor, autolink codesample emoticons image link lists table markdown',
 
             // This option allows you to specify the buttons and the order that
             // they will appear on TinyMCE’s toolbar.
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar
-            toolbar: 'formatselect | bold italic strikethrough blockquote | bullist numlist codesample link image table emoticons hr',
+            // https://www.tiny.cloud/docs/tinymce/latest/toolbar-configuration-options/#toolbar
+            toolbar: 'styles | bold italic strikethrough blockquote | bullist numlist codesample link image table emoticons hr',
 
             // Setting the minimum height when using the autoresize plugin
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#min_height
+            // https://www.tiny.cloud/docs/tinymce/latest/autoresize/#min_height
             min_height: 160,
 
             // Set the whitespace between the bottom most row and the bottom of the editor
-            // https://www.tiny.cloud/docs/plugins/autoresize/#autoresize_bottom_margin
+            // https://www.tiny.cloud/docs/tinymce/latest/autoresize/#autoresize_bottom_margin
             autoresize_bottom_margin: 24,
 
-            // The text pattern plugin enables you to assign actions to happen when
+            // The text pattern feature enables you to assign actions to happen when
             // the user types content into TinyMCE. In this case we are substituting
             // starts for proper bullet lists, hashes for headings and other common
             // substutions
-            // https://www.tiny.cloud/docs/plugins/textpattern/#textpattern_patterns
-            textpattern_patterns: [
-                {start: '*', end: '*', format: 'italic'},
-                {start: '_', end: '_', format: 'italic'},
-                {start: '**', end: '**', format: 'bold'},
-                {start: '__', end: '__', format: 'bold'},
-                {start: '`', end: '`', format: 'code'},
-                {start: '>', format: 'blockquote'},
-                {start: '1. ', cmd: 'InsertOrderedList'},
-                {start: '* ', cmd: 'InsertUnorderedList'},
-                {start: '- ', cmd: 'InsertUnorderedList' },
-                {start: '+ ', cmd: 'InsertUnorderedList' },
-                {start: '#', format: 'h1'},
-                {start: '##', format: 'h2'},
-                {start: '###', format: 'h3'},
+            // https://www.tiny.cloud/docs/tinymce/latest/content-behavior-options/#text_patterns
+            text_patterns: [
                 {start: '->', replacement: '→'},
-                {start: '***', format: 'hr'},
-                {start: '---', format: 'hr'},
-                {start: '* * *', format: 'hr'},
             ]
         });
     </script>

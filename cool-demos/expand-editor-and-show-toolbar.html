@@ -1,7 +1,7 @@
 <!--
-    This demo showcases a minimalist editor that expands on focus
+    This demo showcases a minimalist editor that expands on focus.
     It uses the TinyMCE inline mode to allow for greater control
-        over the toolbar position and behavior.
+    over the toolbar position and behavior.
 -->
 
 <!doctype html>
@@ -10,40 +10,39 @@
     <meta charset="utf-8">
     <title>Expand and show toolbar demo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5-dev/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/8/tinymce.min.js" referrerpolicy="origin"></script>
 
     <script>
         tinymce.init({
             selector: "#editor-content",
-            plugins: "emoticons hr image link lists charmap table",
-            toolbar: "formatgroup paragraphgroup insertgroup",
+            plugins: "emoticons image link lists charmap table",
             placeholder: "Ask a question or post an update...",
             menubar: false,
             skin: 'naked',
             icons: 'thin',
 
             // Enable inline mode
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#inline
+            // https://www.tiny.cloud/docs/tinymce/latest/use-tinymce-inline/
             inline: true,
 
             // Render the toolbar in this container.
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#fixed_toolbar_container
+            // https://www.tiny.cloud/docs/tinymce/latest/menus-configuration-options/#fixed_toolbar_container
             fixed_toolbar_container: '#editor-toolbar',
 
             // Makes menus move upwards
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar_location
+            // https://www.tiny.cloud/docs/tinymce/latest/toolbar-configuration-options/#toolbar_location
             toolbar_location: 'bottom',
 
             // Remove the manual image resizing as we're using percentage widths
-            // https://www.tiny.cloud/docs/configure/advanced-editing-behavior/#object_resizing
+            // https://www.tiny.cloud/docs/tinymce/latest/content-behavior-options/#object_resizing
             object_resizing: false,
 
             // Hide the right click context menus
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#contextmenu
+            // https://www.tiny.cloud/docs/tinymce/latest/menus-configuration-options/#contextmenu
             contextmenu: false,
 
             // Create three custom toolbar groups
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar_groups
+            // https://www.tiny.cloud/docs/tinymce/latest/toolbar-configuration-options/#toolbar_groups
             toolbar_groups: {
                 formatgroup: {
                     icon: 'format',
@@ -61,31 +60,34 @@
                     items: 'link image emoticons charmap hr'
                 }
             },
+            
+            // Show the three toolbar groups
+            toolbar: "formatgroup paragraphgroup insertgroup",
 
             // On mobile, toolbar_mode is sliding by default which is not compatible
             // with toolbar_groups. Therefore we explicitly set toolbar_mode to floating
             // on mobile and touch devices.
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar_mode
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#mobile
+            // https://www.tiny.cloud/docs/tinymce/latest/toolbar-configuration-options/#toolbar_mode
+            // https://www.tiny.cloud/docs/tinymce/latest/tinymce-for-mobile/
             mobile: {
                 toolbar_mode: 'floating'
             },
 
             setup: (editor) => {
                 // Apply a custom class to the wrapper element when the editor gets focus
-                // https://www.tiny.cloud/docs/advanced/events/
+                // https://www.tiny.cloud/docs/tinymce/latest/events/
                 editor.on('focus', () => {
                     document.getElementById('editor-wrap').classList.add('focused');
                 });
 
                 // Remove the custom class when the editor loses focus
-                // https://www.tiny.cloud/docs/advanced/events/
+                // https://www.tiny.cloud/docs/tinymce/latest/events/
                 editor.on('blur', () => {
                     document.getElementById('editor-wrap').classList.remove('focused');
                 });
 
                 // Register a custom context toolbar for images
-                // https://www.tiny.cloud/docs/ui-components/contexttoolbar/#registeringacontexttoolbar
+                // https://www.tiny.cloud/docs/tinymce/latest/contexttoolbar/#registeringacontexttoolbar
                 editor.ui.registry.addContextToolbar('editimage', {
                     predicate: (node) => {
                         return node.nodeName.toLowerCase() === 'img'
@@ -96,24 +98,24 @@
                 });
 
                 // Register a custom edit image button
-                // https://www.tiny.cloud/docs/ui-components/toolbarbuttons/
+                // https://www.tiny.cloud/docs/tinymce/latest/custom-toolbarbuttons/
                 editor.ui.registry.addButton('editimage', {
                     icon: 'edit-block',
                     onAction: () => {
                         // Display the image dialog
-                        // https://www.tiny.cloud/docs/plugins/image/#commands
+                        // https://www.tiny.cloud/docs/tinymce/latest/image/#commands
                         editor.execCommand('mceImage');
                     }
                 });
 
                 // Register a custom remove image button
-                // https://www.tiny.cloud/docs/ui-components/toolbarbuttons/
+                // https://www.tiny.cloud/docs/tinymce/latest/custom-toolbarbuttons/
                 editor.ui.registry.addButton('removeimage', {
                     icon: 'remove',
                     onAction: () => {
                         // Get the currently selected content (called "node") and delete it.
-                        // https://www.tiny.cloud/docs/api/tinymce.dom/tinymce.dom.selection/
-                        // https://www.tiny.cloud/docs/api/tinymce.html/tinymce.html.node/
+                        // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.dom.selection/
+                        // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.html.node/
                         const node = tinymce.activeEditor.selection.getNode();
                         node.remove();
                     }

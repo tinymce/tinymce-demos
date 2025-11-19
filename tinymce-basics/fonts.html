@@ -8,7 +8,7 @@
     <meta charset="utf-8">
     <title>Using custom fonts</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5-dev/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/8/tinymce.min.js" referrerpolicy="origin"></script>
 
     <script>
         tinymce.init({
@@ -19,8 +19,8 @@
 
             // This option allows you to specify the buttons and the order that they
             // will appear on TinyMCE’s toolbar.
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar
-            toolbar: "undo redo | formatselect | fontselect | fontsizeselect | bold italic strikethrough | bullist link | code",
+            // https://www.tiny.cloud/docs/tinymce/latest/toolbar-configuration-options/#toolbar
+            toolbar: "undo redo | styles | fontfamily | fontsize | bold italic strikethrough | bullist link | code",
 
             // Tip! The height option accepts any valid CSS for height
             height: '500px',
@@ -28,7 +28,7 @@
             // Declare the fonts that should show up in menus. Any font used here must also be included in the `font_css`.
             // https://www.tiny.cloud/docs/configure/editor-appearance/#font_formats
             // https://www.tiny.cloud/docs/configure/editor-appearance/#fontsize_formats
-            font_formats: 'Sacramento=Sacramento; Cookie=Cookie; Great Vibes=Great Vibes; Fredoka One=Fredoka One; Alfa Slab One=Alfa Slab One; Satisfy=Satisfy; Permanent Marker=Permanent Marker; Staatliches=Staatliches; Abril Fatface=Abril Fatface; Dancing Script=Dancing Script; Pacifico=Pacifico; Josefin Sans=Josefin Sans; Montserrat=Montserrat; Mogra=Mogra; Andale Mono=andale mono; Arial=arial; Arial Black=arial black; Book Antiqua=book antiqua; Comic Sans MS=comic sans ms; Courier New=courier new; Georgia=georgia; Helvetica=helvetica; Impact=impact; Symbol=symbol; Tahoma=tahoma; Terminal=terminal; Times New Roman=times new roman; Verdana=verdana; Webdings=webdings; Wingdings=wingdings',
+            font_family_formats: 'Sacramento=Sacramento; Cookie=Cookie; Great Vibes=Great Vibes; Fredoka One=Fredoka One; Alfa Slab One=Alfa Slab One; Satisfy=Satisfy; Permanent Marker=Permanent Marker; Staatliches=Staatliches; Abril Fatface=Abril Fatface; Dancing Script=Dancing Script; Pacifico=Pacifico; Josefin Sans=Josefin Sans; Montserrat=Montserrat; Mogra=Mogra; Andale Mono=andale mono; Arial=arial; Arial Black=arial black; Book Antiqua=book antiqua; Comic Sans MS=comic sans ms; Courier New=courier new; Georgia=georgia; Helvetica=helvetica; Impact=impact; Symbol=symbol; Tahoma=tahoma; Terminal=terminal; Times New Roman=times new roman; Verdana=verdana; Webdings=webdings; Wingdings=wingdings',
             fontsize_formats: '11px 12px 14px 16px 18px 24px 36px 48px 60px 72px 84px',
 
             // The `font_css` option allows you to declare font import statements that
@@ -38,7 +38,7 @@
             //     @import url("https://fonts.googleapis.com/css?family=Abril+Fatface|Alfa+Slab+One|Cookie|Dancing+Script|Fredoka+One|Great+Vibes|Josefin+Sans:400,400i,700,700i|Mogra|Montserrat:400,400i,700,700i|Pacifico|Permanent+Marker|Sacramento|Satisfy|Staatliches&display=swap");
             // but can also include @font-face declarations.
             // Read more about using web fonts at https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_text/Web_fonts
-            // https://www.tiny.cloud/docs/configure/content-appearance/#font_css
+            // https://www.tiny.cloud/docs/tinymce/latest/add-css-options/#font_css
             font_css: 'fonts.css',
         });
     </script>
@@ -55,7 +55,7 @@
 <main>
     <textarea id="editor">
         <h1><span style="font-family: 'Fredoka One';">Using custom <span style="font-family: Staatliches;">fonts</span> with <span style="font-family: 'Abril Fatface';">TinyMCE</span></span></h1>
-        <p><span style="font-family: 'Josefin Sans';">This demo showcases using the <a href="https://www.tiny.cloud/docs/configure/content-appearance/#font_css">font_css option</a> to define custom fonts.</span></p>
+        <p><span style="font-family: 'Josefin Sans';">This demo showcases using the <a href="https://www.tiny.cloud/docs/tinymce/latest/add-css-options/#font_css">font_css option</a> to define custom fonts.</span></p>
     </textarea>
 </main>
 </body>

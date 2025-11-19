@@ -13,7 +13,7 @@
     <meta charset="utf-8">
     <title>Format a link into a call to action button</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5-dev/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/8/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
         tinymce.init({
             selector:'#editor',
@@ -23,17 +23,17 @@
 
             // This option allows you to specify the buttons and the order that they
             // will appear on TinyMCE’s toolbar.
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar
-            toolbar: 'styleselect | bold italic underline | link image emoticons | align bullist numlist | code removeformat',
+            // https://www.tiny.cloud/docs/tinymce/latest/toolbar-configuration-options/#toolbar
+            toolbar: 'styles | bold italic underline | link image emoticons | align bullist numlist | code removeformat',
 
             //Set the height of the editor. Tip: Any css value is accepted as a string.
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#height
+            // https://www.tiny.cloud/docs/tinymce/latest/customize-ui/#changing-editor-height-and-width
             height: 400,
 
             // The formats option is where custom formatting options are defined.
             // If you're looking for email friendly call-to-action button links,
             // take a look at the email/marketing-email-inline-mode.html demo.
-            // https://www.tiny.cloud/docs/configure/content-formatting/#formats
+            // https://www.tiny.cloud/docs/tinymce/latest/content-formatting/#formats
             formats: {
                 // We name our format "calltoaction"
                 calltoaction: {
@@ -45,7 +45,7 @@
             },
 
             // The style_formats option controls the styleformat toolbar button menu
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#style_formats
+            // https://www.tiny.cloud/docs/tinymce/latest/user-formatting-options/#style_formats
             style_formats: [
                 { title: 'Paragraph', format: 'p' },
                 { title: 'Heading 1', format: 'h1' },
@@ -57,8 +57,8 @@
             // The following css will be injected into the editor, extending
             // the default styles. In a real world scenario, it's recommended
             // to use the content_css option to load a separate CSS file.
-            // https://www.tiny.cloud/docs/configure/content-appearance/#content_style
-            // https://www.tiny.cloud/docs/configure/content-appearance/#content_css
+            // https://www.tiny.cloud/docs/tinymce/latest/add-css-options/#content_style
+            // https://www.tiny.cloud/docs/tinymce/latest/add-css-options/#content_css
             content_style: `
                 .btn {
                     background-color: #706FD3;

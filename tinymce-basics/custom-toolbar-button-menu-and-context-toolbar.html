@@ -10,7 +10,7 @@
     <meta charset="utf-8">
     <title>TinyMCE Demos – Custom Toolbar Buttons, Menus and Context Toolbars</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5-dev/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/8/tinymce.min.js" referrerpolicy="origin"></script>
 
     <script>
         // An iconpack holds our custom button's SVG icons.
@@ -28,10 +28,10 @@
             selector: "#editor",
 
             // Tip! To make TinyMCE leaner, only include the plugins you actually need
-            plugins: "link lists code noneditable",
+            plugins: "link lists code",
 
             // We have put our custom callout button last.
-            toolbar: "undo redo | formatselect | bold italic strikethrough backcolor | bullist link callout",
+            toolbar: "undo redo | styles | bold italic strikethrough backcolor | bullist link callout",
 
             // Tip! The height option accepts any valid CSS for height
             height: 'calc(100vh - 4rem)',
@@ -40,18 +40,19 @@
             // don't want to be editable. First we make the root
             // Callout element non-editable, then we define the
             // parts of the Callout that is editable.
-            // https://www.tiny.cloud/docs/plugins/noneditable/
+            // https://www.tiny.cloud/docs/tinymce/latest/non-editable-content-options/
+
             noneditable_noneditable_class: 'callout',
             noneditable_editable_class: 'content',
 
             // Hide the right click context menus to avoid conflict with
             // the context toolbars
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#contextmenu
+            // https://www.tiny.cloud/docs/tinymce/latest/contextmenu/#available-context-menu-sections
             contextmenu: false,
 
             // Make the custom icon pack available in TinyMCE. A custom icon pack
             // extends the default icon pack.
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#icons
+            // https://www.tiny.cloud/docs/tinymce/latest/editor-icons/
             icons: 'customIcons',
 
             // We use the menu option to define custom menu items
@@ -61,15 +62,14 @@
             // all menu items in the whole menu, you cannot simply append
             // a menu item to an existing menu.
             // For a list of in which menu the default menu items goes, see
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#menu
-            // https://www.tiny.cloud/docs/ui-components/menuitems/
+            // https://www.tiny.cloud/docs/tinymce/latest/menus-configuration-options/#example-the-tinymce-default-menu-items
             menu: {
                 insert: {title: 'Insert', items: 'link callout'}
             },
 
             setup: (editor) => {
                 // Register a custom toolbar button that inserts the callout
-                // https://www.tiny.cloud/docs/ui-components/toolbarbuttons/
+                // https://www.tiny.cloud/docs/tinymce/latest/custom-toolbarbuttons/
                 editor.ui.registry.addButton('callout', {
                     icon: 'callout',
                     tooltip: 'Insert callout',
@@ -78,7 +78,7 @@
                         // It is wise to include an empty paragraph to
                         // avoid having text be inserted directly under
                         // the div.
-                        // https://www.tiny.cloud/docs/api/tinymce/tinymce.editor/#insertcontent
+                        // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.editor/#insertContent
                         tinymce.activeEditor.insertContent(`
                             <div class="callout">
                                 <div class="content"><p>Callout</p></div>
@@ -99,17 +99,17 @@
                     onAction: function () {
                         // First we get the selected element. It can be either the
                         // callout itself or any child element within it.
-                        // https://www.tiny.cloud/docs/api/tinymce.dom/tinymce.dom.selection/#getnode
+                        // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.dom.selection/#getNode
                         const node = tinymce.activeEditor.selection.getNode();
 
                         // Then we traverse up the DOM tree to make sure we target
                         // the callout element if it wasn't the selected node.
-                        // https://www.tiny.cloud/docs/api/tinymce.dom/tinymce.dom.domutils/#getparent
+                        // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.dom.domutils/#getParent
                         const callout = tinymce.activeEditor.dom.getParent(node, '.callout');
 
                         // Then we remove and add the neccesseary classes.
-                        // https://www.tiny.cloud/docs/api/tinymce.dom/tinymce.dom.domutils/#removeclass
-                        // https://www.tiny.cloud/docs/api/tinymce.dom/tinymce.dom.domutils/#addclass
+                        // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.dom.domutils/#removeClass
+                        // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.dom.domutils/#addClass
                         tinymce.DOM.removeClass(callout, 'red');
                         tinymce.DOM.addClass(callout, 'yellow');
                     }
@@ -148,26 +148,26 @@
                     onAction: function () {
                         // First we get the selected element. It can be either the
                         // callout itself or any child element within it.
-                        // https://www.tiny.cloud/docs/api/tinymce.dom/tinymce.dom.selection/#getnode
+                        // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.dom.selection/#getNode
                         const node = tinymce.activeEditor.selection.getNode();
 
                         // Then we traverse up the DOM tree to make sure we target
                         // the callout element if it wasn't the selected node.
-                        // https://www.tiny.cloud/docs/api/tinymce.dom/tinymce.dom.domutils/#getparent
+                        // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.dom.domutils/#getParent
                         const callout = tinymce.activeEditor.dom.getParent(node, '.callout');
 
                         // Make the callout the selected element
-                        // https://www.tiny.cloud/docs/api/tinymce.dom/tinymce.dom.selection/#select
+                        //https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.dom.selection/#select
                         tinymce.activeEditor.selection.select(callout);
 
                         // Finally we issue a delete command to remove the selected callout
-                        // https://www.tiny.cloud/docs/api/tinymce/tinymce.editor/#execcommand
+                        // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.editor/#execCommand
                         tinymce.activeEditor.execCommand('delete');
                     }
                 });
 
                 // Register a custom context toolbar
-                // https://www.tiny.cloud/docs/ui-components/contexttoolbar/#registeringacontexttoolbar
+                // https://www.tiny.cloud/docs/tinymce/latest/contexttoolbar/#registeringacontexttoolbar
                 editor.ui.registry.addContextToolbar('callout', {
                     predicate: function (node) {
                         // Return true if the node has the callout class.
@@ -231,8 +231,8 @@
             // In a real world scenario, with much more custom styles for headings
             // links, tables, images etc, it's recommended to use the content_css
             // option to load a separate CSS file. Makes editing easier too.
-            // https://www.tiny.cloud/docs/configure/content-appearance/#content_style
-            // https://www.tiny.cloud/docs/configure/content-appearance/#content_css
+            // https://www.tiny.cloud/docs/tinymce/latest/add-css-options/#content_style
+            // https://www.tiny.cloud/docs/tinymce/latest/add-css-options/#content_css
             content_style: `
                 .callout {
                     margin: 1rem 0;

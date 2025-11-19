@@ -1,10 +1,8 @@
 <!--
-    Create an alterate table context toolbar! TinyMCE 5.4 introduced
-    a couple of new table APIs we can use to construct an alternative
-    table context toolbar. This demo showcases a table header
-    row/column toggle, a menu for choosing cell background color and
-    keyboard shortcuts for adding table rows and columns among other
-    things
+    Create an alternate table context toolbar! This demo showcases a 
+    table header row/column toggle, a menu for choosing cell background
+    color and keyboard shortcuts for adding table rows and columns among
+    other things
 -->
 
 <!doctype html>
@@ -13,15 +11,15 @@
     <meta charset="utf-8">
     <title>An alternate table context toolbar</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5-dev/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/8/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
         // An iconpack holds a custom button SVG icon.
         // Tip! A custom icon pack does not have to be a separate file
         // If you only need to include one or two icons it's easier to
         // use the tinymce.editor.ui.Registry.addIcon() method. An example
         // of that is shown further down in this demo.
-        // https://www.tiny.cloud/docs/advanced/creating-an-icon-pack/
-        // https://www.tiny.cloud/docs/api/tinymce.editor.ui/tinymce.editor.ui.registry/#addicon
+        // https://www.tiny.cloud/docs/tinymce/latest/creating-an-icon-pack/
+        // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.editor.ui.registry/#addIcon
         tinymce.IconManager.add('customIcons', {
             icons: {
                 'table-column-options': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M19 4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h14zM5 13v5h4v-5H5zm14 0h-4v5h4v-5zm0-7h-4v5h4V6zM5 11h4V6H5v5z"/></svg>',
@@ -32,26 +30,26 @@
             selector:'#editor',
 
             // Toggle the menubar off if it isn't needed
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#menubar
+            // https://www.tiny.cloud/docs/tinymce/latest/menus-configuration-options/#menubar
             menubar: false,
 
             // Tip! To make TinyMCE leaner, only include the plugins you actually need.
-            plugins: 'link lists image table code',
+            plugins: 'link lists image table code emoticons',
 
             // This option allows you to specify the buttons and the order that they
             // will appear on TinyMCE’s toolbar.
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#toolbar
-            toolbar: 'styleselect | bold italic underline | inserttable link image emoticons | align bullist numlist | code removeformat',
+            // https://www.tiny.cloud/docs/tinymce/latest/toolbar-configuration-options/#toolbar
+            toolbar: 'styles | bold italic underline | inserttable link image emoticons | align bullist numlist | code removeformat',
 
             //Set the height of the editor. Tip: Any css value is accepted as a string.
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#height
+            // https://www.tiny.cloud/docs/tinymce/latest/customize-ui/#changing-editor-height-and-width
             height: 400,
 
             // The following css will be injected into the editor, extending
             // the default styles. In a real world scenario, it's recommended
             // to use the content_css option to load a separate CSS file.
-            // https://www.tiny.cloud/docs/configure/content-appearance/#content_style
-            // https://www.tiny.cloud/docs/configure/content-appearance/#content_css
+            // https://www.tiny.cloud/docs/tinymce/latest/add-css-options/#content_style
+            // https://www.tiny.cloud/docs/tinymce/latest/add-css-options/#content_css
             content_style: `
                 table {
                     width: 100%;
@@ -66,22 +64,22 @@
 
             // Make the custom icon pack available in TinyMCE. A custom icon pack
             // extends the default icon pack.
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#icons
+            // https://www.tiny.cloud/docs/tinymce/latest/editor-icons/
             icons: 'customIcons',
 
             // In this demo we don't want to use the right click context menus
-            // https://www.tiny.cloud/docs/configure/editor-appearance/#contextmenu
+            // https://www.tiny.cloud/docs/tinymce/latest/menus-configuration-options/#contextmenu
             contextmenu: false,
 
             // Tell TinyMCE how to modify the table HTML when converting regular rows
             // to header rows. In this case td's will move into `thead` and be
             // converted to `th`.
-            // https://www.tiny.cloud/docs/plugins/table/#table_header_type
+            // https://www.tiny.cloud/docs/tinymce/latest/table-options/#table_header_type
             table_header_type: 'sectionCells',
 
             // Configure the table context toolbar. The last button is
             // the built in remove table button.
-            // https://www.tiny.cloud/docs/plugins/table/#table_toolbar
+            // https://www.tiny.cloud/docs/tinymce/latest/toolbar-configuration-options/#table_toolbar
             table_toolbar: 'celloptions rowoptions columnoptions | tabledelete',
 
             setup: (editor) => {
@@ -92,7 +90,7 @@
                 // object. The keycode numbers 37 to 40 represent the arrow keys.
                 // For a list of javascript keycodes see
                 // https://css-tricks.com/snippets/javascript/javascript-keycodes/
-                // https://www.tiny.cloud/docs/advanced/keyboard-shortcuts/
+                // https://www.tiny.cloud/docs/tinymce/latest/keyboard-shortcuts/
                 editor.addShortcut('alt+37', "Insert column before", () => {
                     menuActionManager.insertColumnBefore();
                 });
@@ -109,10 +107,10 @@
                     menuActionManager.insertRowAfter();
                 });
 
-                // TinyMCE 5.4 introduced improved APIs for inserting tables.
+                // TinyMCE has APIs for inserting tables.
                 // Here's a toolbar button that displays a table grid picker
                 // The table picker is unfortunately undocumented at this stage
-                // https://www.tiny.cloud/docs/ui-components/toolbarbuttons/
+                // https://www.tiny.cloud/docs/tinymce/latest/custom-toolbarbuttons/
                 editor.ui.registry.addMenuButton('inserttable', {
                     icon: 'table',
                     tooltip: 'Insert table',
@@ -122,7 +120,7 @@
                                 type: 'fancymenuitem',
                                 fancytype: 'inserttable',
                                 onAction: function(data) {
-                                    // https://www.tiny.cloud/docs/plugins/table/#commands
+                                    // https://www.tiny.cloud/docs/tinymce/latest/table/#commands
                                     editor.execCommand('mceInsertTable', false, { rows: data.numRows, columns: data.numColumns, options: { headerRows: 1 } });
                                 }
                             }
@@ -131,9 +129,9 @@
                 });
 
                 // Create a toolbar menu button to hold all row related options
-                // https://www.tiny.cloud/docs/ui-components/typesoftoolbarbuttons/#menubutton
+                // https://www.tiny.cloud/docs/tinymce/latest/custom-menu-toolbar-button/
                 editor.ui.registry.addMenuButton('rowoptions', {
-                    icon: 'table-row-properties', // Part of the default icon pack: https://www.tiny.cloud/docs/advanced/editor-icon-identifiers/
+                    icon: 'table-row-properties', // Part of the default icon pack: https://www.tiny.cloud/docs/tinymce/latest/editor-icon-identifiers/
                     tooltip: 'Row options',
                     fetch: (callback) => {
                         var items = [
@@ -178,63 +176,14 @@
                                 onAction: () => {
                                     menuActionManager.deleteRow();
                                 }
-                            },
-                            {
-                                type: 'separator',
-                            },
-                            {
-                                type: 'menuitem',
-                                text: 'Cut row',
-                                icon: 'cut-row',
-                                onAction: () => {
-                                    menuActionManager.cutRow();
-                                }
-                            },
-                            {
-                                type: 'menuitem',
-                                text: 'Copy row',
-                                icon: 'duplicate-row',
-                                onAction: () => {
-                                    menuActionManager.copyRow();
-                                }
-                            },
-                            {
-                                type: 'menuitem',
-                                text: 'Paste row before',
-                                icon: 'paste-row-before',
-                                onAction: () => {
-                                    menuActionManager.pasteRowBefore();
-                                },
-                                onSetup: (buttonApi) => {
-                                    // Check the clipboard for any rows and disable the menu item if there is none
-                                    // https://www.tiny.cloud/docs/plugins/table/#api
-                                    // https://www.tiny.cloud/docs/ui-components/typesoftoolbarbuttons/#api
-                                    const state = editor.plugins.table.getClipboardRows().length > 0 ? false : true;
-                                    buttonApi.setDisabled(state);
-                                }
-                            },
-                            {
-                                type: 'menuitem',
-                                text: 'Paste row after',
-                                icon: 'paste-row-after',
-                                onAction: () => {
-                                    menuActionManager.pasteRowAfter();
-                                },
-                                onSetup: (buttonApi) => {
-                                    // Check the clipboard for any rows and disable the menu item if there is none
-                                    // https://www.tiny.cloud/docs/plugins/table/#api
-                                    // https://www.tiny.cloud/docs/ui-components/typesoftoolbarbuttons/#api
-                                    const state = editor.plugins.table.getClipboardRows().length > 0 ? false : true;
-                                    buttonApi.setDisabled(state);
-                                }
-                            },
+                            }
                         ];
                         callback(items);
                     }
                 });
 
                 // Create a toolbar menu button to hold all row related options
-                // https://www.tiny.cloud/docs/ui-components/typesoftoolbarbuttons/#menubutton
+                // https://www.tiny.cloud/docs/tinymce/latest/custom-menu-toolbar-button/
                 editor.ui.registry.addMenuButton('columnoptions', {
                     icon: 'table-column-options', // Insert the icon from the icon pack at the beginning of this file
                     tooltip: 'Column options',
@@ -281,63 +230,14 @@
                                 onAction: () => {
                                     menuActionManager.deleteColumn();
                                 }
-                            },
-                            {
-                                type: 'separator',
-                            },
-                            {
-                                type: 'menuitem',
-                                text: 'Cut column',
-                                icon: 'cut-column',
-                                onAction: () => {
-                                    menuActionManager.cutColumn();
-                                }
-                            },
-                            {
-                                type: 'menuitem',
-                                text: 'Copy column',
-                                icon: 'duplicate-column',
-                                onAction: () => {
-                                    menuActionManager.copyColumn();
-                                }
-                            },
-                            {
-                                type: 'menuitem',
-                                text: 'Paste column before',
-                                icon: 'paste-column-before',
-                                onAction: () => {
-                                    menuActionManager.pasteColumnBefore();
-                                },
-                                onSetup: (buttonApi) => {
-                                    // Check the clipboard for any cols and disable the menu item if there is none
-                                    // https://www.tiny.cloud/docs/plugins/table/#api
-                                    // https://www.tiny.cloud/docs/ui-components/typesoftoolbarbuttons/#api
-                                    const state = editor.plugins.table.getClipboardCols().length > 0 ? false : true;
-                                    buttonApi.setDisabled(state);
-                                }
-                            },
-                            {
-                                type: 'menuitem',
-                                text: 'Paste column after',
-                                icon: 'paste-column-after',
-                                onAction: () => {
-                                    menuActionManager.pasteColumnAfter();
-                                },
-                                onSetup: (buttonApi) => {
-                                    // Check the clipboard for any cols and disable the menu item if there is none
-                                    // https://www.tiny.cloud/docs/plugins/table/#api
-                                    // https://www.tiny.cloud/docs/ui-components/typesoftoolbarbuttons/#api
-                                    const state = editor.plugins.table.getClipboardCols().length > 0 ? false : true;
-                                    buttonApi.setDisabled(state);
-                                }
-                            },
+                            }                            
                         ];
                         callback(items);
                     }
                 });
 
                 // Create a toolbar menu button to hold all cell related options
-                // https://www.tiny.cloud/docs/ui-components/typesoftoolbarbuttons/#menubutton
+                // https://www.tiny.cloud/docs/tinymce/latest/custom-menu-toolbar-button/
                 editor.ui.registry.addMenuButton('celloptions', {
                     icon: 'table-cell-properties', // Part of the default icon pack: https://www.tiny.cloud/docs/advanced/editor-icon-identifiers/
                     tooltip: 'Cell options',
@@ -383,85 +283,85 @@
         // call to from both menuitems and shortcuts
         const menuActionManager = {
             headerRow: () => {
-                // Check the type of the selected table row and inverse it
-                // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#querycommandvaluestableplugin
+                // Check the type of the selected table row and invert it
+                // https://www.tiny.cloud/docs/tinymce/latest/editor-command-identifiers/#querycommandvaluestableplugin
                 const type = tinymce.activeEditor.queryCommandValue('mceTableRowType') === 'body' ? 'header' : 'body';
 
                 // Apply the inverse table row type.
-                // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
+                // https://www.tiny.cloud/docs/tinymce/latest/editor-command-identifiers/#table
                 tinymce.activeEditor.execCommand('mceTableRowType', false, { type });
             },
             insertRowBefore: () => {
-                // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
+                // https://www.tiny.cloud/docs/tinymce/latest/editor-command-identifiers/#table
                 tinymce.activeEditor.execCommand('mceTableInsertRowBefore');
             },
             insertRowAfter: () => {
-                // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
+                // https://www.tiny.cloud/docs/tinymce/latest/editor-command-identifiers/#table
                 tinymce.activeEditor.execCommand('mceTableInsertRowAfter');
             },
             deleteRow: () => {
-                // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
+                // https://www.tiny.cloud/docs/tinymce/latest/editor-command-identifiers/#table
                 tinymce.activeEditor.execCommand('mceTableDeleteRow');
             },
             cutRow: () => {
-                // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
+                // https://www.tiny.cloud/docs/tinymce/latest/editor-command-identifiers/#table
                 tinymce.activeEditor.execCommand('mceTableCutRow');
             },
             copyRow: () => {
-                // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
+                // https://www.tiny.cloud/docs/tinymce/latest/editor-command-identifiers/#table
                 tinymce.activeEditor.execCommand('mceTableCopyRow');
             },
             pasteRowBefore: () => {
-                // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
+                // https://www.tiny.cloud/docs/tinymce/latest/editor-command-identifiers/#table
                 tinymce.activeEditor.execCommand('mceTablePasteRowBefore');
             },
             pasteRowAfter: () => {
-                // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
+                // https://www.tiny.cloud/docs/tinymce/latest/editor-command-identifiers/#table
                 tinymce.activeEditor.execCommand('mceTablePasteRowAfter');
             },
             headerColumn: () => {
-                // Check the type of the selected table column and inverse it
-                // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#querycommandvaluestableplugin
+                // Check the type of the selected table column and invert it
+                // https://www.tiny.cloud/docs/tinymce/latest/editor-command-identifiers/#querycommandvaluestableplugin
                 const type = tinymce.activeEditor.queryCommandValue('mceTableColType') === 'td' ? 'th' : 'td';
 
                 // Apply the inverse table row type.
-                // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
+                // https://www.tiny.cloud/docs/tinymce/latest/editor-command-identifiers/#table
                 tinymce.activeEditor.execCommand('mceTableColType', false, { type });
             },
             insertColumnBefore: () => {
-                // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
+                // https://www.tiny.cloud/docs/tinymce/latest/editor-command-identifiers/#table
                 tinymce.activeEditor.execCommand('mceTableInsertColBefore');
             },
             insertColumnAfter: () => {
-                // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
+                // https://www.tiny.cloud/docs/tinymce/latest/editor-command-identifiers/#table
                 tinymce.activeEditor.execCommand('mceTableInsertColAfter');
             },
             deleteColumn: () => {
-                // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
+                // https://www.tiny.cloud/docs/tinymce/latest/editor-command-identifiers/#table
                 tinymce.activeEditor.execCommand('mceTableDeleteCol');
             },
             cutColumn: () => {
-                // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
+                // https://www.tiny.cloud/docs/tinymce/latest/editor-command-identifiers/#table
                 tinymce.activeEditor.execCommand('mceTableCutCol');
             },
             copyColumn: () => {
-                // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
+                // https://www.tiny.cloud/docs/tinymce/latest/editor-command-identifiers/#table
                 tinymce.activeEditor.execCommand('mceTableCopyCol');
             },
             pasteColumnBefore: () => {
-                // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
+                // https://www.tiny.cloud/docs/tinymce/latest/editor-command-identifiers/#table
                 tinymce.activeEditor.execCommand('mceTablePasteColBefore');
             },
             pasteColumnAfter: () => {
-                // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
+                // https://www.tiny.cloud/docs/tinymce/latest/editor-command-identifiers/#table
                 tinymce.activeEditor.execCommand('mceTablePasteColAfter');
             },
             mergeCells: () => {
-                // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
+                // https://www.tiny.cloud/docs/tinymce/latest/editor-command-identifiers/#table
                 tinymce.activeEditor.execCommand('mceTableMergeCells');
             },
             splitCell: () => {
-                // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
+                // https://www.tiny.cloud/docs/tinymce/latest/editor-command-identifiers/#table
                 tinymce.activeEditor.execCommand('mceTableSplitCells');
             }
         }
@@ -520,19 +420,19 @@
 
                 // Register an TinyMCE icon. This is an alternate way of creating icons
                 // in TinyMCE. The first argument is the icon name, the second is the svg data.
-                // https://www.tiny.cloud/docs/api/tinymce.editor.ui/tinymce.editor.ui.registry/#addicon
+                // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.editor.ui.registry/#addIcon
                 editor.ui.registry.addIcon(color.icon, color.svg);
 
                 // Push a submenu item onto the the submenu array in the format
                 // specified for menubuttons.
-                // https://www.tiny.cloud/docs/ui-components/typesoftoolbarbuttons/#menubutton
+                // https://www.tiny.cloud/docs/tinymce/latest/custom-toolbarbuttons/#menubutton
                 colorMenuItems.push({
                     type: 'menuitem',
                     icon: color.icon,
                     text: color.text,
                     tooltip: color.text + ' background',
                     onAction: () => {
-                        // https://www.tiny.cloud/docs/advanced/editor-command-identifiers/#table
+                        // https://www.tiny.cloud/docs/tinymce/latest/editor-command-identifiers/#table
                         editor.execCommand('mceTableApplyCellStyle', false, { backgroundColor: color.value });
                     }
                 });

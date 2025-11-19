@@ -1,17 +1,17 @@
 <!--
-    The proper way to do marketing email with TinyMCE is to use
-    inline mode, and move all table layout outside of TinyMCE.
-    Tables in TinyMCE are first and formost to display tabular
-    data, not for layouts do doing table layouts in TinyMCE,
-    while possible, is not recommended. It is simply too easy
-    to accidentally break the design.
+The proper way to do marketing emails with TinyMCE is to use
+inline mode, and move all table layouts outside of TinyMCE.
+Tables in TinyMCE are first and foremost to display tabular
+data, not for layouts. Doing table layouts in TinyMCE,
+while possible, is not recommended. It is simply too easy
+to accidentally break the design.
 
-    Here is an example of how to do a marketing email using
-    TinyMCE inline mode. The TinyMCE editor is only applied
-    to the rich text parts. All the table layout are outside
-    of TinyMCE. This makes it easy for you to to add other
-    logic such as inserting blocks and drag and drop reordering
-    yourself.
+Here is an example of how to do a marketing email using
+TinyMCE inline mode. The TinyMCE editor is only applied
+to the rich text parts. The table layout is outside
+of TinyMCE. This makes it easy for you to to add other
+logic such as inserting blocks and drag and drop reordering
+yourself.
 -->
 
 <!doctype html>
@@ -22,109 +22,75 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
-        // An array containing the available tokens.
-        var tokens = [
-            { text: "name.first", value: "{{name.first}}" },
-            { text: "name.last", value: "{{name.last}}" },
-            { text: "name.full", value: "{{name.full}}" },
-            { text: "email.home", value: "{{email.home}}" },
-            { text: "email.work", value: "{{email.work}}" },
-        ];
-
         tinymce.init({
             selector:'.tinymce',
-
+            
             // Enable inline mode
-            // https://www.tiny.cloud/docs/tinymce/6/use-tinymce-inline/
+            // https://www.tiny.cloud/docs/tinymce/latest/use-tinymce-inline/
             inline: true,
-
+            
             // Tip! To make TinyMCE leaner, only include the plugins you actually need.
-            plugins: 'link lists image emoticons advcode editimage linkchecker',
-
+            plugins: 'link lists image emoticons advcode editimage linkchecker mergetags',
+            
             // This option allows you to specify the buttons and the order that they
             // will appear on TinyMCE’s toolbar.
-            // https://www.tiny.cloud/docs/tinymce/6/toolbar-configuration-options/#basic-toolbar-options
-            toolbar: 'styles | bold italic forecolor backcolor link image emoticons tokens | align bullist numlist | code removeformat',
-
+            // https://www.tiny.cloud/docs/tinymce/latest/toolbar-configuration-options/#toolbar
+            toolbar: 'styles | bold italic forecolor backcolor link image emoticons mergetags | align bullist numlist | code removeformat',
+            
             // Toggle the menubar off to get a leaner visual experience
-            // https://www.tiny.cloud/docs/tinymce/6/menus-configuration-options/
+            // https://www.tiny.cloud/docs/tinymce/latest/menus-configuration-options/#menubar
             menubar: false,
-
+            
             // In emails we rarely use target for links so we hide the
             // target drop down in the link dialog
-            // https://www.tiny.cloud/docs/tinymce/6/link/#link_target_list
+            // https://www.tiny.cloud/docs/tinymce/latest/link/#link_target_list
             target_list: false,
-
+            
             // We don't want users to be able to resize images by using
             // drag and drop because it can break layout templates.
-            // https://www.tiny.cloud/docs/tinymce/6/content-behavior-options/#object_resizing
+            // https://www.tiny.cloud/docs/tinymce/latest/content-behavior-options/#object_resizing
             object_resizing : false,
-
+            
+            // Easily configure replacement values using merge tags plugin
+            // https://www.tiny.cloud/docs/tinymce/latest/mergetags/
+            mergetags_list: [
+                { title: "First name", value: "name.first" },
+                { title: "Last name", value: "name.last" },
+                { title: "Full name", value: "name.full" },
+                { title: "Work email", value: "email.work" },                    
+                { title: "Home email", value: "email.home" },
+            ],
+            
             // The formats option is where custom formatting options are defined.
             // In this case we define a couple of headings and a button appearance
             // for links. HTML Emails require inlining the CSS. Fortunately the
             // styles property makes that easy.
-            // https://www.tiny.cloud/docs/tinymce/6/content-formatting/
+            // https://www.tiny.cloud/docs/tinymce/latest/content-formatting/#formats
             formats: {
                 h1: { block: 'h1', styles: { fontSize: '24px', color: '#335dff' } },
                 h2: { block: 'h2', styles: { fontSize: '18px' } },
                 calltoaction: { selector: 'a', styles: { backgroundColor: '#335dff', padding: '12px 16px', color: '#ffffff', borderRadius: '4px', textDecoration: 'none', display: 'inline-block'} }
             },
-
+            
             // The style_formats option controls the styleformat toolbar button menu
-            // https://www.tiny.cloud/docs/tinymce/6/user-formatting-options/#style_formats
+            // https://www.tiny.cloud/docs/tinymce/latest/user-formatting-options/#style_formats
             style_formats: [
-                { title: 'Paragraph', format: 'p' },
-                { title: 'Heading 1', format: 'h1' },
-                { title: 'Heading 2', format: 'h2' },
-                { title: 'Button styles'},
-                { title: 'Call-to-action', format: 'calltoaction' },
+            { title: 'Paragraph', format: 'p' },
+            { title: 'Heading 1', format: 'h1' },
+            { title: 'Heading 2', format: 'h2' },
+            { title: 'Button styles'},
+            { title: 'Call-to-action', format: 'calltoaction' },
             ],
-
+            
             // An inline editor is "invisible" when there are no content in the editor
             // Make sure to use the placeholder option to show the user where to write
-            // https://www.tiny.cloud/docs/tinymce/6/editor-important-options/#placeholder
+            // https://www.tiny.cloud/docs/tinymce/latest/editor-important-options/#placeholder
             placeholder: "Write here...",
-
+            
             // Toolbar_mode controls how the toolbar behaves when toolbar buttons do not
             // fit on one row. Wrap displays all toolbar buttons wrapped over multiple rows
-            // https://www.tiny.cloud/docs/tinymce/6/toolbar-configuration-options/#toolbar_mode
-            toolbar_mode: "wrap",
-
-            // The noneditable_regexp option transforms matched text into spans which is then
-            // visually styled to look like tags.
-            // https://www.tiny.cloud/docs/tinymce/6/content-behavior-options/#noneditable_regexp
-            noneditable_regexp: /\{\{[^\}]+\}\}/g, // matches {{handlebar}},
-
-            setup: (editor) => {
-                // Instead of defining a custom icon pack, we can register individual
-                // icons using the API.
-                // This particular icon is from the Material Icon library
-                // https://www.tiny.cloud/docs/tinymce/6/apis/tinymce.editor.ui.registry/#addIcon
-                // https://fonts.google.com/icons
-                editor.ui.registry.addIcon('token', '<svg enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="m0 0h24v24h-24z" fill="none"/><path d="m21 12-4.37 6.16c-.37.52-.98.84-1.63.84h-3v-2h3l3.55-5-3.55-5h-10v3h-2v-3c0-1.1.9-2 2-2h10c.65 0 1.26.31 1.63.84zm-11 3h-3v-3h-2v3h-3v2h3v3h2v-3h3z"/></svg>');
-
-                // Register a custom toolbar menu button to insert tokens
-                // https://www.tiny.cloud/docs/tinymce/6/custom-menu-toolbar-button/
-                editor.ui.registry.addMenuButton("tokens", {
-                    icon: "token",
-                    tooltip: "Insert token",
-                    fetch: (callback) => {
-                        var items = tokens.map((token) => {
-                            return {
-                                type: "menuitem",
-                                text: token.text,
-                                onAction: () => {
-                                    // Insert content at the location of the cursor.
-                                    // https://www.tiny.cloud/docs/tinymce/6/apis/tinymce.editor/#insertContent
-                                    editor.insertContent(token.value);
-                                }
-                            }
-                        });
-                        callback(items);
-                    }
-                });
-            },
+            // https://www.tiny.cloud/docs/tinymce/latest/toolbar-configuration-options/#toolbar_mode
+            toolbar_mode: "wrap",                        
         });
     </script>
     <style>
@@ -132,33 +98,33 @@
             padding: 0;
             margin: 0;
             box-sizing: border-box;
-
+            
         }
-
+        
         .container {
             background-color: #f9f9fb;
             margin: 0 auto;
             max-width: 1000px;
         }
-
+        
         .email {
             max-width: 840px;
             margin: auto;
         }
-
+        
         .toolbar {
             background-color: #fff;
             height: 42px;
             padding-top: 48px;
             border-bottom: 1px solid rgba(0, 0, 0, .1);
         }
-
+        
         .tinymce:focus {
             border-radius: 0.5px;
             box-shadow: 0 0 0 4px #fff, 0 0 0 7px #99afff;
             outline: 0;
         }
-
+        
         .mceNonEditable {
             background-color: #e7ecff;
             padding: 1px 0;
@@ -169,65 +135,65 @@
     </style>
 </head>
 <body>
-
-<div class="container">
-    <div class="toolbar"></div>
-    <div class="email">
-        <table style="background-color: #f9f9fb; width: 100%; padding: 32px 0" border="0">
-            <tr>
-                <td align="center">
-                    <table border="0" width="100%" style="max-width: 660px; width: 100%; background-color: #ffffff; border: 2px solid #dfe3ec; border-radius: 8px; overflow: hidden" cellpadding="0" cellspacing="0">
-                        <tr>
-                            <td style="padding: 16px 64px 0;">
-                                <div class="tinymce" style="font-family: 'helvetica', sans-serif; color: #243376; font-size: 16px; line-height: 1.5;">
-                                    <p>Hey {{first.name}}</p>
-                                    <h1 style="font-size: 24px; color: rgb(51, 93, 255);">What's your email editing project?</h1>
-                                    <p>Are you:</p>
-                                    <p><strong>Building an new email client</strong> (i.e. the next Gmail) and need rich text editor functionality?</p>
-                                    <p><strong>Building email marketing software</strong> (i.e. the next Mailchimp) and need to add more rich text editor functionality, or enhance the default editor?</p>
-                                    <p>Then use the only WYSIWYG editor that is trusted by 1,5M devs!</p>
-                                    <p><a style="background-color: rgb(51, 93, 255); padding: 12px 16px; color: rgb(255, 255, 255); border-radius: 4px; text-decoration: none; display: inline-block;" href="https://tiny.cloud/pricing">Get started with your 14-day free trial</a></p>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td style="padding: 0 64px 16px;">
-                                <table border="0" style="width: 100%;">
-                                    <tr>
-                                        <td style="width: 48%; vertical-align: top;">
-                                            <div class="tinymce" style="font-family: 'helvetica', sans-serif; color: #243376; font-size: 16px; line-height: 1.5;">
-                                                <p><img src="https://img.icons8.com/doodle/96/000000/critical-thinking.png" alt="" width="96" height="96"></p>
-                                                <h2 style="font-size: 18px;">Curious about TinyMCE?</h2>
-                                                <p>Play with this demo to see how our email WYSIWYG editor works!</p>
-                                            </div>
-                                        </td>
-
-                                        <td style="width: 4%"></td>
-
-                                        <td style="width: 48%; vertical-align: top;">
-                                            <div class="tinymce" style="font-family: 'helvetica', sans-serif; color: #243376; font-size: 16px; line-height: 1.5;">
-                                                <p><img src="https://img.icons8.com/doodle/96/000000/electrical--v1.png" width="96" height="96"></p>
-                                                <h2 style="font-size: 18px;">Try Premium plugins!</h2>
-                                                <p>Sign up for a 14 day trial and try out all our premium plugins!</p>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td style="background-color: #eff0f6; padding: 24px 64px;">
-                                <p style="margin: 0; font-family: 'helvetica'; font-size: 12px; color: #a0a9c5;"><a href="#" style="color: #a0a9c5;">Update your email preferences</a> or <a href="#" style="color: #a0a9c5;">unsubscribe</a>.</p>
-                                <p style="margin: 0; font-family: 'helvetica'; font-size: 12px; color: #a0a9c5;">Tiny Technologies | 2100 Geng Road, Palo Alto, CA 94303 USA</p>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        </table>
+    
+    <div class="container">
+        <div class="toolbar"></div>
+        <div class="email">
+            <table style="background-color: #f9f9fb; width: 100%; padding: 32px 0" border="0">
+                <tr>
+                    <td align="center">
+                        <table border="0" width="100%" style="max-width: 660px; width: 100%; background-color: #ffffff; border: 2px solid #dfe3ec; border-radius: 8px; overflow: hidden" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td style="padding: 16px 64px 0;">
+                                    <div class="tinymce" style="font-family: 'helvetica', sans-serif; color: #243376; font-size: 16px; line-height: 1.5;">
+                                        <p>Hey {{first.name}}</p>
+                                        <h1 style="font-size: 24px; color: rgb(51, 93, 255);">What's your email editing project?</h1>
+                                        <p>Are you:</p>
+                                        <p><strong>Building an new email client</strong> (i.e. the next Gmail) and need rich text editor functionality?</p>
+                                        <p><strong>Building email marketing software</strong> (i.e. the next Mailchimp) and need to add more rich text editor functionality, or enhance the default editor?</p>
+                                        <p>Then use the only WYSIWYG editor that is trusted by 1,5M devs!</p>
+                                        <p><a style="background-color: rgb(51, 93, 255); padding: 12px 16px; color: rgb(255, 255, 255); border-radius: 4px; text-decoration: none; display: inline-block;" href="https://tiny.cloud/pricing">Get started with your 14-day free trial</a></p>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td style="padding: 0 64px 16px;">
+                                    <table border="0" style="width: 100%;">
+                                        <tr>
+                                            <td style="width: 48%; vertical-align: top;">
+                                                <div class="tinymce" style="font-family: 'helvetica', sans-serif; color: #243376; font-size: 16px; line-height: 1.5;">
+                                                    <p><img src="https://img.icons8.com/doodle/96/000000/critical-thinking.png" alt="" width="96" height="96"></p>
+                                                    <h2 style="font-size: 18px;">Curious about TinyMCE?</h2>
+                                                    <p>Play with this demo to see how our email WYSIWYG editor works!</p>
+                                                </div>
+                                            </td>
+                                            
+                                            <td style="width: 4%"></td>
+                                            
+                                            <td style="width: 48%; vertical-align: top;">
+                                                <div class="tinymce" style="font-family: 'helvetica', sans-serif; color: #243376; font-size: 16px; line-height: 1.5;">
+                                                    <p><img src="https://img.icons8.com/doodle/96/000000/electrical--v1.png" width="96" height="96"></p>
+                                                    <h2 style="font-size: 18px;">Try Premium plugins!</h2>
+                                                    <p>Sign up for a 14 day trial and try out all our premium plugins!</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td style="background-color: #eff0f6; padding: 24px 64px;">
+                                    <p style="margin: 0; font-family: 'helvetica'; font-size: 12px; color: #a0a9c5;"><a href="#" style="color: #a0a9c5;">Update your email preferences</a> or <a href="#" style="color: #a0a9c5;">unsubscribe</a>.</p>
+                                    <p style="margin: 0; font-family: 'helvetica'; font-size: 12px; color: #a0a9c5;">Tiny Technologies | 2100 Geng Road, Palo Alto, CA 94303 USA</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
-</div>
 </body>
 </html>

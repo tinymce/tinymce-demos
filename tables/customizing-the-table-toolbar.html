@@ -176,58 +176,7 @@
                                 onAction: () => {
                                     menuActionManager.deleteRow();
                                 }
-                            },
-                            /*                            
-                            {
-                                type: 'separator',
-                            },
-                            {
-                                type: 'menuitem',
-                                text: 'Cut row',
-                                icon: 'cut-row',
-                                onAction: () => {
-                                    menuActionManager.cutRow();
-                                }
-                            },
-                            {
-                                type: 'menuitem',
-                                text: 'Copy row',
-                                icon: 'duplicate-row',
-                                onAction: () => {
-                                    menuActionManager.copyRow();
-                                }
-                            },
-                            {
-                                type: 'menuitem',
-                                text: 'Paste row before',
-                                icon: 'paste-row-before',
-                                onAction: () => {
-                                    menuActionManager.pasteRowBefore();
-                                },
-                                onSetup: (buttonApi) => {
-                                    // Check the clipboard for any rows and disable the menu item if there is none
-                                    // https://www.tiny.cloud/docs/tinymce/latest/table/#api
-                                    // https://www.tiny.cloud/docs/tinymce/latest/custom-toolbarbuttons/#api
-                                    const state = editor.plugins.table.getClipboardRows().length > 0 ? false : true;
-                                    buttonApi.setDisabled(state);
-                                }
-                            },
-                            {
-                                type: 'menuitem',
-                                text: 'Paste row after',
-                                icon: 'paste-row-after',
-                                onAction: () => {
-                                    menuActionManager.pasteRowAfter();
-                                },
-                                onSetup: (buttonApi) => {
-                                    // Check the clipboard for any rows and disable the menu item if there is none
-                                    // https://www.tiny.cloud/docs/tinymce/latest/table/#api
-                                    // https://www.tiny.cloud/docs/tinymce/latest/custom-toolbarbuttons/#api
-                                    const state = editor.plugins.table.getClipboardRows().length > 0 ? false : true;
-                                    buttonApi.setDisabled(state);
-                                }
-                            },
-                            */
+                            }
                         ];
                         callback(items);
                     }
@@ -281,58 +230,7 @@
                                 onAction: () => {
                                     menuActionManager.deleteColumn();
                                 }
-                            },
-                            /*                            
-                            {
-                                type: 'separator',
-                            },
-                            {
-                                type: 'menuitem',
-                                text: 'Cut column',
-                                icon: 'cut-column',
-                                onAction: () => {
-                                    menuActionManager.cutColumn();
-                                }
-                            },
-                            {
-                                type: 'menuitem',
-                                text: 'Copy column',
-                                icon: 'duplicate-column',
-                                onAction: () => {
-                                    menuActionManager.copyColumn();
-                                }
-                            },                            
-                            {
-                                type: 'menuitem',
-                                text: 'Paste column before',
-                                icon: 'paste-column-before',
-                                onAction: () => {
-                                    menuActionManager.pasteColumnBefore();
-                                },
-                                onSetup: (buttonApi) => {
-                                    // Check the clipboard for any cols and disable the menu item if there is none
-                                    // https://www.tiny.cloud/docs/tinymce/latest/table/#api
-                                    // https://www.tiny.cloud/docs/tinymce/latest/custom-toolbarbuttons/#api
-                                    const state = editor.plugins.table.getClipboardCols().length > 0 ? false : true;
-                                    buttonApi.setDisabled(state);
-                                }
-                            },
-                            {
-                                type: 'menuitem',
-                                text: 'Paste column after',
-                                icon: 'paste-column-after',
-                                onAction: () => {
-                                    menuActionManager.pasteColumnAfter();
-                                },
-                                onSetup: (buttonApi) => {
-                                    // Check the clipboard for any cols and disable the menu item if there is none
-                                    // https://www.tiny.cloud/docs/tinymce/latest/table/#api
-                                    // https://www.tiny.cloud/docs/tinymce/latest/custom-toolbarbuttons/#api
-                                    const state = editor.plugins.table.getClipboardCols().length > 0 ? false : true;
-                                    buttonApi.setDisabled(state);
-                                }
-                            },
-                            */
+                            }                            
                         ];
                         callback(items);
                     }

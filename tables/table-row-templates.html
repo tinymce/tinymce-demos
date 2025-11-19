@@ -172,20 +172,22 @@
                             `;
 
                             // Store any existing table clipboard row data
-                            // https://www.tiny.cloud/docs/tinymce/latest/table/#api
-                            const storedClipboard = editor.plugins.table.getClipboardRows();
+                            // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.fakeclipboard/
+                            const storedClipboard = tinymce.FakeClipboard.read();
 
                             // Set the clipboard data to be the table row element created previously
-                            // https://www.tiny.cloud/docs/tinymce/latest/table/#api
-                            editor.plugins.table.setClipboardRows([tr]);
+                            const item = tinymce.FakeClipboard.FakeClipboardItem({
+	                            'x-tinymce/dom-table-rows': [{ dom: tr }],
+                            });
+
+                            tinymce.FakeClipboard.write([item]);
 
                             // Paste the table clipboard data
                             // https://www.tiny.cloud/docs/tinymce/latest/table/#commands
-                            editor.execCommand('mceTablePasteRowAfter');
+                            editor.execCommand('mceTablePasteRowAfter');                            
 
                             // Restore the saved table clipboard row data
-                            // https://www.tiny.cloud/docs/tinymce/latest/table/#api
-                            editor.plugins.table.setClipboardRows(storedClipboard);
+                            tinymce.FakeClipboard.write(storedClipboard);
 
                             // Close the dialog.
                             dialog.close();

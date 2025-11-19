@@ -1,7 +1,7 @@
 <!--
-    Create an alterate table context toolbar! This demo showcases a 
+    Create an alternate table context toolbar! This demo showcases a 
     table header row/column toggle, a menu for choosing cell background
-    color andkeyboard shortcuts for adding table rows and columns among
+    color and keyboard shortcuts for adding table rows and columns among
     other things
 -->
 
@@ -34,7 +34,7 @@
             menubar: false,
 
             // Tip! To make TinyMCE leaner, only include the plugins you actually need.
-            plugins: 'link lists image table code',
+            plugins: 'link lists image table code emoticons',
 
             // This option allows you to specify the buttons and the order that they
             // will appear on TinyMCE’s toolbar.
@@ -385,7 +385,7 @@
         // call to from both menuitems and shortcuts
         const menuActionManager = {
             headerRow: () => {
-                // Check the type of the selected table row and inverse it
+                // Check the type of the selected table row and invert it
                 // https://www.tiny.cloud/docs/tinymce/latest/editor-command-identifiers/#querycommandvaluestableplugin
                 const type = tinymce.activeEditor.queryCommandValue('mceTableRowType') === 'body' ? 'header' : 'body';
 
@@ -422,7 +422,7 @@
                 tinymce.activeEditor.execCommand('mceTablePasteRowAfter');
             },
             headerColumn: () => {
-                // Check the type of the selected table column and inverse it
+                // Check the type of the selected table column and invert it
                 // https://www.tiny.cloud/docs/tinymce/latest/editor-command-identifiers/#querycommandvaluestableplugin
                 const type = tinymce.activeEditor.queryCommandValue('mceTableColType') === 'td' ? 'th' : 'td';
 

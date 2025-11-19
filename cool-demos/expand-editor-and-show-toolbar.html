@@ -1,5 +1,5 @@
 <!--
-    This demo showcases a minimalist editor that expands on focus
+    This demo showcases a minimalist editor that expands on focus.
     It uses the TinyMCE inline mode to allow for greater control
     over the toolbar position and behavior.
 -->
@@ -16,7 +16,6 @@
         tinymce.init({
             selector: "#editor-content",
             plugins: "emoticons image link lists charmap table",
-            toolbar: "formatgroup paragraphgroup insertgroup",
             placeholder: "Ask a question or post an update...",
             menubar: false,
             skin: 'naked',
@@ -61,6 +60,9 @@
                     items: 'link image emoticons charmap hr'
                 }
             },
+            
+            // Show the three toolbar groups
+            toolbar: "formatgroup paragraphgroup insertgroup",
 
             // On mobile, toolbar_mode is sliding by default which is not compatible
             // with toolbar_groups. Therefore we explicitly set toolbar_mode to floating

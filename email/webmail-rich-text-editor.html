@@ -47,7 +47,7 @@
                 formatgroup: {
                     icon: 'format',
                     tooltip: 'Formatting',
-                    items: 'fontselect | styles | bold italic underline strikethrough forecolor | align bullist numlist outdent indent blockquote'
+                    items: 'fontfamily | styles | bold italic underline strikethrough forecolor | align bullist numlist outdent indent blockquote'
                 }
             },
 
@@ -72,12 +72,6 @@
                 ],
                 small: { block: 'small', styles: { fontSize: '12px', color: '#aaaaaa' } }
             },
-
-            // An alternative to the styles toolbar button is the styles button
-            // which is a simpler version of the styles button. It is configured
-            // using the block_formats option.
-            // https://www.tiny.cloud/docs/tinymce/latest/user-formatting-options/#block_formats
-            block_formats: 'Normal=p; Heading=h1; Sub heading=h2; Small=small',
 
             // In order to force TinyMCE to apply inline styles to the default paragraph
             // text we can use the forced_root_block together with forced_root_block_attrs.

@@ -24,7 +24,7 @@
             // Tip! To make TinyMCE leaner, only include the plugins you actually need.
             plugins: 'autoresize advcode link lists mergetags',
 
-            // We have put our custom insert conditional block button last.
+            // We have put our custom insert conditional block button second to last.
             toolbar: 'bold italic strikethrough backcolor | bullist numlist link mergetags | conditionalblock | code',
 
             // "Thin" is a premium icon pack you get wth the cloud essential plan.
@@ -34,7 +34,7 @@
             // https://www.tiny.cloud/docs/tinymce/latest/creating-an-icon-pack/
             icons: 'thin',
 
-            // "Naked" is a premium icon pack you get wth the cloud essential plan
+            // "Naked" is a premium icon pack you get with the cloud essential plan
             // See https://www.tiny.cloud for more details and purchasing options
             // You can also create your own skins for TinyMCE
             // https://www.tiny.cloud/docs/tinymce/latest/creating-a-skin/
@@ -78,7 +78,7 @@
                     // on the web component to make it behave like a noneditable but selectable
                     // element inside TinyMCE. But we don't want the contenteditable attribute
                     // to be saved with the content. We therefore need to filter out the attribute
-                    // upon serlialization (which happens on "save", view sourcecode and preview
+                    // upon serialization (which happens on "save", view source code and preview
                     // among others).
                     // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.dom.serializer/#addNodeFilter
                     editor.serializer.addNodeFilter('conditional-block', (nodes) => {
@@ -98,7 +98,7 @@
                 });
 
                 // Register a custom toolbar menu button to insert the conditional block
-                // https://www.tiny.cloud/docs/tinymce/latest/custom-toolbarbuttons/#menubutton
+                // https://www.tiny.cloud/docs/tinymce/latest/custom-menu-toolbar-button/
                 editor.ui.registry.addButton('conditionalblock', {
                     icon: 'conditional-block',
                     tooltip: 'Insert conditional block',

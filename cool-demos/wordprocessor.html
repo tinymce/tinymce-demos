@@ -276,11 +276,8 @@ Preserve meaning, facts, tone, and document structure. Do not simplify sentence 
         tinymce.init({
             selector: '#editor',
 
-            // Tip! To make TinyMCE leaner, only include the plugins you actually need.
-            // The first row are open source plugins, the second row are premium plugins.
             plugins: [
-                'autolink', 'link', 'lists', 'emoticons', 'table', 'advlist', 'searchreplace', 'wordcount', 'charmap', 'fullscreen', 'help', 'insertdatetime', 'nonbreaking', 'visualblocks', 'visualchars',
-                'quickbars', 'autocorrect', 'tinymcespellchecker', 'uploadcare', 'advcode', 'tinycomments', 'typography', 'casechange', 'advtable', 'importword', 'powerpaste', 'formatpainter', 'tableofcontents', 'pagebreak', 'revisionhistory', 'suggestededits', 'fullpagehtml', 'mergetags', 'inlinecss', 'tinymceai', 'exportpdf', 'mentions'
+                'autolink', 'link', 'lists', 'emoticons', 'table', 'advlist', 'searchreplace', 'wordcount', 'charmap', 'fullscreen', 'help', 'insertdatetime', 'nonbreaking', 'visualblocks', 'visualchars', 'quickbars', 'autocorrect', 'tinymcespellchecker', 'uploadcare', 'advcode', 'tinycomments', 'typography', 'casechange', 'advtable', 'importword', 'powerpaste', 'formatpainter', 'tableofcontents', 'pagebreak', 'revisionhistory', 'suggestededits', 'fullpagehtml', 'mergetags', 'inlinecss', 'tinymceai', 'exportpdf', 'mentions'
             ],
 
             // This option allows you to specify the buttons and the order that they
@@ -296,7 +293,7 @@ Preserve meaning, facts, tone, and document structure. Do not simplify sentence 
             // Show a toolbar with AI actions when text is selected. The last two
             // buttons are custom buttons registered in the setup function below.
             // https://www.tiny.cloud/docs/tinymce/latest/quickbars/#quickbars_selection_toolbar
-            quickbars_selection_toolbar: 'tinymceai-quickactions ai-quickactions-change-length ai-quickactions-give-alternatives ai-quickactions-fact-check',
+            quickbars_selection_toolbar: 'tinymceai-quickactions ai-quickactions-give-alternatives ai-quickactions-fact-check',
 
             // Tip! The height option accepts any valid CSS for height.
             // Here we let the editor fill the viewport, minus the page margin.
@@ -338,7 +335,6 @@ Preserve meaning, facts, tone, and document structure. Do not simplify sentence 
             spellchecker_dialog: true,
 
             // Uploadcare handles image uploads, storage and responsive images.
-            // Temporary storage removes uploaded files after 24 hours, perfect for a demo.
             // https://www.tiny.cloud/docs/tinymce/latest/uploadcare/
             uploadcare_public_key: '630992ad50fe2291c406',
             uploadcare_store_type: 'temporary',

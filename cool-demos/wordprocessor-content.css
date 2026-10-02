@@ -1,0 +1,144 @@
+/*
+    Content styles for the wordprocessor demo, loaded into the editor
+    using the `content_css` option.
+    https://www.tiny.cloud/docs/tinymce/latest/add-css-options/#content_css
+
+    The editor content is styled as an A4 page with a header and footer,
+    to give the end-user a better idea of how the exported PDF will look.
+*/
+
+/* Workaround for a positioning issue with the TinyMCE AI review backdrop (TINY-14327) */
+.tox-tinymceai__diff-focus-overlay {
+    display: none !important;
+}
+
+/* The grey "desk" the page sits on */
+html {
+    background-color: #eff1f5;
+    padding: 1rem;
+}
+
+/*
+    The body is the A4 page. The padding acts as the page margins and
+    leaves room for the absolute positioned header and footer.
+*/
+body {
+    font-family: "Inter", sans-serif;
+    max-width: 210mm;
+    min-height: 297mm;
+    margin: 1rem auto;
+    background-color: #fff;
+    padding: 40mm 20mm 30mm 20mm;
+    box-sizing: border-box;
+    font-size: 11pt;
+    line-height: 1.3;
+    flex-direction: column;
+    position: relative;
+}
+
+main {
+    min-height: calc(100vh - 40mm - 30mm);
+}
+
+/* Place the header and footer in the top and bottom page margins */
+header {
+    position: absolute;
+    top: 15mm;
+    left: 20mm;
+    right: 20mm;
+}
+
+footer {
+    position: absolute;
+    bottom: 15mm;
+    left: 20mm;
+    right: 20mm;
+}
+
+/* The header, main and footer are the editable regions, hide their focus outline */
+header:focus,
+footer:focus,
+main:focus {
+    outline: 0;
+}
+
+/*
+    The header and footer use borderless tables for layout. Hide the borders...
+    Written without CSS nesting since the PDF converter doesn't support it.
+*/
+header table[border="0"],
+footer table[border="0"],
+header table[border="0"] td,
+footer table[border="0"] td,
+header table[border="0"] th,
+footer table[border="0"] th {
+    border-color: transparent !important;
+}
+
+/* ...but show a dashed outline when hovered or selected, so the end-user can find the cells */
+header table[border="0"]:hover,
+footer table[border="0"]:hover,
+header table[border="0"]:hover td,
+footer table[border="0"]:hover td,
+header table[border="0"]:hover th,
+footer table[border="0"]:hover th,
+header table[border="0"][data-mce-selected="1"],
+footer table[border="0"][data-mce-selected="1"],
+header table[border="0"][data-mce-selected="1"] td,
+footer table[border="0"][data-mce-selected="1"] td,
+header table[border="0"][data-mce-selected="1"] th,
+footer table[border="0"][data-mce-selected="1"] th {
+    border-color: #bbb !important;
+    border-width: 1px !important;
+    border-style: dashed !important;
+}
+
+/* Make merge tags selectable as a single unit */
+.mce-mergetag {
+    user-select: all !important;
+    -webkit-user-select: all !important;
+}
+
+/* Show the selection background on merge tags in Firefox */
+.mce-mergetag::selection {
+    background-color: #b3d8ff;
+}
+
+h1 {
+    font-size: 30pt;
+}
+
+/* Avoid page breaks directly after or inside headings in the exported PDF */
+h1, h2, h3, h4, h5, h6 {
+    break-after: avoid;
+    page-break-after: avoid;
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+main table {
+    border: 1px solid #CED4D9;
+    border-collapse: collapse;
+    max-width: calc(100% - 2px);
+}
+
+main td,
+main th {
+    border: 1px solid #CED4D9;
+    padding: 0.3rem;
+}
+
+main th {
+    background-color: #ECF0F1;
+}
+
+/* Remove the extra spacing at the top and bottom of table cells */
+table td *:first-child,
+table th *:first-child {
+    margin-top: 0;
+}
+
+table td *:last-child,
+table th *:last-child {
+    margin-bottom: 0;
+}

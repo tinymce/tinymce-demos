@@ -1,5 +1,19 @@
 <!--
-    Create a wordprocessor-like implementation with TinyMCE
+    This demo shows how to build an AI powered wordprocessor with TinyMCE.
+
+    The editor content is laid out as an A4 page with an editable header,
+    body and footer, which is exported to PDF with the header and footer
+    repeated on every page. On top of that the demo showcases:
+
+    * TinyMCE AI chat, reviews and quick actions, extended with custom
+      prompts, reviews and welcome actions
+    * Comments, mentions, suggested edits and revision history
+    * Import from Word, PowerPaste, spell checking, merge tags and more
+
+    Most of the features in this demo are premium plugins.
+    See https://www.tiny.cloud for more details and purchasing options.
+
+    Photo by https://unsplash.com/photos/low-angle-photo-of-brown-house-KqOLr8OiQLU
 -->
 
 <!doctype html>
@@ -8,125 +22,587 @@
     <meta charset="utf-8">
     <title>Wordprocessor</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-
-    <script>
-        tinymce.init({
-            selector: "#editor",
-
-            // Tip! To make TinyMCE leaner, only include the plugins you actually need
-            plugins: "powerpaste casechange searchreplace autolink directionality advcode visualblocks visualchars image link media mediaembed codesample table charmap pagebreak nonbreaking anchor tableofcontents insertdatetime advlist lists checklist wordcount tinymcespellchecker editimage help formatpainter permanentpen charmap tinycomments linkchecker emoticons advtable export print autosave",
-
-            // This option allows you to specify the buttons and the order that they
-            // will appear on TinyMCE’s toolbar.
-            // https://www.tiny.cloud/docs/tinymce/latest/toolbar-configuration-options/#basic-toolbar-options
-            toolbar: "undo redo print spellcheckdialog formatpainter | blocks fontfamily fontsize | bold italic underline forecolor backcolor | link image addcomment showcomments  | alignleft aligncenter alignright alignjustify lineheight | checklist bullist numlist indent outdent | removeformat",
-
-            // Tip! The height option accepts any valid CSS for height
-            // If your editor is expected to get larger than the viewport
-            // the sticky toolbar is useful for keeping the controls
-            // always visible
-            // https://www.tiny.cloud/docs/tinymce/latest/editor-size-options/
-            // https://www.tiny.cloud/docs/tinymce/latest/menus-configuration-options/#toolbar_sticky
-            height: '700px',
-            toolbar_sticky: true,
-
-            // You can customize the look and feel of the ui using skins and icons,
-            // In this demo we are using an alternative icon pack
-            // https://www.tiny.cloud/docs/tinymce/latest/editor-icons/
-            icons: 'thin',
-
-            // The autosave plugin helps prevent data loss if the end-user accidentally
-            // closes the browser by storing the content in the browser's local storage
-            // There are many configuration options to control things like save interval
-            // and retention. The below option loads any unsaved content from local
-            // storage into TinyMCE
-            // https://www.tiny.cloud/docs/tinymce/latest/autosave/#autosave_restore_when_empty
-            autosave_restore_when_empty: true,
-
-            // The Tiny Comments plugin enables you to quickly get collaboration up and
-            // running. There are a lot of customizability but here are the most basic
-            // options to get you started
-            // https://www.tiny.cloud/docs/tinymce/latest/introduction-to-tiny-comments/
-            tinycomments_mode: 'embedded',
-            tinycomments_author: 'john.doe',
-            tinycomments_author_name: 'John Doe',
-
-            // The following css will be injected into the editor, extending
-            // the default styles.
-            // In a real world scenario, with much more custom styles for headings
-            // links, tables, images etc, it's recommended to use the content_css
-            // option to load a separate CSS file. Makes editing easier too.
-            // https://www.tiny.cloud/docs/tinymce/latest/add-css-options/
-            content_style: `
-                body {
-                    background: #fff;
-                }
-
-                @media (min-width: 840px) {
-                    html {
-                        background: #eceef4;
-                        min-height: 100%;
-                        padding: 0 .5rem
-                    }
-
-                    body {
-                        background-color: #fff;
-                        box-shadow: 0 0 4px rgba(0, 0, 0, .15);
-                        box-sizing: border-box;
-                        margin: 1rem auto 0;
-                        max-width: 820px;
-                        min-height: calc(100vh - 1rem);
-                        padding:4rem 6rem 6rem 6rem
-                    }
-                }
-            `,
-        });
-    </script>
     <style>
         body {
-            margin: 4rem auto;
-            padding: 0 2rem;
-            background-color: #f9f9fb;
-        }
-
-        main {
-            width: 100%;
+            margin: 1rem;
+            position: relative;
+            color: #17224f;
         }
     </style>
 </head>
 <body>
-<main>
-    <textarea id="editor">
-        <h1 style="text-align: center;">What&rsquo;s your Document Management editing project?&nbsp;</h1>
-        <p style="text-align: center;">Are you:</p>
-        <table style="border-collapse: collapse; width: 100%;" border="1">
-            <colgroup>
-                <col style="width: 50%;">
-                <col style="width: 50%;">
-            </colgroup>
-            <tbody>
-                <tr>
-                    <td style="text-align: center;"><strong><span style="font-size: 36pt;">📝</span><br><br>Building a next generation document creation solution</strong> and want to offer the best rich text editing<strong> experience to</strong> your content creators?</td>
-                    <td>
-                        <p style="text-align: center;"><span style="font-size: 36pt;"><strong>🗂️</strong></span></p>
-                        <p style="text-align: center;"><strong>Developing an innovative documentation system</strong> to organize, track, store and share documents, and you want to add editing capabilities?</p>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <p style="text-align: center;">Or perhaps it&rsquo;s both? Then use the only WYSIWYG editor that&rsquo;s trusted by <a href="https://tiny.cloud" target="_blank" rel="noopener">1.5M developers</a>.</p>
-        <h3>Curious about TinyMCE?</h3>
-        <p>Play with this demo to see how TinyMCE works! Try out these popular document creation functions:</p>
-        <ul class="tox-checklist">
-            <li class="tox-checklist--checked">Copy complex rich content from another app into the editor</li>
-            <li>Add or resolve a comment</li>
-            <li>Drag-and-drop an image from your computer, then edit it within TinyMCE</li>
-            <li>Any other other functionality that you would expect in a document editor!</li>
-        </ul>
-        <p>Want the full tour? Watch the video below (embedded in one click using <em>Enhanced Media Embed</em>):</p>
-        <div style="left: 0px; width: 100%; height: 0px; position: relative; padding-bottom: 56.25%; max-width: 650px;" data-ephox-embed-iri="https://www.youtube.com/watch?v=tajL2X3bcr8"><iframe style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" src="https://www.youtube.com/embed/tajL2X3bcr8?rel=0" scrolling="no" allowfullscreen="allowfullscreen"></iframe></div>
-    </textarea>
+    <textarea id="editor"></textarea>
+
+    <!--
+        The scripts are placed after the textarea since we put the initial
+        content into the textarea before initializing TinyMCE.
+    -->
+    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/8/tinymce.min.js" referrerpolicy="origin" crossorigin="anonymous"></script>
+    <script>
+        // TinyMCE AI authenticates using a JWT. In this demo we use the Tiny Cloud
+        // demo identity service, which first sets up a session for a random user
+        // and then issues a JWT for that user. The demo identity service is for
+        // evaluation only, in production you would replace it with your own
+        // endpoint that signs JWTs for your users.
+        // https://www.tiny.cloud/docs/tinymce/latest/tinymceai-jwt-authentication-intro/#trial-demo-identity-service
+        //
+        // Both requests below include error handling, so if anything goes wrong
+        // the error is shown in the editor instead of failing silently.
+        async function getAuthSession() {
+            const res = await fetch(`https://demo.api.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/auth/random`, { method: 'POST', credentials: 'include' });
+            if (!res.ok) throw new Error(`Demo identity service session request failed: ${res.status}`);
+            const { token } = await res.json();
+            return token;
+        }
+
+        // The token provider is called by TinyMCE AI whenever it needs a JWT
+        // and must return a Promise that resolves to `{ token }`.
+        // https://www.tiny.cloud/docs/tinymce/latest/tinymceai/#tinymceai_token_provider
+        const tinymceaiTokenProvider = async () => {
+            // Make sure there is a session before requesting the JWT
+            await getAuthSession();
+            const res = await fetch(`https://demo.api.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/jwt/tinymceai`, { credentials: 'include' });
+            if (!res.ok) throw new Error(`Demo identity service JWT request failed: ${res.status}`);
+            return res.text().then(token => ({ token }));
+        };
+
+        // The initial document. Note the <header>, <main> and <footer> elements
+        // with the `mceEditable` class. Together with the `editable_root: false`
+        // option below, these become the only editable regions in the document.
+        // That lets us lay out the content like a page, with the header and footer
+        // positioned in the page margins (see wordprocessor-content.css).
+        //
+        // {{current.date}}, {{current.page}} and {{total.pages}} are merge tags,
+        // which are replaced with real values when the document is exported to PDF.
+        const initialContent = `
+<header class="mceEditable">
+    <table style="border-collapse: collapse; width: 100%; height: 10px;" border="0">
+        <colgroup>
+            <col style="width: 50%;">
+            <col style="width: 50%;">
+        </colgroup>
+        <tbody>
+            <tr style="height: 10px;">
+                <td><span style="font-size: 10pt; color: #7e8c8d;">Tiny Technologies</span></td>
+                <td style="text-align: right; vertical-align: top;"><span style="font-size: 10pt; color: #7e8c8d;">{{current.date}}</span></td>
+            </tr>
+        </tbody>
+    </table>
+</header>
+<main class="mceEditable">
+    <h1 style="line-height: 1.1;"><span style="font-size: 42pt;"><strong>NORDIC<br>ARCHITECTURE</strong></span></h1>
+    <p>Since the 1950s, Scandinavian architecture offered a calm, humane alternative to postwar Europe&mdash;combining craft, new materials, and industrial methods. Designers across the region created spaces defined by light, proportion, and comfort, balancing warmth and precision.</p>
+    <p><img style="width: min(1160px, 100%); aspect-ratio: 1160 / 847;" src="https://ucarecdn.com/1f919a19-1b5f-40b4-bb71-8c05497dc79c/-/preview/" sizes="(min-width: 1160px) 1160px, 100vw" srcset="https://ucarecdn.com/1f919a19-1b5f-40b4-bb71-8c05497dc79c/-/resize/100x/ 100w,https://ucarecdn.com/1f919a19-1b5f-40b4-bb71-8c05497dc79c/-/resize/200x/ 200w,https://ucarecdn.com/1f919a19-1b5f-40b4-bb71-8c05497dc79c/-/resize/300x/ 300w,https://ucarecdn.com/1f919a19-1b5f-40b4-bb71-8c05497dc79c/-/resize/500x/ 500w,https://ucarecdn.com/1f919a19-1b5f-40b4-bb71-8c05497dc79c/-/resize/750x/ 750w,https://ucarecdn.com/1f919a19-1b5f-40b4-bb71-8c05497dc79c/-/resize/1000x/ 1000w,https://ucarecdn.com/1f919a19-1b5f-40b4-bb71-8c05497dc79c/-/preview/ 1160w"></p>
+    <h2>Introduction</h2>
+    <p>In the decades after 1950, <a href="https://en.wikipedia.org/wiki/Nordic_architecture" target="_blank" rel="noopener noreferrer" aria-invalid="true">Nordic architecture</a> reimagined modernism through the lens of climate, craft, and the emerging welfare state. This essay traces how an architecture of <strong>light, material honesty, and everyday use</strong> came to define the region&rsquo;s homes and public life. Drawing from the unique environmental conditions of the north, such as long winters and limited daylight, architects developed innovative ways to maximize natural light, creating interiors that felt open and uplifting.</p>
+    <p>At the same time, a deep respect for <em>traditional craftsmanship and local materials</em>&mdash;such as timber, stone, and brick&mdash;ensured that new buildings harmonized with their surroundings and cultural heritage. The influence of social democracy and the welfare state inspired architects to prioritize accessibility, comfort, and communal well-being in their designs, shaping both private residences and public institutions.</p>
+    <h3>Notable architects</h3>
+    <table style="border-collapse: collapse; width: 100%; height: 299.90625px;" border="1">
+        <colgroup>
+            <col style="width: 22.051282%;">
+            <col style="width: 58.846154%;">
+            <col style="width: 19.102564%;">
+        </colgroup>
+        <thead>
+            <tr style="height: 30.78125px; background-color: #ecf0f1;">
+                <td style="line-height: 1.1; vertical-align: top;"><span style="font-size: 14px;"><strong>Who</strong></span></td>
+                <td style="line-height: 1.1; vertical-align: top;"><span style="font-size: 14px;"><strong>Known for</strong></span></td>
+                <td style="line-height: 1.1; vertical-align: top;"><span style="font-size: 14px;"><strong>Years active</strong></span></td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr style="height: 64.78125px;">
+                <td style="line-height: 1.1; vertical-align: top;"><span style="font-size: 14px; color: #34495e;"><strong>Elias Nystr&ouml;m</strong></span></td>
+                <td style="line-height: 1.1; vertical-align: top;"><span style="font-size: 14px; color: #34495e;">Designed quiet civic buildings that balance daylight, timber craft, and industrial detailing to make everyday public spaces feel humane and welcoming.</span></td>
+                <td style="line-height: 1.1; vertical-align: top;"><span style="font-size: 14px; color: #34495e;">1958&ndash;1992</span></td>
+            </tr>
+            <tr style="height: 64.78125px;">
+                <td style="line-height: 1.1; vertical-align: top;"><span style="font-size: 14px; color: #34495e;"><strong>Karin Lundeberg</strong></span></td>
+                <td style="line-height: 1.1; vertical-align: top;"><span style="font-size: 14px; color: #34495e;">Known for housing ensembles that use brick, deep window reveals, and shared courtyards to create warmth, dignity, and social life in dense neighborhoods.</span></td>
+                <td style="line-height: 1.1; vertical-align: top;"><span style="font-size: 14px; color: #34495e;">1966&ndash;2005</span></td>
+            </tr>
+            <tr style="height: 64.78125px;">
+                <td style="line-height: 1.1; vertical-align: top;"><span style="font-size: 14px; color: #34495e;"><strong>Mats H&aring;kansson</strong></span></td>
+                <td style="line-height: 1.1; vertical-align: top;"><span style="font-size: 14px; color: #34495e;">Pioneered modular school and library designs that combine clear proportions, durable local materials, and soft acoustics to support calm, flexible learning.</span></td>
+                <td style="line-height: 1.1; vertical-align: top;"><span style="font-size: 14px; color: #34495e;">1964&ndash;1998</span></td>
+            </tr>
+            <tr style="height: 64.78125px;">
+                <td style="line-height: 1.1; vertical-align: top;"><span style="font-size: 14px; color: #34495e;"><strong>Sigrid Aarnio</strong></span></td>
+                <td style="line-height: 1.1; vertical-align: top;"><span style="font-size: 14px; color: #34495e;">Celebrated for coastal museums where stone plinths and pale wood interiors frame changing northern light while keeping circulation simple, intuitive, and accessible.</span></td>
+                <td style="line-height: 1.1; vertical-align: top;"><span style="font-size: 14px; color: #34495e;">1971&ndash;2012</span></td>
+            </tr>
+            <tr style="height: 10px;">
+                <td style="line-height: 1.1; vertical-align: top;"><span style="font-size: 14px; color: #34495e;"><strong>Oskar Vikstr&ouml;m</strong></span></td>
+                <td style="line-height: 1.1; vertical-align: top;"><span style="font-size: 14px; color: #34495e;">Created minimalist churches and community halls that pair precise concrete shells with handcrafted furnishings, achieving warmth through texture, scale, and sunlight.</span></td>
+                <td style="line-height: 1.1; vertical-align: top;"><span style="font-size: 14px; color: #34495e;">1954&ndash;1987</span></td>
+            </tr>
+        </tbody>
+    </table>
+    <h3>Social and Material Foundations</h3>
+    <p>We begin by looking at the social and material conditions that made this distinctly Nordic version of modern architecture possible. The postwar period brought about significant <em>economic growth, urbanization</em>, and a renewed focus on egalitarian values. Governments supported ambitious housing programs and public building projects, while advances in construction technology allowed for greater experimentation with form and function. In this context, Nordic architects were able to blend international modernist ideals with local traditions, resulting in a built environment that remains admired for its beauty, simplicity, and <strong>human-centered approach</strong>.</p>
+    <h2>1945&ndash;1969: From Postwar Reconstruction to the Sixties</h2>
+    <p>In the years after the Second World War, Nordic architects developed a pragmatic, humane form of modernism. Material shortages and an urgent demand for housing, schools, and civic services encouraged <strong>clarity of plan</strong>, durable construction, and economical forms. At the same time, careful control of <em>daylight</em> helped interiors remain welcoming through the long, dark northern seasons.</p>
+    <p>During the 1950s, modern layouts were often paired with familiar regional materials. Brick, timber, and plastered masonry connected new buildings to older townscapes, while sheltered entrances, sunny courtyards, and sensitive placement among rocks and trees made landscape part of the architecture. In the 1960s, expanding welfare programs and rapid urbanization brought larger housing estates and public institutions. Prefabrication and modular systems increased efficiency, yet the strongest projects retained warmth through texture, proportion, shared outdoor space, and carefully detailed interiors.</p>
+    <h3>Stylistic traits</h3>
+    <ul>
+        <li><strong>Warm, durable material palettes</strong> combining brick, timber, plaster, and increasingly exposed concrete</li>
+        <li><strong>Daylight shaped for northern conditions</strong> through well-proportioned windows, skylights, and glare control</li>
+        <li><strong>Human-scale planning within larger systems</strong>, from sheltered thresholds to modular schools and neighborhood courtyards</li>
+    </ul>
+    <h3>Notable architect of the era</h3>
+    <p><strong>Oskar Vikstr&ouml;m</strong> (active 1954&ndash;1987) represents the transition from craft-based postwar building to the more systematic architecture of the 1960s. His work combined compact plans and controlled natural light with precise structures, warm interior surfaces, and handcrafted furnishings.</p>
+    <h2>1970s&ndash;1980s: Participation, Energy, and Renewal</h2>
+    <p>By the 1970s, criticism of anonymous large-scale development encouraged Nordic architects to recover intimacy, variety, and local identity. Housing was increasingly organized around clusters, pedestrian routes, and shared facilities, giving residents a stronger sense of community. The decade&rsquo;s energy crises also renewed attention to compact forms, insulation, passive solar gain, and materials suited to demanding climates.</p>
+    <p>In the 1980s, this social and environmental focus converged with a broader revival of color, ornament, and historical reference. Architects adapted existing buildings more often, while new libraries, museums, and civic centers used expressive roofs, masonry patterns, and carefully framed views to create memorable public places. Even as forms became more varied, Nordic design continued to emphasize accessibility, natural light, tactile materials, and everyday comfort.</p>
+    <h3>Stylistic traits</h3>
+    <ul>
+        <li><strong>Community-oriented planning</strong> with clustered housing, pedestrian streets, and shared indoor and outdoor spaces</li>
+        <li><strong>Energy-conscious construction</strong> using compact envelopes, improved insulation, and climate-responsive orientation</li>
+        <li><strong>Renewed visual expression</strong> through color, patterned masonry, historical references, and adaptive reuse</li>
+    </ul>
+    <h3>Notable architect of the era</h3>
+    <p><strong>Sigrid Aarnio</strong> (active 1971&ndash;2012) reflects the period&rsquo;s balance of environmental sensitivity and renewed civic expression. Her coastal museums paired stone plinths and pale timber interiors with simple circulation, accessible public rooms, and carefully framed northern light.</p>
 </main>
+<footer class="mceEditable">
+    <table style="border-collapse: collapse; width: 100%;" border="0">
+        <colgroup>
+            <col style="width: 50%;">
+            <col style="width: 50%;">
+        </colgroup>
+        <tbody>
+            <tr>
+                <td><span style="font-size: 10pt;">Tiny Sweden AB</span></td>
+                <td style="text-align: right;"><span style="font-size: 10pt; color: #7e8c8d;">Page {{current.page}} of {{total.pages}}</span></td>
+            </tr>
+        </tbody>
+    </table>
+</footer>
+        `;
+
+        // Put the initial content into the textarea, which TinyMCE then loads
+        document.getElementById('editor').value = initialContent;
+
+        // Revision history needs a list of revisions to display. In a real world
+        // scenario these would be fetched from your backend, but here we hardcode
+        // two revisions: an empty document as the starting point, and the initial content.
+        // https://www.tiny.cloud/docs/tinymce/latest/revisionhistory/#revisionhistory_fetch
+        const revisions = [
+            {
+                revisionId: '1',
+                createdAt: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 1, 14, 32, 0).getTime(),
+                author: {
+                    id: 'jade-scott',
+                    name: 'Jade Scott',
+                    avatar: 'https://sneak-preview.tiny.cloud/demouserdirectory/images/employee_jade-scott_128_515dc6a1.jpg',
+                },
+                content: initialContent
+            },
+            {
+                revisionId: '0',
+                createdAt: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 1, 14, 32, 0).getTime(),
+                author: {
+                    id: 'jade-scott',
+                    name: 'Jade Scott',
+                    avatar: 'https://sneak-preview.tiny.cloud/demouserdirectory/images/employee_jade-scott_128_515dc6a1.jpg',
+                },
+                content: ''
+            }
+        ];
+
+        const revisionhistory_fetch = () => Promise.resolve(revisions);
+
+        // The mentions plugin calls `mentions_fetch` as the end-user types after
+        // the @ character. Here we search a demo user directory for matching users.
+        // https://www.tiny.cloud/docs/tinymce/latest/mentions/#mentions_fetch
+        const mentions_fetch = async (query, success) => {
+            const searchPhrase = query.term.toLowerCase();
+            await fetch(`https://demouserdirectory.tiny.cloud/v1/users/?q=${encodeURIComponent(searchPhrase)}`)
+                .then((response) => response.json())
+                .then((users) => success(users.data.map((userInfo) => ({
+                    id: userInfo.id,
+                    name: userInfo.name,
+                    image: userInfo.avatar,
+                    description: userInfo.custom.role
+                }))))
+                .catch((error) => console.log(error));
+        };
+
+        // Prompts for the custom AI quick actions, reviews and welcome actions
+        // configured further down. A prompt is plain text instructions to the AI,
+        // so the more clear and specific you are, the better the result.
+        const giveAlternativesPrompt = 'If the user has selected text, rewrite that selection as 3 distinct alternatives. Preserve the original meaning and facts, but make each version differ meaningfully in tone and structure (for example: more concise, more formal, more conversational). Present them as a numbered list, each with a short label naming its angle. If nothing is selected, do not rewrite the whole document — instead ask which part they want alternatives for, and suggest 2-3 specific candidates from the document (such as the headline, the opening paragraph, or a particular section) so they can just pick one. Reply in the chat only; do not modify the document.';
+
+        const whatToWriteNextPrompt = 'Read the document and suggest what to write next. Base the suggestions on what is already there and what is obviously missing — gaps in the argument, questions a reader would be left with, sections that are implied but never written, or a thread that trails off. Give 3-5 concrete suggestions as a numbered list, each a short heading plus one sentence on why it belongs and where it would go. Do not suggest generic advice like "add a conclusion" unless the document actually needs one. Reply in the chat only; do not modify the document.';
+
+        const factCheckPrompt = 'You are a fact checker. Review the provided text and identify factual claims. For each claim, assess whether it is accurate, inaccurate, or unverifiable. Flag inaccuracies with a brief correction and note claims that need a source. Do not comment on opinions or style. Respond concisely in a list ordered by severity.';
+
+        const plainLanguagePrompt = `Revise this document to comply with plain language guidelines (based on plainlanguage.gov and ISO 24495-1). Apply these rules:
+
+- Use short sentences: one idea per sentence, aim for under 20 words. Split long or compound sentences.
+- Use common, everyday words. Replace formal, abstract, or academic vocabulary with simpler alternatives (e.g. "utilize" → "use", "endeavor" → "try", "subsequently" → "then").
+- Prefer active voice. Rewrite passive constructions so the actor comes first.
+- Replace nominalizations with verbs (e.g. "the implementation of" → "implementing", "provide an explanation" → "explain").
+- Remove filler and redundant qualifiers ("in order to", "it is important to note that", "very", "quite").
+- Spell out or briefly define jargon and technical terms on first use.
+- Keep the original meaning, facts, names, and structure intact. Do not remove information — only make it easier to read.
+
+Target a reading level of roughly grade 8. Make each change minimal and local so individual suggestions are easy to review.`;
+
+        // {value} is replaced with the rule set the end-user picks from the review's options list.
+        // https://www.tiny.cloud/docs/tinymce/latest/tinymceai/#tinymceai_reviews
+        const languageAccessibilityPrompt = `Review this document for cognitive and language accessibility (WCAG "Understandable" guidelines and W3C COGA guidance). Fix issues directly in the text. Apply these rules:
+{value}
+
+Preserve meaning, facts, tone, and document structure. Do not simplify sentence structure or reading level — only address the specific issues listed above. Make each change minimal and local so suggestions are easy to review individually.`;
+
+        // The three rule sets for the accessible language review, each one building on the previous
+        const essentialRules = `
+- Resolve ambiguous pronouns and references: replace "this", "it", "they", "the former/latter" with the specific noun when the referent is not immediately obvious.
+- Rewrite double negatives and negated conditions as positive statements (e.g. "not uncommon" → "common").
+- Remove words that assume sight or spatial layout ("as you can see", "above", "below") — refer to sections, figures, or elements by name instead.
+- Use one consistent name for each concept, feature, or element throughout the document.`;
+
+        const extendedRules = essentialRules + `
+- Replace idioms, metaphors, and figurative expressions with literal wording (e.g. "hit the ground running" → "start quickly").
+- Replace specialized or insider vocabulary with everyday words, or add a brief in-sentence explanation on first use.
+- Break up noun strings of three or more nouns into shorter phrases.
+- Replace ableist and gendered idiom with neutral wording ("blind to" → "unaware of", "manpower" → "staff").`;
+
+        const strictRules = extendedRules + `
+- Expand all abbreviations on first use.
+- Replace vague time and quantity words ("soon", "recently", "several") with specific values when the context provides them; otherwise leave them unchanged.
+- Remove all remaining figurative language, including conventional metaphor.`;
+
+        tinymce.init({
+            selector: '#editor',
+
+            plugins: [
+                'autolink', 'link', 'lists', 'emoticons', 'table', 'advlist', 'searchreplace', 'wordcount', 'charmap', 'fullscreen', 'help', 'insertdatetime', 'nonbreaking', 'visualblocks', 'visualchars', 'quickbars', 'autocorrect', 'tinymcespellchecker', 'uploadcare', 'advcode', 'tinycomments', 'typography', 'casechange', 'advtable', 'importword', 'powerpaste', 'formatpainter', 'tableofcontents', 'pagebreak', 'revisionhistory', 'suggestededits', 'fullpagehtml', 'mergetags', 'inlinecss', 'tinymceai', 'exportpdf', 'mentions'
+            ],
+
+            // This option allows you to specify the buttons and the order that they
+            // will appear on TinyMCE’s toolbar.
+            // https://www.tiny.cloud/docs/tinymce/latest/toolbar-configuration-options/#toolbar
+            toolbar: 'undo redo | tinymceai-chat tinymceai-review exportpdf spellchecker ai-quickactions-translate | blocks fontfamily fontsizeinput | bold italic underline forecolor backcolor | link uploadcare addcomment | align lineheight bullist numlist outdent indent removeformat | help',
+
+            // When toolbar buttons don't fit, put the overflowing buttons in a
+            // drawer that slides out under the toolbar.
+            // https://www.tiny.cloud/docs/tinymce/latest/toolbar-configuration-options/#toolbar_mode
+            toolbar_mode: 'sliding',
+
+            // Show a toolbar with AI actions when text is selected. The last two
+            // buttons are custom buttons registered in the setup function below.
+            // https://www.tiny.cloud/docs/tinymce/latest/quickbars/#quickbars_selection_toolbar
+            quickbars_selection_toolbar: 'tinymceai-quickactions ai-quickactions-give-alternatives ai-quickactions-fact-check',
+
+            // Tip! The height option accepts any valid CSS for height.
+            // Here we let the editor fill the viewport, minus the page margin.
+            // https://www.tiny.cloud/docs/tinymce/latest/editor-size-options/#height
+            height: 'calc(100vh - 2rem)',
+
+            // Open the AI chat sidebar when the editor loads
+            // https://www.tiny.cloud/docs/tinymce/latest/customsidebar/#sidebar_show
+            sidebar_show: 'tinymceai-chat',
+
+            // Make the body non-editable, so only the elements with the
+            // `mceEditable` class (the header, main and footer) can be edited.
+            // https://www.tiny.cloud/docs/tinymce/latest/non-editable-content-options/#editable_root
+            // https://www.tiny.cloud/docs/tinymce/latest/non-editable-content-options/#editable_class
+            editable_root: false,
+
+            // The `font_css` option imports fonts into both the editor content and
+            // the TinyMCE UI, so the font can be previewed in menus.
+            // https://www.tiny.cloud/docs/tinymce/latest/add-css-options/#font_css
+            font_css: 'wordprocessor-fonts.css',
+
+            // The content styles that make the editor content look like an A4 page.
+            // Have a look in wordprocessor-content.css for the details.
+            // https://www.tiny.cloud/docs/tinymce/latest/add-css-options/#content_css
+            content_css: 'wordprocessor-content.css',
+
+            // Don't show the blue focus outline around the editor
+            // https://www.tiny.cloud/docs/tinymce/latest/accessibility/#highlight_on_focus
+            highlight_on_focus: false,
+
+            // Font sizes typed without a unit are set in points, like in most
+            // desktop wordprocessors.
+            // https://www.tiny.cloud/docs/tinymce/latest/user-formatting-options/#font_size_input_default_unit
+            font_size_input_default_unit: 'pt',
+
+            // Make the spellchecker toolbar button open a dialog that steps
+            // through each spelling error in the document.
+            // https://www.tiny.cloud/docs/tinymce/latest/introduction-to-tiny-spellchecker/#spellchecker_dialog
+            spellchecker_dialog: true,
+
+            // Uploadcare handles image uploads, storage and responsive images.
+            // https://www.tiny.cloud/docs/tinymce/latest/uploadcare/
+            uploadcare_public_key: '630992ad50fe2291c406',
+            uploadcare_store_type: 'temporary',
+
+            // Allow SVG images, which aren't allowed by default
+            // https://www.tiny.cloud/docs/tinymce/latest/file-image-upload/#images_file_types
+            images_file_types: 'jpeg,jpg,jpe,jfi,jif,jfif,png,gif,bmp,webp,svg',
+
+            // Open the enhanced code editor within the editor instead of in a dialog
+            // https://www.tiny.cloud/docs/tinymce/latest/advcode/#advcode_inline
+            advcode_inline: true,
+
+            // The current user, used by comments, mentions, suggested edits and
+            // revision history. `fetch_users` is called to look up the name and
+            // avatar of this user, as well as any other users found in the document.
+            // Here we use a demo user directory.
+            // https://www.tiny.cloud/docs/tinymce/latest/userlookup/#user_id
+            // https://www.tiny.cloud/docs/tinymce/latest/userlookup/#fetch_users
+            user_id: 'james-wilson',
+            fetch_users: (userIds) => Promise.all(userIds.map((userId) => fetch(`https://demouserdirectory.tiny.cloud/v1/users/${userId}`).then((response) => response.json()).catch(() => ({ id: userId })))),
+
+            // Embedded mode stores the comments within the content itself. Use
+            // callback mode if you want to store comments in your own backend.
+            // https://www.tiny.cloud/docs/tinymce/latest/comments-embedded-mode/
+            // https://www.tiny.cloud/docs/tinymce/latest/comments-callback-mode/
+            tinycomments_mode: 'embedded',
+
+            // Show the user's name, avatar and description when mentioning someone.
+            // `mentions_fetch` is the function we declared above.
+            // https://www.tiny.cloud/docs/tinymce/latest/mentions/#mentions_item_type
+            mentions_item_type: 'profile',
+            mentions_fetch,
+
+            // Use a CSS page break as separator, so the exported PDF starts a new
+            // page at every page break. And make it easier to insert a page break
+            // in the middle of a paragraph.
+            // https://www.tiny.cloud/docs/tinymce/latest/pagebreak/#pagebreak_separator
+            // https://www.tiny.cloud/docs/tinymce/latest/pagebreak/#pagebreak_split_block
+            pagebreak_separator: '<div style="break-after: page"></div>',
+            pagebreak_split_block: true,
+
+            // Show who authored each revision. `revisionhistory_fetch` is the function
+            // we declared above.
+            // https://www.tiny.cloud/docs/tinymce/latest/revisionhistory/#revisionhistory_display_author
+            revisionhistory_display_author: true,
+            revisionhistory_fetch,
+
+            // The merge tags the end-user can insert. These are replaced with real
+            // values when exporting to PDF, see the setup function below.
+            // https://www.tiny.cloud/docs/tinymce/latest/mergetags/#mergetags_list
+            mergetags_list: [
+                { value: 'total.pages', title: 'Total pages' },
+                { value: 'current.page', title: 'Current page' },
+                { value: 'current.date', title: 'Current date' }
+            ],
+
+            // Extra styles for the exported PDF. The page margins are set in the
+            // converter options instead (see the setup function below), so we
+            // remove the body margin.
+            // https://www.tiny.cloud/docs/tinymce/latest/exportpdf/#exportpdf-converter-style
+            exportpdf_converter_style: `
+                @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+                body { margin: 0; }
+            `,
+
+            // The token provider we declared at the top, which fetches the JWT
+            // TinyMCE AI uses to authenticate.
+            // https://www.tiny.cloud/docs/tinymce/latest/tinymceai/#tinymceai_token_provider
+            tinymceai_token_provider: tinymceaiTokenProvider,
+
+            // The message shown when a new AI chat conversation starts
+            // https://www.tiny.cloud/docs/tinymce/latest/tinymceai/#tinymceai_chat_welcome_message
+            tinymceai_chat_welcome_message: `
+Hi! I’m your writing assistant.
+
+I'm here to help you brainstorm, research and improve your writing. How can I help right now?
+            `,
+
+            // Suggested actions shown below the welcome message. Each action runs an
+            // editor command. Built-in quick actions are referenced by their command,
+            // and the `TinyMCEAIChatPrompt` command sends our own prompts to the chat.
+            // `displayedPrompt` is what the end-user sees in the chat, instead of the full prompt.
+            // https://www.tiny.cloud/docs/tinymce/latest/tinymceai/#tinymceai_chat_welcome_actions
+            // https://www.tiny.cloud/docs/tinymce/latest/editor-command-identifiers/#tinymceai
+            tinymceai_chat_welcome_actions: [
+                { title: 'Summarize the document', command: 'TinyMCEAIQuickActionsSummarize' },
+                { title: 'Fix spelling & grammar', command: 'TinyMCEAIQuickActionCheckGrammar' },
+                { title: 'Improve writing', command: 'TinyMCEAIQuickActionImproveWriting' },
+                {
+                    title: 'What to write next?',
+                    command: 'TinyMCEAIChatPrompt',
+                    icon: 'cognition-welcome',
+                    value: {
+                        prompt: whatToWriteNextPrompt,
+                        displayedPrompt: 'What should I write next?'
+                    }
+                },
+                {
+                    title: 'Fact check',
+                    command: 'TinyMCEAIChatPrompt',
+                    icon: 'fact-check-welcome',
+                    value: {
+                        prompt: factCheckPrompt,
+                        displayedPrompt: 'Is anything here factually wrong?'
+                    }
+                },
+            ],
+
+            // Add our own actions to the AI quick actions menu. The `chat` type
+            // sends the prompt to the AI chat instead of changing the content directly.
+            // https://www.tiny.cloud/docs/tinymce/latest/tinymceai/#tinymceai_quickactions_custom
+            tinymceai_quickactions_custom: [
+                {
+                    id: 'ai-quickactions-give-alternatives',
+                    title: 'Suggest alternatives',
+                    type: 'chat',
+                    prompt: giveAlternativesPrompt,
+                },
+                {
+                    id: 'ai-quickactions-fact-check',
+                    title: 'Fact check',
+                    type: 'chat',
+                    prompt: factCheckPrompt,
+                }
+            ],
+
+            // The reviews available in the AI review sidebar. Mix the built-in
+            // reviews, referenced by their id, with your own. A `simple` review
+            // runs a single prompt, while a `list` review lets the end-user pick
+            // an option that replaces {value} in the prompt.
+            // https://www.tiny.cloud/docs/tinymce/latest/tinymceai/#tinymceai_reviews
+            // https://www.tiny.cloud/docs/tinymce/latest/tinymceai-review/
+            tinymceai_reviews: [
+                'ai-reviews-proofread',
+                'ai-reviews-improve-clarity',
+                'ai-reviews-improve-readability',
+                'ai-reviews-change-tone',
+                {
+                    id: 'plain-language',
+                    name: 'Check plain language compliance',
+                    type: 'simple',
+                    description: 'Rewrite the text to meet plain language guidelines (ISO 24495-1), targeting a general public reading level.',
+                    prompt: plainLanguagePrompt,
+                },
+                {
+                    id: 'language-accessibility-review',
+                    name: 'Accessible language check',
+                    type: 'list',
+                    description: 'Align wording with cognitive accessibility guidance (WCAG 2.2 and W3C COGA), removing idiom, ambiguity, and exclusionary terms.',
+                    prompt: languageAccessibilityPrompt,
+                    model: 'agent-1',
+                    options: [
+                        { label: 'Essential', value: essentialRules },
+                        { label: 'Extended', value: extendedRules },
+                        { label: 'Maximum accessibility', value: strictRules }
+                    ]
+                },
+                'ai-reviews-custom',
+            ],
+
+            setup: (editor) => {
+                // Register the icons used by our custom buttons and welcome actions.
+                // The `-welcome` variants are blue and have a bit of padding to
+                // match the built-in welcome action icons.
+                // https://www.tiny.cloud/docs/tinymce/latest/apis/tinymce.editor.ui.registry/#addIcon
+                editor.ui.registry.addIcon('cognition',
+                    '<svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 -960 960 960"><path d="M491-339q70 0 119-45t49-109q0-57-36.5-96.5T534-629q-47 0-79.5 30T422-525q0 19 7.5 37t21.5 33l57-57q-3-2-4.5-5t-1.5-7q0-11 9-17.5t23-6.5q20 0 33 16.5t13 39.5q0 31-25.5 52.5T492-418q-47 0-79.5-38T380-549q0-29 11-55.5t31-46.5l-57-57q-32 31-49 72t-17 86q0 88 56 149.5T491-339ZM240-80v-172q-57-52-88.5-121.5T120-520q0-150 105-255t255-105q125 0 221.5 73.5T827-615l52 205q5 19-7 34.5T840-360h-80v120q0 33-23.5 56.5T680-160h-80v80h-80v-160h160v-200h108l-38-155q-23-91-98-148t-172-57q-116 0-198 81t-82 197q0 60 24.5 114t69.5 96l26 24v208h-80Zm254-360Z"/></svg>');
+
+                editor.ui.registry.addIcon('cognition-welcome',
+                    '<svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="-60 -1020 1080 1080" fill="#006ce7"><path d="M491-339q70 0 119-45t49-109q0-57-36.5-96.5T534-629q-47 0-79.5 30T422-525q0 19 7.5 37t21.5 33l57-57q-3-2-4.5-5t-1.5-7q0-11 9-17.5t23-6.5q20 0 33 16.5t13 39.5q0 31-25.5 52.5T492-418q-47 0-79.5-38T380-549q0-29 11-55.5t31-46.5l-57-57q-32 31-49 72t-17 86q0 88 56 149.5T491-339ZM240-80v-172q-57-52-88.5-121.5T120-520q0-150 105-255t255-105q125 0 221.5 73.5T827-615l52 205q5 19-7 34.5T840-360h-80v120q0 33-23.5 56.5T680-160h-80v80h-80v-160h160v-200h108l-38-155q-23-91-98-148t-172-57q-116 0-198 81t-82 197q0 60 24.5 114t69.5 96l26 24v208h-80Zm254-360Z"/></svg>');
+
+                editor.ui.registry.addIcon('fact-check',
+                    '<svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 -960 960 960"><path d="M160-120q-33 0-56.5-23.5T80-200v-560q0-33 23.5-56.5T160-840h640q33 0 56.5 23.5T880-760v560q0 33-23.5 56.5T800-120H160Zm0-80h640v-560H160v560Zm40-80h200v-80H200v80Zm382-80 198-198-57-57-141 142-57-57-56 57 113 113Zm-382-80h200v-80H200v80Zm0-160h200v-80H200v80Zm-40 400v-560 560Z"/></svg>');
+
+                editor.ui.registry.addIcon('fact-check-welcome',
+                    '<svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="-60 -1020 1080 1080" fill="#006ce7"><path d="M160-120q-33 0-56.5-23.5T80-200v-560q0-33 23.5-56.5T160-840h640q33 0 56.5 23.5T880-760v560q0 33-23.5 56.5T800-120H160Zm0-80h640v-560H160v560Zm40-80h200v-80H200v80Zm382-80 198-198-57-57-141 142-57-57-56 57 113 113Zm-382-80h200v-80H200v80Zm0-160h200v-80H200v80Zm-40 400v-560 560Z"/></svg>');
+
+                // Register the custom buttons used in the quickbars selection toolbar.
+                // They send our own prompts to the AI chat using the `TinyMCEAIChatPrompt` command.
+                // https://www.tiny.cloud/docs/tinymce/latest/custom-toolbarbuttons/
+                // https://www.tiny.cloud/docs/tinymce/latest/editor-command-identifiers/#tinymceai
+                editor.ui.registry.addButton('ai-quickactions-give-alternatives', {
+                    icon: 'cognition',
+                    tooltip: 'Suggest alternatives',
+                    onAction: () => editor.execCommand('TinyMCEAIChatPrompt', false, {
+                        prompt: giveAlternativesPrompt,
+                        displayedPrompt: 'What are some other ways to write this?'
+                    })
+                });
+
+                editor.ui.registry.addButton('ai-quickactions-fact-check', {
+                    icon: 'fact-check',
+                    tooltip: 'Fact check',
+                    onAction: () => editor.execCommand('TinyMCEAIChatPrompt', false, {
+                        prompt: factCheckPrompt,
+                        displayedPrompt: 'Is anything here factually wrong?'
+                    })
+                });
+
+                // In the editor, the header and footer are part of the content. But in
+                // the exported PDF we want them repeated on every page. So right before
+                // the PDF is exported, we move the header and footer from the content
+                // into the PDF converter options, and restore the content afterwards.
+                // https://www.tiny.cloud/docs/tinymce/latest/events/
+                // https://www.tiny.cloud/docs/tinymce/latest/exportpdf/#exportpdf-converter-options
+                let originalContent = null;
+
+                editor.on('BeforeExecCommand', (e) => {
+                    if (e.command === 'ExportPDF') {
+                        // Save the original content so it can be restored after the export
+                        originalContent = editor.getContent();
+
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(originalContent, 'text/html');
+
+                        const header = doc.querySelector('header');
+                        const footer = doc.querySelector('footer');
+
+                        // Set the page size and margins, and use the header and footer
+                        // from the content as the PDF header and footer.
+                        editor.options.set('exportpdf_converter_options', {
+                            version: '2',
+                            document: {
+                                size: 'A4',
+                                orientation: 'portrait',
+                                margins: {
+                                    top: '4cm',
+                                    right: '2cm',
+                                    bottom: '3cm',
+                                    left: '2cm'
+                                }
+                            },
+                            headers: {
+                                default: { html: header ? header.outerHTML : '', css: 'header { padding: 1.5cm 2cm 0 2cm; }' }
+                            },
+                            footers: {
+                                default: { html: footer ? footer.outerHTML : '', css: 'footer { padding: 0 2cm 1.5cm 2cm; }' }
+                            },
+                            // Replace the merge tags with their values. The PDF converter
+                            // fills in elements with the `pageNumber` and `totalPages`
+                            // classes with the current page number and the total number of pages.
+                            merge_fields: {
+                                prefix: '{{',
+                                suffix: '}}',
+                                data: {
+                                    'current.date': (() => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; })(),
+                                    'total.pages': '<span class="totalPages"></span>',
+                                    'current.page': '<span class="pageNumber"></span>'
+                                }
+                            },
+                        });
+
+                        // Remove the header and footer from the content that gets exported
+                        if (header) header.remove();
+                        if (footer) footer.remove();
+                        editor.setContent(doc.body.innerHTML);
+                    }
+                });
+
+                editor.on('ExecCommand', (e) => {
+                    if (e.command === 'ExportPDF' && originalContent !== null) {
+                        // Restore the original content after the export
+                        editor.setContent(originalContent);
+                        originalContent = null;
+                    }
+                });
+            },
+        });
+    </script>
 </body>
 </html>
